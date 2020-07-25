@@ -7,6 +7,16 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
+## A propos de Streaming
+
+Streaming est une application web conçu et développée par la start-up Web Creation.
+Elle propose différents services de streaming existant à des coups réduits et accessible à tous sans carte de crédit.
+
+Comment bénéficier ? Rendez vous sur :
+
+- [streaming.web-creation.com](https://streaming.lararefortune.com)
+- [web-creation.com](https://webcreation241.lazarefortune.com)
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
