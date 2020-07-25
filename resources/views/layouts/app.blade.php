@@ -12,19 +12,42 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
+    <!-- Icon -->
+    <script src="https://kit.fontawesome.com/503d9b4d92.js" crossorigin="anonymous"></script>
+
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('extra-css')
+
+    <style>
+      .site-logo{
+        height: 30px;
+      }
+      .navbar-toggler:focus{
+        box-shadow: none !important;
+      }
+      .navbar-nav{
+        text-align: center;
+      }
+      .nav-item:hover{
+        background-color: gray;
+        border-radius: 6px;
+      }
+    </style>
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    <!-- {{ config('app.name', 'Laravel') }} -->
+                    <img src="{{ asset('assets\img\clients\client-6.png') }}" alt=""  class="site-logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -76,5 +99,10 @@
             @yield('content')
         </main>
     </div>
+
+    <!-- jquery local -->
+    <script src="{{ asset('bootstrap/jquery-3.5.1.slim.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/popper.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 </body>
 </html>
