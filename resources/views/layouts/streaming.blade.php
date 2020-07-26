@@ -125,6 +125,22 @@ footer .text-muted:hover
   <nav class="my-2 my-md-0 mr-md-3">
     <a class="p-2 text-dark" href="{{ route('streaming.help') }}">Besoin d'aide?</a>
     <!-- <a class="p-2 text-dark" href="#">Tarifs</a> -->
+    @auth
+    @unless (auth()->user()->unreadNotifications->isEmpty())
+    <a id="navbarDropdown" class="text-danger dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+      <span class="badge badge-warning">{{ auth()->user()->unreadNotifications->count() }}</span> notification(s) <span class="caret"></span>
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+      <div class="overflow-auto" style="height: 200px;">
+        @foreach (auth()->user()->unreadNotifications as $unreadNotification)
+        <a href="" class="dropdown-item text-wrap">Bienvenue {{ $unreadNotification->data['name'] }}</strong></a>
+        <hr>
+        @endforeach
+      </div>
+    </div>
+    @endunless
+    @endauth
   </nav>
   <div class="">
     @guest

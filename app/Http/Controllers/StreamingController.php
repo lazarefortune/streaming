@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use PDF;
+use App\Notifications\RegisteredNotification;
+
 class StreamingController extends Controller
 {
     //

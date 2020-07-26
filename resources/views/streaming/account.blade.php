@@ -1,5 +1,9 @@
 @extends('layouts.streaming')
+@section('extra-css-streaming')
+<script>
 
+</script>
+@endsection
 @section('contenu')
 
 @include('flash::message')

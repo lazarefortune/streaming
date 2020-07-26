@@ -76,7 +76,7 @@
       </div>
 
       @include('flash::message')
-      
+
       <form method="POST" action="{{ route('login') }}">
           @csrf
         <div class="form-group">
@@ -86,7 +86,7 @@
                  name="login" value="{{ old('contact') ?: old('email') }}" placeholder="Téléphone ou e-mail"  >
 
           @if ($errors->has('contact') || $errors->has('email'))
-              <span class="invalid-feedback">
+              <span class="invalid-feedback text-center">
                   <strong>{{ $errors->first('contact') ?: $errors->first('email') }}</strong>
               </span>
           @endif

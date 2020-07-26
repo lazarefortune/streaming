@@ -23,12 +23,12 @@
 
 
           <!-- Accept payment -->
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirm_payment">
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirm_payment{{ $command->id }}">
             Confirmer le paiement
           </button>
 
           <!-- Modal -->
-          <div class="modal fade" id="confirm_payment" tabindex="-1" role="dialog" aria-labelledby="confirm_paymentLabel" aria-hidden="true">
+          <div class="modal fade" id="confirm_payment{{ $command->id }}" tabindex="-1" role="dialog" aria-labelledby="confirm_paymentLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">

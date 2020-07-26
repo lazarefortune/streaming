@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     public function hasAnyRole(array $roles)
     {
-      
+
       return $this->roles()->whereIn('name', $roles)->first();
     }
 
@@ -58,4 +58,7 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Streaming');
     }
+
+
+    
 }

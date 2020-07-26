@@ -9,6 +9,7 @@ use App\Role;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\RegisteredNotification;
 
 class RegisterController extends Controller
 {
@@ -77,6 +78,9 @@ class RegisterController extends Controller
         $role = Role::select('id')->where('name', 'utilisateur')->first();
 
         $user->roles()->attach($role);
+
+        $user->notify(new RegisteredNotification($user));
+
 
         return $user;
     }

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Streaming;
 use Illuminate\Support\Carbon;
+use App\Notifications\InvoicePaid;
+
 class ForfaitController extends Controller
 {
     /**
@@ -164,10 +166,20 @@ class ForfaitController extends Controller
     // Confirmation d'un paiement
     public function confirm_payment_proof(Streaming $stream)
     {
+      // $user = $stream->user;
+      // $user->notify(new InvoicePaid($user, $stream));
+      // die();
+
       $stream->forfait_statut = "Payé";
       $stream->forfait_start = Carbon::now();
       $stream->forfait_end = Carbon::now()->addMonth();
       $stream->save();
+
+      $user = $stream->user;
+      $user->notify(new InvoicePaid($user, $stream));
+
+
+
 
       return redirect()->back();
 

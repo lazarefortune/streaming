@@ -21,7 +21,7 @@ class CreateStreamingsTable extends Migration
             $table->integer('forfait_price');
             $table->string('forfait_statut');
             $table->date('forfait_end')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

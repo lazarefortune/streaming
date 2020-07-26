@@ -162,6 +162,7 @@ class UsersController extends Controller
         }
 
         $user->roles()->detach();
+        DB::table('streamings')->where('user_id', $user->id)->delete();
         $user->delete();
 
         flash("Utilisateur supprimé avec succès")->success();
