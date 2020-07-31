@@ -19,6 +19,8 @@
         "laravel/nexmo-notification-channel": "^2.3",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
+        "uxweb/sweet-alert": "^2.0",
+        "yoeunes/toastr": "^1.2",
         "zendframework/zend-diactoros": "^2.2"
     },
     "require-dev": {

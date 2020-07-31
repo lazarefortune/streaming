@@ -1,6 +1,13 @@
 @extends('layouts.admin')
 
 @section('content')
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.users.index') }}">Users</a> </li>
+    <li class="breadcrumb-item active" aria-current="page">{{ str_replace(" ", "-" ,$user->name) }}</li>
+  </ol>
+</nav>
 <div class="container">
 
 @if(($user->hasAnyRole(['auteur','admin'])) && ( (auth()->user()->isAdmin()) == false ))
@@ -9,13 +16,6 @@
   <a href="{{ url('admin/users') }}" class="btn btn-primary">retour</a>
 </div>
 @else
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.users.index') }}">Users</a> </li>
-    <li class="breadcrumb-item active" aria-current="page">{{ $user->name }}</li>
-  </ol>
-</nav>
 <div class="card">
   <div class="card-header">
     <h4>Modification de <b>{{ $user->name }}</b></h4>
@@ -61,13 +61,17 @@
 
 
       @can('change-role')
+      <h3> Roles</h3>
       @foreach($roles as $role)
+
         <div class="form-group custom-control custom-switch">
           <input type="checkbox"  class="custom-control-input" name="roles[]" value="{{ $role->id }}" id="{{ $role->id }}" '@if($user->roles->pluck("id")->contains($role->id)) checked @endif'>
           <!-- <input type="checkbox"  class="custom-control-input" name="roles[]" value="{{ $role->id }}" id="{{ $role->id }}" '@foreach($user->roles as $userRole) @if($userRole->id === $role->id) checked @endif @endforeach'> -->
 
-
           <label for="{{ $role->id }}" class="custom-control-label">{{ $role->name }}</label>
+          @if($role->name == 'admin')
+            (<small  class="text-danger"> <b>Attention ! en cochant ceci l'utilisateur aura tous les droits d'accès</b> </small>)
+          @endif
         </div>
       @endforeach
       @endcan

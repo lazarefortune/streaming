@@ -17,8 +17,16 @@ class StreamingController extends Controller
 
       $forfait = DB::table('forfait')->where('id', $id_forfait)->first();
 
-      // $test = new Streaming;
-      // $val = $test->affiche($id_forfait);
+      // Prevent user from having more than 3 orders
+      /*
+      $user = auth()->user();
+      if (($user->streamings()->count()) > 3) {
+        flash("Oups! vous avez atteint le nombre maximal (3) de commandes")->error();
+        return redirect()->route('streaming.account');
+      }
+      */
+      // end Prevent
+
 
 
       $stream = Streaming::create([
@@ -27,7 +35,6 @@ class StreamingController extends Controller
           'forfait_type' => $forfait->type,
           'forfait_price' => $forfait->price,
           'forfait_statut' => 'Non payé',
-          // 'forfait_end' => Carbon::now()->addMonth(),
       ]);
 
       flash("Votre forfait a bien été ajouté. Procédez au paiement")->success();
@@ -46,11 +53,8 @@ class StreamingController extends Controller
 
     public function deleteForfait($id_forfait)
     {
-      // dd($id_forfait);
       Streaming::destroy($id_forfait);
-
       flash("Votre commande a bien été supprimé.")->error();
-
       return redirect()->route('streaming.account');
     }
 
@@ -121,13 +125,19 @@ class StreamingController extends Controller
     public function index()
     {
       $forfaits = DB::table('forfait')->where('name', 'Netflix')->get();
+       // toastr()->success('Bienvenue');
+
+       // alert()->success('Connectez vous.','Bienvenue '.auth()->user()->name)->autoclose(3500);
+       // alert()->basic('Sweet Alert with basic.','Basic');
+       // alert()->warning('Sweet Alert with warning.');
+
       return view('streaming.index', compact('forfaits'));
     }
 
     public function getFacturePdf(Streaming $stream)
     {
         $date = Carbon::now();
-        // L'instance PDF avec la vue resources/views/posts/show.blade.php
+        // L'instance PDF avec la vue resources/views/streaming/facture.blade.php
         $pdf = PDF::loadView('streaming.facture', compact('stream', 'date'));
 
         // Lancement du téléchargement du fichier PDF

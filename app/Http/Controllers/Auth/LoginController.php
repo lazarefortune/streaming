@@ -49,12 +49,14 @@ class LoginController extends Controller
 
     public function redirectTo()
     {
+      // toastr()->success('Connexion avec succès');
+
       if (Auth::user()->roles()->pluck('name')->contains('admin')) {
-        return '/admin/users';
+        return '/admin';
       }elseif(Auth::user()->roles()->pluck('name')->contains('auteur')) {
-        return '/admin/users';
+        return '/admin';
       }else {
-        return '/';
+        return '/my-orders';
       }
     }
 

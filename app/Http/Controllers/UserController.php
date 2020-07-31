@@ -65,8 +65,20 @@ class UserController extends Controller
           return view('admin.account.edit')->with('user', $user);
         }
 
-        return view('utilisateur.account.edit')->with('user', $user);
+        return view('user.account.edit')->with('user', $user);
     }
+
+    public function edit_password(User $user)
+    {
+      $user = auth()->user();
+
+      if( ($user->hasAnyRole(['auteur','admin'])) ){
+        return view('admin.account.edit_password')->with('user', $user);
+      }
+
+      return view('user.account.edit_password')->with('user', $user);
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -92,7 +104,8 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('/account')
+            return redirect()
+                        ->back()
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -103,7 +116,8 @@ class UserController extends Controller
         // $user->email = $request->email;
         //
         // $user->save();
-        flash("Informations mis à jour avec succès")->success();
+        // flash("Informations mis à jour avec succès")->success();
+        toastr()->success('Informations mis à jour avec succès');
 
         return back();
     }
@@ -129,9 +143,9 @@ class UserController extends Controller
           'password' => bcrypt(request('passwordnew'))
         ]);
 
-        flash("Mot de passe changé avec succès")->success();
-
-        return redirect('/account');
+        // flash("Mot de passe changé avec succès")->success();
+        toastr()->success('Mot de passe changé avec succès');
+        return redirect()->route('account_password');
       }
       else {
         return back()->withInput()-> withErrors([
@@ -151,4 +165,6 @@ class UserController extends Controller
     {
         //
     }
+
+
 }

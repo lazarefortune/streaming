@@ -1,6 +1,13 @@
 @extends('layouts.admin')
 
 @section('content')
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('admin.streaming.forfaits') }}">Liste-des-forfaits</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Edition-du-forfait</li>
+  </ol>
+</nav>
 
 <div class="container">
   <div class="d-flex justify-content-center row">
@@ -49,7 +56,7 @@
               @enderror
             </div>
 
-            <button type="submit" name="button"  class="btn btn-primary btn-block">Mettre à jour le forfait</button>
+            <button type="submit" name="button"  class="btn btn-success btn-block">Mettre à jour le forfait</button>
 
           </form>
         </div>

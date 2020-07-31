@@ -1,6 +1,12 @@
 @extends('layouts.admin')
 
 @section('content')
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Gestion-des-commandes</li>
+  </ol>
+</nav>
 
 <div class="container">
   <h2>Liste des commandes en cours</h2>
@@ -103,7 +109,7 @@
           <img src="{{ asset('storage') }}/{{ $actif->path_proof }}" alt="..." width="100" height="100" class="img-thumbnail">
         </div>
         <div class="card-footer d-flex justify-content-between">
-          <a href=""  class="btn btn-primary">Envoyer les informations</a>
+          <a href="{{ route('admin.streaming.send_info_idtf', $actif) }}"  class="btn btn-primary">Envoyer les informations</a>
           <a href=""  class="btn btn-danger">Annuler abonnement</a>
         </div>
       </div>

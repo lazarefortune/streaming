@@ -15,6 +15,7 @@
     <!-- fontawesome -->
     <script src="https://kit.fontawesome.com/503d9b4d92.js" crossorigin="anonymous"></script>
 
+
     @yield('extra-css')
   </head>
 
@@ -28,6 +29,6 @@
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 
 
-    </script>
+    
   </body>
 </html>

@@ -1,6 +1,23 @@
 @extends('layouts.admin')
+@section('extra-css-admin')
+<style >
+  /* input {
+    background-color: white !important;
+  }
+  textarea {
+    background-color: white !important;
+  } */
+</style>
 
+@endsection
 @section('content')
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('admin.streaming.forfaits') }}">Liste-des-forfaits</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Créer-un-forfait</li>
+  </ol>
+</nav>
 
 <div class="container">
   <div class="d-flex justify-content-center row">

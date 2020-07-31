@@ -1,6 +1,4 @@
-
-
-@extends('layouts.streaming')
+@extends('layouts.template')
 @section('extra-css-streaming')
 <style>
 
@@ -66,17 +64,18 @@
 
 @section('contenu')
 
+
 <div class="container mt-4">
   <div class="row">
-    <div class="col-12 col-sm-6 col-md-6 pl-4 pr-4">
+    <div class="col-12 col-sm-12 col-md-6 pl-4 pr-4">
 
       <div class="my-4 d-flex justify-content-center">
-        <img src="{{ asset('assets/img/Web-Creation2.png') }}"   height="100" width="250" alt="">
+        <!-- <img src="{{ asset('assets/img/Web-Creation2.png') }}"   height="100" width="250" alt=""> -->
         <!-- <h3  class="text-color"> <b>Web Creation</b> </h3> -->
       </div>
 
+      <h4  class="text-center"> <b>Se connecter</b> </h4>
       @include('flash::message')
-
       <form method="POST" action="{{ route('login') }}">
           @csrf
         <div class="form-group">
@@ -86,7 +85,7 @@
                  name="login" value="{{ old('contact') ?: old('email') }}" placeholder="Téléphone ou e-mail"  >
 
           @if ($errors->has('contact') || $errors->has('email'))
-              <span class="invalid-feedback text-center">
+              <span class="invalid-feedback">
                   <strong>{{ $errors->first('contact') ?: $errors->first('email') }}</strong>
               </span>
           @endif
@@ -121,7 +120,7 @@
           </button>
         </div> -->
 
-        <button type="submit"  class="btn btn-primary btn-block" name="button"> <strong>Connexion</strong> </button>
+        <button type="submit" class="btn btn-primary btn-block"  name="button"> <strong>Connexion</strong> </button>
       </form>
 
       <div class="mt-1 mb-4 d-flex justify-content-center">
@@ -147,7 +146,7 @@
 
     </div>
 
-    <div class="col-md-6 col-sm-6 d-none d-sm-block d-md-block d-lg-block">
+    <div class="col-md-6 col-sm-6 d-none d-sm-none d-md-block d-lg-block">
       <!-- <img src="{{ asset('image/img1.png') }}" height="50px" width="50px" alt=""> -->
       <img src="{{ asset('assets/img/img3.png') }}"  class="img-fluid" alt="">
     </div>
@@ -158,5 +157,7 @@
   <!-- <input type="text"  class="form-control" name="" value=""> -->
 </div>
 
+<script >
 
+</script>
 @endsection

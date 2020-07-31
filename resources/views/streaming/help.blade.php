@@ -1,4 +1,4 @@
-@extends('layouts.streaming')
+@extends('layouts.template')
 @section('extra-css-streaming')
 <style>
 .card{

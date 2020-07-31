@@ -1,4 +1,4 @@
-@extends('layouts.streaming')
+@extends('layouts.template')
 
 @section('extra-css-streaming')
 <style >
@@ -18,7 +18,7 @@
         ETAPE 1
       </div>
       <div class="card-body">
-        <p>Envoyez le montant suivant : <strong>{{ $stream->forfait_price }} Fcfa</strong> par </p>
+        <p> <i  class="fas fa-comment-dollar"></i> Envoyez le montant suivant : <strong>{{ $stream->forfait_price }} Fcfa</strong> par </p>
         <hr>
         <h5 class="text-danger">Airtel Money</h5>
         <p>077-11-22-33</p>
@@ -29,12 +29,12 @@
 
       </div>
       <div class="card-footer d-flex justify-content-between">
-        <a href="{{ route('streaming.account') }}"  class="btn btn-warning">Abandonner</a>
+        <a href="{{ route('streaming.account') }}"  class="btn btn-warning"> <i  class="fas fa-arrow-left"></i> Abandonner</a>
 
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-          Poursuivre
+          Poursuivre <i  class="fas fa-arrow-right"></i>
         </button>
 
         <!-- Modal -->
@@ -51,8 +51,8 @@
                 En poursuivant, <span  class="text-danger">vous confirmez avoir effectué le transfert mobile money</span>, toute tentative de fraude sera sanctionné.
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <a href="{{ route('streaming.payment-proof', $stream) }}"  class="btn btn-primary">Oui, je confirme</a>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"> <i  class="fas fa-times"></i> Annuler</button>
+                <a href="{{ route('streaming.payment-proof', $stream) }}"  class="btn btn-success"> <i  class="fas fa-check"></i> Oui, je confirme</a>
               </div>
             </div>
           </div>

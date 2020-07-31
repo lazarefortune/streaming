@@ -16,7 +16,49 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+// Authentication Routes...
+// Route::get('connexion', [
+//   'as' => 'login',
+//   'uses' => 'Auth\LoginController@showLoginForm'
+// ]);
+// Route::post('connexion', [
+//   'as' => '',
+//   'uses' => 'Auth\LoginController@login'
+// ]);
+// Route::post('deconnexion', [
+//   'as' => 'logout',
+//   'uses' => 'Auth\LoginController@logout'
+// ]);
 
+// Password Reset Routes...
+// Route::post('mot-de-passe/email', [
+//   'as' => 'password.email',
+//   'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail'
+// ]);
+// Route::get('mot-de-passe/reinitialisation', [
+//   'as' => 'password.request',
+//   'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm'
+// ]);
+// Route::post('mot-de-passe/reinitialisation', [
+//   'as' => 'password.update',
+//   'uses' => 'Auth\ResetPasswordController@reset'
+// ]);
+// Route::get('mot-de-passe/reinitialisation/{token}', [
+//   'as' => 'password.reset',
+//   'uses' => 'Auth\ResetPasswordController@showResetForm'
+// ]);
+
+// Registration Routes...
+// Route::get('inscription', [
+//   'as' => 'register',
+//   'uses' => 'Auth\RegisterController@showRegistrationForm'
+// ]);
+// Route::post('inscription', [
+//   'as' => '',
+//   'uses' => 'Auth\RegisterController@register'
+// ]);
+
+// End
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users','auth')->group(function() {
 
     Route::resource('users', 'UsersController');
@@ -34,21 +76,24 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
     Route::get('streaming/confirm-payment-proof/{stream}', 'ForfaitController@confirm_payment_proof')->name('streaming.confirm_payment_proof');
     Route::get('streaming/reject-payment-proof/{stream}', 'ForfaitController@reject_payment_proof')->name('streaming.reject_payment_proof');
 
+    Route::get('streaming/send-info-idtf/{stream}', 'ForfaitController@send_info_idtf')->name('streaming.send_info_idtf');
+    Route::post('streaming/store-info-idtf/{stream}', 'ForfaitController@store_info_idtf')->name('streaming.store_info_idtf');
+
   });
 
   Route::group([
     'middleware' => 'auth'
   ], function(){
 
-    Route::post('/account', '\App\Http\Controllers\UserController@update')->name('account.update');
-    Route::post('/account/password_update', '\App\Http\Controllers\UserController@update_password')->name('account.password.update');
-
+    Route::post('/settings/profile', '\App\Http\Controllers\UserController@update')->name('account.update');
+    Route::post('/settings/security/password_update', '\App\Http\Controllers\UserController@update_password')->name('account.password.update');
 
   });
 
-  Route::get('/account', '\App\Http\Controllers\UserController@edit')->name('account')->middleware(['auth', 'password.confirm']);;
+  Route::get('/settings/profile', '\App\Http\Controllers\UserController@edit')->name('account')->middleware(['auth', 'password.confirm']);
+  Route::get('/settings/security', '\App\Http\Controllers\UserController@edit_password')->name('account_password')->middleware(['auth', 'password.confirm']);
 
-//  streaming with login
+
   Route::name('streaming.')->group(function() {
 
     Route::get('/', 'StreamingController@index')->name('index');
@@ -66,7 +111,9 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
       return view('streaming.help');
     })->name('help')->middleware('auth');
 
-
+    Route::get('/contact', function(){
+      return view('streaming.contact');
+    })->name('contact');
 
     // Route::post('/forfait/{id_forfait}', 'StreamingController@store_netflix')->name('store')->middleware('auth');
     Route::get('/forfait/{id_forfait}', 'StreamingController@store_netflix')->name('store')->middleware('auth');

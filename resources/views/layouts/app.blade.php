@@ -15,6 +15,7 @@
     <!-- Icon -->
     <script src="https://kit.fontawesome.com/503d9b4d92.js" crossorigin="anonymous"></script>
 
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">

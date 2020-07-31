@@ -16,6 +16,7 @@ body{
 
   font-family: 'DM Sans', sans-serif;
   font-weight: 500;
+  /* background-color: #f5f5f5; */
 
 }
 h1, h2, h3{
@@ -35,10 +36,15 @@ h1, h2, h3{
 }
 .btn-outline-primary
 {
+  color: #303d72 !important;
+  border-color: #303d72 !important;
   box-shadow: none !important;
 }
 .btn-outline-primary:hover
 {
+  color: white !important;
+  background-color: #303d72 !important;
+  border-color: #303d72 !important;
   box-shadow: none !important;
 }
 .dropdown-menu
@@ -100,7 +106,62 @@ footer .text-muted:hover
   color: black;
   font-weight: 700;
 }
+
+.text-color
+{
+  color: #0b2a64;
+}
+.form-group input{
+  /* border-bottom: 1px solid black !important; */
+  /* border-top:none;
+  border-left:none;
+  border-right:none;
+  box-shadow: none;
+  border-radius: 0; */
+    /* outline: blue auto 0px ; */
+}
+input:focus{
+  border: 2px solid blue !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+    /* outline: blue auto 0px ; */
+}
+.is-invalid input:focus{
+  border: 2px solid red !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+.nav-account .active{
+  border-left: 2px solid blue !important;
+
+}
+/* .form-group textarea:focus{
+  border: 2px solid blue;
+  border-radius: 4px;
+  box-shadow: none;
+}
+.form-group .is-invalid textarea:focus{
+  border: 2px solid red !important;
+  border-radius: 4px;
+  box-shadow: none !important;
+} */
+
+.btn-primary
+{
+  background-color: #0b2a64 !important;
+  border: none;
+}
+.btn-primary:hover
+{
+  background-color: #303d72 !important;
+  border: none;
+}
+
 </style>
+
+@toastr_css
+
+
 @yield('extra-css-streaming')
 @endsection
 
@@ -123,7 +184,7 @@ footer .text-muted:hover
 
   </a>
   <nav class="my-2 my-md-0 mr-md-3">
-    <a class="p-2 text-dark" href="{{ route('streaming.help') }}">Besoin d'aide?</a>
+    <a class="p-2 text-dark" href="{{ route('streaming.help') }}">Besoin d'aide ? </a>
     <!-- <a class="p-2 text-dark" href="#">Tarifs</a> -->
     @auth
     @unless (auth()->user()->unreadNotifications->isEmpty())
@@ -145,22 +206,25 @@ footer .text-muted:hover
   <div class="">
     @guest
       <a class="btn btn-outline-primary" href="{{ route('login') }}">Se connecter</a>
-      <!-- <a class="btn btn-primary" href="{{ route('streaming.account') }}">Se connecter</a> -->
+      <a class="btn btn-primary" href="{{ route('register') }}">S'inscrire</a>
     @else
+    <!-- <a href="{{ route('streaming.account') }}" class="p-2 text-dark btn btn-success btn-sm" type="button">Vos abonnements</a> -->
+
     <div class="btn-group">
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        {{ auth()->user()->name }}
+        <i class="fas fa-user-circle"></i> | {{ auth()->user()->name }}
       </button>
       <div class="dropdown-menu dropdown-menu-right">
         @can('manage-users')
-        <a href="{{ route('admin.home') }}" class="dropdown-item" type="button">Espace admin</a>
+        <a href="{{ route('admin.home') }}" class="dropdown-item" type="button"> <span><i class="fas fa-user-shield"></i></span> Espace admin</a>
         @endcan
-        <a href="{{ route('account') }}" class="dropdown-item" type="button">Paramètres</a>
-        <a href="{{ route('streaming.account') }}" class="dropdown-item" type="button">Mes abonnements</a>
+        <a href="{{ route('account') }}" class="dropdown-item" type="button"><span><i class="fas fa-cog"></i></span>  Paramètres</a>
+        <a href="{{ route('streaming.account') }}" class="dropdown-item text-success" type="button"> <span><i class="fas fa-shopping-cart"></i></span> Mes abonnements</a>
         <div class="dropdown-divider"></div>
         <a href="{{ route('logout') }}"
                    onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();" class="dropdown-item">
+                    <span><i class="fas fa-sign-out-alt"></i></span>
                     {{ __('Se déconnecter') }}
                 </a>
                 <form  id="logout-form" action="{{ route('logout') }}" method="POST" >
@@ -181,6 +245,12 @@ footer .text-muted:hover
         <img class="mb-2" src="{{ asset('assets/img/netflix.png') }}" alt="" width="70 " height="30" style="border-right: 2px solid black;">
         Web Création
         <small class="d-block mb-3 text-muted">&copy; 2020</small>
+
+          <a href="https://facebook.com/WebCreation241/" target="_blank" style="font-size: 30px;"><i class="fab fa-facebook"></i></a>
+          <a href="#" style="font-size: 30px;"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" style="font-size: 30px;"><i class="fab fa-instagram"></i></a>
+          <a href="#" style="font-size: 30px;"><i class="fab fa-discord"></i></a>
+          <p> <a href="developper-space">Vous êtes développeur ?</a> </p>
       </div>
       <div class="col-6 col-md">
         <h5>A venir</h5>
@@ -201,15 +271,22 @@ footer .text-muted:hover
       <div class="col-6 col-md">
         <h5>A propos</h5>
         <ul class="list-unstyled text-small">
-          <!-- <li><a class="text-muted" href="#">Equipe</a></li> -->
-          <li><a class="text-muted" href="{{ route('streaming.help') }}/#contact-us">Nous contacter?</a></li>
-          <li><a class="text-muted" href="{{ route('streaming.help') }}">Support Technique</a></li>
-          <li><a class="text-muted" href="#">Politique de confidentialité</a></li>
+          <li><a class="text-muted" href=""> <i  class="fas fa-info-circle"></i> Qui sommes nous ?</a></li>
+          <li><a class="text-muted" href="{{ route('streaming.contact') }}"><i class="fas fa-phone-alt"></i> Nous contacter?</a></li>
+          <li><a class="text-muted" href="{{ route('streaming.help') }}"> <i class="fas fa-headset"></i> Support Technique</a></li>
+          <li>  <a class="text-muted" href="#">Politique de confidentialité</a></li>
         </ul>
       </div>
     </div>
   </footer>
 </div>
+
+@jquery
+
+@toastr_js
+
+@toastr_render
+
 
 
 @endsection

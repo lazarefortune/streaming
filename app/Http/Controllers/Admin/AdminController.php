@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 use App\User;
+use App\Streaming;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Role;
@@ -15,6 +16,13 @@ class AdminController extends Controller
     {
       $users = User::all();
 
-      return view('admin.home')->with('users', $users);
+      // $streams = Streaming::where('forfait_statut', 'En cours de validation')
+      //                     ->get();
+      $streams = Streaming::all();
+      
+      return view('admin.home')->with([
+        'users' => $users,
+        'streams' => $streams,
+      ]);
     }
 }

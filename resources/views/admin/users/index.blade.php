@@ -2,13 +2,13 @@
 
 @section('content')
 
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Users</li>
+  </ol>
+</nav>
 <div class="container">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Users</li>
-    </ol>
-  </nav>
 
   @include('flash::message')
 
@@ -36,7 +36,7 @@
           @foreach($users as $user)
 
           @if(($user->hasAnyRole(['auteur','admin'])) && ( (auth()->user()->isAdmin()) == false ))
-            
+
           @else
           <tr>
             <th scope="row">{{ $user->id }}</th>

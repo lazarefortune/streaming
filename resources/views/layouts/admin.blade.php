@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Web Creation 241</title>
+        <title>Web Creation</title>
         <link href="{{ asset('admin/css/styles.css') }}" rel="stylesheet" />
 
         <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -14,17 +14,26 @@
         <link href="{{ asset('bootstrap/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
         <script src="{{ asset('bootstrap/all.min.js') }}"></script>
 
+        <link rel="stylesheet" href="{{ asset('admin/css/style-perso.css') }}">
 
-        <style >
+        <style>
         @import url('https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&display=swap');
-
 
         body{
           /* font-family: 'Nunito', sans-serif; */
           font-family: 'Baloo Da 2', cursive;
 
         }
+
+        .nav-account .active{
+          border-left: 2px solid #6c757d !important;
+          color: #6c757d !important;
+        }
         </style>
+        <!-- Toats notification files -->
+        @toastr_css
+
+        @yield('extra-css-admin')
 
         <!-- online -->
         <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -34,7 +43,7 @@
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ route('admin.home') }}">WEB CREATION 241</a>
+            <a class="navbar-brand" href="{{ route('admin.home') }}">WEB CREATION</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -48,15 +57,16 @@
             <!-- Navbar-->
             <ul class="navbar-nav ml-auto ml-md-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <span class="dropdown-item" > {{ auth()->user()->name }} </span><hr>
-                        <a class="dropdown-item" href="{{ url('account') }}">Paramètres</a>
+                        <span class="dropdown-item text-center" > <b>{{ auth()->user()->name }}</b> </span><hr>
+                        <a class="dropdown-item" href="{{ route('account') }}"> <i  class="fas fa-cog"></i> Paramètres</a>
                         <!-- <a class="dropdown-item" href="#">Activity Log</a> -->
                         <div class="dropdown-divider"></div>
-                        <a href="{{ route('logout') }}" class="dropdown-item"
+                        <a href="{{ route('logout') }}" class="dropdown-item text-danger"
                                    onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
+                                                 <i  class="fas fa-sign-out-alt"></i>
                                     {{ __('Se déconnecter') }}
                                 </a>
                                 <form  id="logout-form" action="{{ route('logout') }}" method="POST" >
@@ -74,14 +84,23 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Liens</div>
+                            <a class="nav-link" href="{{ route('admin.home') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Accueil
+                            </a>
                             <div class="sb-sidenav-menu-heading">Options</div>
                             <!-- <a class="nav-link" href="{{ url('espace-admin') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a> -->
                             <a class="nav-link" href="{{ route('admin.users.index') }}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                 Liste des clients
+                            </a>
+                            <a class="nav-link" href="{{ route('admin.streaming.command_list') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-store"></i></div>
+                                Liste des commandes
                             </a>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -92,7 +111,7 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="{{ route('admin.streaming.create-forfait') }}">Créer un forfait</a>
                                     <a class="nav-link" href="{{ route('admin.streaming.forfaits') }}">Liste des forfaits</a>
-                                    <a class="nav-link" href="{{ route('admin.streaming.command_list') }}">Liste des commandes</a>
+                                    <!-- <a class="nav-link" href="{{ route('admin.streaming.command_list') }}">Liste des commandes</a> -->
                                 </nav>
                             </div>
 
@@ -125,11 +144,11 @@
 
 
                             <a class="nav-link" href="{{ url('/') }}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-share"></i></div>
                                 Retour au site web
                             </a>
 
-                            <div class="sb-sidenav-menu-heading">Autres options</div>
+                            <!-- <div class="sb-sidenav-menu-heading">Autres options</div>
 
 
 
@@ -143,7 +162,7 @@
                                     <a class="nav-link" href="">Demandes</a>
                                     <a class="nav-link" href="">Etablis</a>
                                 </nav>
-                            </div>
+                            </div> -->
 
 
                             <!--
@@ -254,5 +273,13 @@
         <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> -->
+
+<!-- Toast notification files -->
+    @jquery
+
+    @toastr_js
+
+    @toastr_render
+
     </body>
 </html>

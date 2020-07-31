@@ -31,8 +31,6 @@ class UsersController extends Controller
           $users = User::all();
           // $users = $users->roles()->where('name', 'utilisateur')->get();
 
-          // residence fiscale
-          // CDI
           // dd($users);
 
         }
@@ -124,6 +122,7 @@ class UsersController extends Controller
           $user->contact = $request->contact;
           $user->save();
         }else {
+
           $user->roles()->sync($request->roles);
 
           // $validator = Validator::make($request->all(), [
@@ -143,9 +142,10 @@ class UsersController extends Controller
           $user->save();
         }
 
-        flash("Informations mis à jour avec succès")->success();
-
-        return redirect()->route('admin.users.index');
+        // flash("Informations mis à jour avec succès")->success();
+        toastr()->success('Informations mis à jour avec succès');
+        return redirect()->back();
+        // return redirect()->route('admin.users.index');
     }
 
     /**
@@ -165,7 +165,9 @@ class UsersController extends Controller
         DB::table('streamings')->where('user_id', $user->id)->delete();
         $user->delete();
 
-        flash("Utilisateur supprimé avec succès")->success();
+        // flash("Utilisateur supprimé avec succès")->success();
+        toastr()->error('Utilisateur supprimé avec succès');
+
         return redirect()->route('admin.users.index');
     }
 }

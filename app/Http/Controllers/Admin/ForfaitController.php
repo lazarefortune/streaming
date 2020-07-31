@@ -32,6 +32,7 @@ class ForfaitController extends Controller
      */
     public function create()
     {
+
         return view('admin.streaming.create_forfait');
     }
 
@@ -67,7 +68,8 @@ class ForfaitController extends Controller
             ]
         );
 
-        flash("Forfait ajouté avec succès")->success();
+        // flash("Forfait ajouté avec succès")->success();
+        toastr()->success('Forfait ajouté avec succès');
 
         return redirect()->route('admin.streaming.forfaits');
     }
@@ -127,7 +129,8 @@ class ForfaitController extends Controller
                 'price' => $request->price
             ]);
 
-        flash("Forfait mis à jour avec succès")->success();
+        // flash("Forfait mis à jour avec succès")->success();
+        toastr()->success('Forfait mis à jour avec succès');
 
         return redirect()->route('admin.streaming.forfaits');
 
@@ -145,7 +148,8 @@ class ForfaitController extends Controller
 
         $delete = DB::table('forfait')->where('id', $id)->delete();
 
-        flash("Forfait supprimé avec succès")->error();
+        // flash("Forfait supprimé avec succès")->error();
+        toastr()->error('Forfait supprimé avec succès');
 
         return redirect()->route('admin.streaming.forfaits');
 
@@ -179,7 +183,7 @@ class ForfaitController extends Controller
       $user->notify(new InvoicePaid($user, $stream));
 
 
-
+      toastr()->success('Paiement confirmé avec succès');
 
       return redirect()->back();
 
@@ -196,7 +200,15 @@ class ForfaitController extends Controller
       Storage::disk('public')->delete($lien);
       Storage::delete($lien);
 
+      toastr()->error('Paiement refusé avec succès');
+
       return redirect()->back();
 
+    }
+
+    public function send_info_idtf(Streaming $stream)
+    {
+      // dd($stream);
+      return view('admin.streaming.send_info_idtf')->with('stream', $stream);
     }
 }

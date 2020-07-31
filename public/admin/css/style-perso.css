@@ -1,0 +1,65 @@
+/* Input et textarea */
+input {
+  border-radius: 6px !important;
+  background-color: #fafbfc !important;
+  /* box-shadow: inset 1px 1px 1px 1px #e6e8ec !important; */
+  /* background-color: #f2f4f5 !important; */
+
+
+
+  -moz-box-shadow:    inset 0 0 1.4px  #e6e8ec;
+   -webkit-box-shadow: inset 0 0 1.4px  #e6e8ec;
+   box-shadow:         inset 0 0 1.4px  #e6e8ec;
+}
+input:read-only {
+  border-radius: 6px !important;
+  /* background-color: #fafbfc !important; */
+  background-color: #f2f4f5 !important;
+}
+.is-invalid:focus{
+  border: 1.5px solid red !important;
+}
+input:focus{
+  border-radius: 6px !important;
+  background-color: white !important;
+  /* box-shadow: 1px 1px 1px 1px blue !important; */
+  border: 1.5px solid #428ce0 !important;
+
+}
+.input-group .form-control{
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+textarea {
+  border-radius: 6px !important;
+  background-color: #fafbfc !important;
+  /* background-color: #f2f4f5 !important; */
+}
+textarea:focus{
+  border-radius: 6px !important;
+  background-color: white !important;
+  /* box-shadow: 1px 1px 1px 1px blue !important; */
+  border: 1.5px solid #428ce0 !important;
+}
+textarea{
+  border-radius: 6px !important;
+}
+/* Boutons */
+button{
+  border-radius: 7px !important;
+}
+.btn-success{
+  border-radius: 7px !important;
+  background-color: #2ea44f !important;
+}
+.btn-primary{
+  border-radius: 7px !important;
+}
+
+.card{
+  border-radius: 7px !important;
+}
+
+body{
+  background-color: #e5e5e5;
+}

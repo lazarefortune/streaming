@@ -1,16 +1,26 @@
-@extends('layouts.streaming')
+@extends('layouts.template')
 
 @section('extra-css-streaming')
 <style>
 .card{
   border-radius: 6px;
+  border: 2px solid #0b2a64;
 }
 .card-header{
   border-radius: 6px 6px 0px 0px !important;
 }
+.card-link{
+  color: green;
+}
 </style>
+
+<link rel="stylesheet" href="{{ asset('assets/css/sweetalert.css') }}">
+<script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
 @endsection
 @section('contenu')
+
+<!-- @include('sweet::alert') -->
+
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
   <h1 class="display-4"> <strong>Netflix</strong> </h1>
@@ -39,7 +49,7 @@
           @csrf
           <button type="submit" class="btn btn-lg btn-block btn-primary"> <b>Commander</b> </button>
         </form> -->
-        <a href="{{ route('streaming.store', $forfait->id) }}" class="btn btn-lg btn-block btn-primary"> <b>Commander</b> </a>
+        <a href="{{ route('streaming.store', $forfait->id) }}" class="btn btn-lg btn-block btn-primary"> <i class="fas fa-shopping-cart"></i> <b>Commander</b> </a>
       </div>
     </div>
     @endforeach

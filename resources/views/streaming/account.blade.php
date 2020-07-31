@@ -1,4 +1,4 @@
-@extends('layouts.streaming')
+@extends('layouts.template')
 @section('extra-css-streaming')
 <script>
 
@@ -7,6 +7,13 @@
 @section('contenu')
 
 @include('flash::message')
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('streaming.index') }}">Accueil</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Mes-commandes</li>
+  </ol>
+</nav>
 
 @if($streams->isEmpty())
 <div class="alert alert-info text-center">
@@ -24,8 +31,8 @@
     <div class="card-header">
       recap ticket n° {{ $stream->id }}
     </div>
-    <div class="card-body d-flex justify-content-between">
-      <div>
+    <div class="card-body ">
+      <div  class="row m-1">
         <p>Service : <b>{{ $stream->forfait_name }}</b></p>
         <p>Montant: <b>{{ $stream->forfait_price }} Fcfa</b></p>
         <p>Type : <b>{{ $stream->forfait_type }}</b> </p>
@@ -39,13 +46,13 @@
         <a href="{{ route('streaming.facture', $stream) }}"  class="btn btn-primary btn-sm" download="facture">Télécharger votre Facture</a>
         @endif
       </div>
-      <div class="">
+      <div class="row m-1">
         @if( $stream->forfait_statut == 'Non payé' )
-        <a href="{{ route('streaming.payment', $stream) }}" type="button"  class="btn btn-success btn-sm mr-2 mb-2" name="button">Payer</a>
+        <a href="{{ route('streaming.payment', $stream) }}" type="button"  class="btn btn-success btn-sm mr-2 mb-2" name="button"> <span><i class="fas fa-money-bill-wave"></i></span> Payer</a>
 
         <!-- Button delete -->
-        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
-          Supprimer
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-{{ $stream->id }}">
+          <i class="fas fa-trash"></i> Supprimer
         </button>
         @elseif( $stream->forfait_statut == 'Payé')
           <span class="badge badge-success text-wrap">{{ $stream->forfait_statut }}</span>
@@ -54,7 +61,7 @@
         @endif
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal-{{ $stream->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -65,6 +72,7 @@
               </div>
               <div class="modal-body">
                 Souhaitez vous vraiment supprimer cette commande ?
+                <p>Ticket n° {{ $stream->id }}</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
