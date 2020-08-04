@@ -24,14 +24,14 @@
       </div>
       <!-- end column -->
       <div class="col-lg-8">
-        <div class="card card-fluid">
-          <h6  class="card-header"> <b>Sécurité</b> </h6>
+        <div class="card card-fluid shadow-sm">
+          <h5  class="card-header text-success"> <i class="fas fa-lock"></i> Changer mon mot de passe </h5>
           <div class="card-body">
             <form class="" action="{{ route('account.password.update') }}" method="post">
               @csrf
               <div class="form-group">
-                <label for="oldpassword"> <b><i class="fas fa-unlock"></i> Ancien mot de passe</b> </label>
-                <input type="password" class="form-control form-control-sm" id="oldpassword" placeholder="Entrez votre mot de passe actuel" name="password_old" required>
+                <label for="oldpassword"> <b> Ancien mot de passe</b> </label>
+                <input type="password" class="form-control " id="oldpassword" placeholder="" name="password_old" required>
                 @if($errors->has('password_old'))
                   <div class="alert alert-danger" role="alert">
                     {{ $errors->first('password_old') }}
@@ -40,8 +40,8 @@
               </div>
               <div class="form-row">
                 <div class="col-md-6 mb-3">
-                  <label for="passwordnew"> <b><i class="fas fa-unlock"></i> Nouveau mot de passe</b> </label>
-                  <input type="password" class="form-control form-control-sm" id="passwordnew" placeholder="Entrez le nouveau mot de passe" name="passwordnew" required>
+                  <label for="passwordnew"> <b> Nouveau mot de passe</b> </label>
+                  <input type="password" class="form-control " id="passwordnew" placeholder="" name="passwordnew" required>
                   @if($errors->has('passwordnew'))
                     <div class="alert alert-danger" role="alert">
                       {{ $errors->first('passwordnew') }}
@@ -49,15 +49,15 @@
                   @endif
                 </div>
                 <div class="col-md-6 mb-3">
-                  <label for="passwordnew_confirm"> <b><i class="fas fa-unlock"></i> Confirmation</b> </label>
-                  <input type="password" class="form-control form-control-sm" id="passwordnew_confirm" placeholder="Entrez à nouveau le mot de passe" name="passwordnew_confirmation" required>
+                  <label for="passwordnew_confirm"> <b> Récrire le nouveau mot de passe</b> </label>
+                  <input type="password" class="form-control " id="passwordnew_confirm" placeholder="" name="passwordnew_confirmation" required>
                 </div>
               </div>
 
 
               <div class="form-actions d-flex justify-content-center mb-2">
                 <button type="submit" class="btn btn-danger" name="button">
-                  Changer le mot de passe
+                  <i  class="fas fa-check"></i> Valider
                 </button>
 
               </div>

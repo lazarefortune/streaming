@@ -23,7 +23,7 @@
     <header>
       <nav class="navbar navbar-icon-top navbar-expand-lg navbar-white menu shadow">
         <a class="navbar-brand my-0 mr-md-auto font-weight-normal"  id="site-title" href="{{ route('streaming.index') }}">
-          <img src="{{ asset('assets/img/Web-Creation2.png') }}" width="100" height="40" class="d-inline-block align-top p-0 m-0" alt="">
+          <img src="{{ asset('assets/img/3r.png') }}" width="110" height="40" class="d-inline-block align-top p-0 m-0" alt="">
         </a>
 
         <a class="p-2 text-dark d-none d-sm-none d-md-block" href="{{ route('streaming.help') }}">Besoin d'aide ? </a>
@@ -32,15 +32,17 @@
             <div class="nav-item dropdown">
               <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-bell">
-                  <span class="badge badge-info">11</span>
+                  <span class="badge badge-info">{{ auth()->user()->unreadNotifications->count() }}</span>
                 </i>
                 <span  class="d-none d-sm-inline d-md-inline">Notifications</span>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="overflow-auto" style="height: 200px;">
+                  @foreach (auth()->user()->unreadNotifications as $unreadNotification)
+                  <a href="" class="dropdown-item text-wrap">Bienvenue {{ $unreadNotification->data['name'] }}</strong></a>
+                  <hr>
+                  @endforeach
+                </div>
               </div>
             </div>
           @endunless
@@ -98,14 +100,14 @@
         <div class="row">
           <div class="col-12 col-md">
             <img class="mb-2" src="{{ asset('assets/img/netflix.png') }}" alt="" width="70 " height="30" style="border-right: 2px solid black;">
-            Web Création
+            <img src="{{ asset('assets/img/Web-Creation2.png') }}" width="70" height="30" class="d-inline-block align-top" alt="">
             <small class="d-block mb-3 text-muted">&copy; 2020</small>
 
               <a href="https://facebook.com/WebCreation241/" target="_blank" style="font-size: 30px;"><i class="fab fa-facebook"></i></a>
               <a href="#" style="font-size: 30px;"><i class="fab fa-whatsapp"></i></a>
               <a href="#" style="font-size: 30px;"><i class="fab fa-instagram"></i></a>
               <a href="#" style="font-size: 30px;"><i class="fab fa-discord"></i></a>
-              <p> <a href="developper-space">Vous êtes développeur ?</a> </p>
+              <p> <a href="developper-space">Êtes-vous développeur ?</a> </p>
           </div>
           <!-- <div class="col-6 col-md">
             <h5>A venir</h5>

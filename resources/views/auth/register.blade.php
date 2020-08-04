@@ -64,7 +64,7 @@
 
 @section('contenu')
 
-<div class="container mt-4">
+<div class="">
   <div class="row">
     <div class="col-12 col-sm-6 col-md-6 pl-4 pr-4">
 

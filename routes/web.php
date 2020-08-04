@@ -88,10 +88,11 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
     Route::post('/settings/profile', '\App\Http\Controllers\UserController@update')->name('account.update');
     Route::post('/settings/security/password_update', '\App\Http\Controllers\UserController@update_password')->name('account.password.update');
 
+    Route::get('/settings/profile', '\App\Http\Controllers\UserController@edit')->name('account');
+    Route::get('/settings/security', '\App\Http\Controllers\UserController@edit_password')->name('account_password');
   });
 
-  Route::get('/settings/profile', '\App\Http\Controllers\UserController@edit')->name('account')->middleware(['auth', 'password.confirm']);
-  Route::get('/settings/security', '\App\Http\Controllers\UserController@edit_password')->name('account_password')->middleware(['auth', 'password.confirm']);
+  // Route::get('/settings/profile', '\App\Http\Controllers\UserController@edit')->name('account')->middleware(['auth', 'password.confirm']);
 
 
   Route::name('streaming.')->group(function() {

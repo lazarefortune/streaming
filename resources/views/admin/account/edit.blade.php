@@ -26,15 +26,15 @@
       </div>
       <!-- end column -->
       <div class="col-lg-8">
-        <div class="card card-fluid">
-          <h6  class="card-header"> <b>Compte</b> </h6>
+        <div class="card card-fluid shadow-sm">
+          <h5 class="card-header text-success"> <i  class="fas fa-user"></i> Mes informations </h5>
           <div class="card-body">
             <form class="" action="{{ route('account.update') }}" method="post">
               @csrf
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="nom"> <b> <i  class="fas fa-user"></i> Nom</b> </label>
-                  <input type="text" class="form-control form-control-sm" id="nom" aria-describedby="nameHelp" placeholder="Entrez votre nom" value="{{ old('name') ?? $user->name }}" name="name" required>
+                  <input type="text" class="form-control " id="nom" aria-describedby="nameHelp" placeholder="Entrez votre nom" value="{{ old('name') ?? $user->name }}" name="name" required>
                   <!-- <small id="nameHelp" class="form-text text-muted">Votre nom sera visible publiquement.</small> -->
                   @if($errors->has('name'))
                     <div class="alert alert-danger" role="alert">
@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="contact"> <b><i class="fas fa-phone-alt"></i> Numéro de téléphone </b> </label>
-                  <input type="text" class="form-control form-control-sm" id="contact" aria-describedby="contactHelp"  placeholder="Entrez votre numéro de téléphone" value="{{ old('contact') ?? $user->contact }}" name="contact" required>
+                  <input type="text" class="form-control " id="contact" aria-describedby="contactHelp"  placeholder="Entrez votre numéro de téléphone" value="{{ old('contact') ?? $user->contact }}" name="contact" required>
                   <small id="contactHelp" class="form-text text-muted">Votre numéro de téléphone reste privé.</small>
                   @if($errors->has('contact'))
                     <div class="alert alert-danger" role="alert">
@@ -55,7 +55,7 @@
               </div>
               <div class="form-group">
                 <label for="email"> <b><i class="fas fa-envelope"></i> Adresse mail </b></label>
-                <input type="email" class="form-control form-control-sm" readonly id="email" aria-describedby="emailHelp" placeholder="Entrez votre adresse mail" value="{{ old('email') ?? $user->email }}" name="email">
+                <input type="email" class="form-control " readonly id="email" aria-describedby="emailHelp" placeholder="Entrez votre adresse mail" value="{{ old('email') ?? $user->email }}" name="email">
                 <small id="emailHelp" class="form-text text-danger"> <b>Modification indisponible temporairement.</b> </small>
                 @if($errors->has('email'))
                   <div class="alert alert-danger" role="alert">
@@ -65,8 +65,8 @@
               </div>
               <hr>
               <div class="form-actions d-flex justify-content-center">
-                <button type="submit" class="btn btn-success btn-sm" name="button">
-                  Mettre à jour les informations <i  class="fas fa-check"></i>
+                <button type="submit" class="btn btn-success " name="button">
+                  <i  class="fas fa-check"></i> Valider
                 </button>
               </div>
             </form>

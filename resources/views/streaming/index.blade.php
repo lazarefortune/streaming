@@ -23,7 +23,7 @@
 
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-  <h1 class="display-4"> <strong>Netflix</strong> </h1>
+  <h1 class="display-4 font-weight-bold"> <strong>Netflix</strong> </h1>
   <p class="lead">Passez votre commande, procédez au paiement, et profitez !!.</p>
   <a href=""  class="card-link" name="button">En savoir plus <i class="fas fa-long-arrow-alt-right"></i></a>
   <!-- <a href=""  class="card-link" name="button">En savoir plus <i class="fas fa-arrow-circle-right"></i></a> -->

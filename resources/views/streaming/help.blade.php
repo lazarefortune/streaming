@@ -14,6 +14,14 @@
 </style>
 @endsection
 @section('contenu')
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('streaming.index') }}">Accueil</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Centre-d'aide</li>
+  </ol>
+</nav>
+@include('flash::message')
 <div class="jumbotron"  id="help-banner">
   <div class="container text-center">
     <h1 class="display-5 ">Centre d'aide</h1>

@@ -18,13 +18,13 @@ class StreamingController extends Controller
       $forfait = DB::table('forfait')->where('id', $id_forfait)->first();
 
       // Prevent user from having more than 3 orders
-      /*
+
       $user = auth()->user();
-      if (($user->streamings()->count()) > 3) {
-        flash("Oups! vous avez atteint le nombre maximal (3) de commandes")->error();
+      if (($user->streamings()->count()) >= 3) {
+        flash("<div class='text-center'> <i class='fas fa-exclamation-triangle'></i> Désolé! vous avez atteint le nombre maximal (3) de commandes </div>")->error();
         return redirect()->route('streaming.account');
       }
-      */
+
       // end Prevent
 
 
@@ -37,7 +37,7 @@ class StreamingController extends Controller
           'forfait_statut' => 'Non payé',
       ]);
 
-      flash("Votre forfait a bien été ajouté. Procédez au paiement")->success();
+      flash("<div class='text-center'> Votre commande a bien été ajouté. Procédez maintenant au paiement </div>")->success();
 
       return redirect()->route('streaming.account');
 
@@ -46,7 +46,7 @@ class StreamingController extends Controller
     public function account()
     {
       // $streams = Streaming::latest()->paginate(10);
-      $streams = (auth()->user())->streamings()->paginate(10);
+      $streams = (auth()->user())->streamings()->orderBy('created_at')->paginate(10);
 
       return view('streaming.account', compact('streams'));
     }
@@ -54,7 +54,7 @@ class StreamingController extends Controller
     public function deleteForfait($id_forfait)
     {
       Streaming::destroy($id_forfait);
-      flash("Votre commande a bien été supprimé.")->error();
+      flash("<div class='text-center'> Votre commande a bien été supprimé. </div>")->error();
       return redirect()->route('streaming.account');
     }
 
@@ -80,20 +80,12 @@ class StreamingController extends Controller
     // Enregistrement de la preuve du paiement
     public function payment_proof_store(Streaming $stream, Request $request)
     {
-      if ($stream->forfait_statut != "Non payé") {
-        return abort(401);
-      }
       // dd($request->file('proof'));
 
           // dump($request->file('proof')->getClientOriginalName());
           // dump($request->file('proof'));
           // $request->proof->move($destinationPath, $fileName);
 
-          $request->validate([
-              'proof' => 'required|image',
-          ]);
-
-          $file = $request->file('proof');
           // dd($file);
           //Display File Name
           // echo 'File Name: '.$file->getClientOriginalName();
@@ -111,6 +103,17 @@ class StreamingController extends Controller
           // echo 'File Size: '.$file->getSize();
           // echo '<br>';
 
+
+
+// DEBUT
+          if ($stream->forfait_statut != "Non payé") {
+            return abort(401);
+          }
+          $request->validate([
+            'proof' => 'required|image',
+          ]);
+
+          $file = $request->file('proof');
           $path = $file->store('proofs', 'public');
 
           $stream->forfait_statut = "En cours de validation";

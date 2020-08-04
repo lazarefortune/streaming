@@ -264,82 +264,150 @@
 .input-file {
     display: none;
 }
+
+.steps-form {
+    display: table;
+    width: 100%;
+    position: relative; }
+.steps-form .steps-row {
+    display: table-row; }
+.steps-form .steps-row:before {
+    top: 14px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 1px;
+    background-color: #ccc; }
+.steps-form .steps-row .steps-step {
+    display: table-cell;
+    text-align: center;
+    position: relative; }
+.steps-form .steps-row .steps-step p {
+    margin-top: 0.5rem; }
+.steps-form .steps-row .steps-step button[disabled] {
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important; }
+.steps-form .steps-row .steps-step .btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    margin-top: 0; }
 </style>
 @endsection
 
 @section('contenu')
 
 @include('flash::message')
-<form class="row d-flex justify-content-center" enctype="multipart/form-data" action="{{ route('streaming.payment-proof-store', $stream) }}" method="post">
-  @csrf
-  <div class="col-md-6">
-    <h1>Procédure de paiement du ticket : {{ $stream->id }}</h1>
-    <div class="card">
-      <div class="card-header ">
-        ETAPE 2
+
+<div class="row d-flex justify-content-center">
+  <div class="col-md-8">
+    <h2  class="mb-3 text-center"> <i  class="fas fa-cash-register"></i> Caisse</h2>
+
+    <div class="steps-form">
+      <div class="steps-row setup-panel">
+        <div class="steps-step">
+          <a href="#step-9" type="button" class="btn btn-success btn-circle">1</a>
+          <p>Paiement</p>
+        </div>
+        <div class="steps-step">
+          <a href="#step-10" type="button" class="btn btn-success btn-circle" disabled="disabled">2</a>
+          <p>Preuve du paiement</p>
+        </div>
+        <div class="steps-step">
+          <a href="#step-11" type="button" class="btn btn-secondary btn-circle" disabled="disabled">3</a>
+          <p>Validation</p>
+        </div>
       </div>
+    </div>
+
+
+
+    <div class="card shadow p-3">
+      <h4  class="text-center">Preuve du paiement</h4>
+      <hr>
       <div class="card-body">
-        <div class="alert alert-danger">
-          <b>Envoyer nous la preuve du paiement (Capture d'écran / le message de transaction)</b>
-        </div>
-        <hr>
+        <form class="" enctype="multipart/form-data" action="{{ route('streaming.payment-proof-store', $stream) }}" method="post">
+          @csrf
+          <div class="">
+            <h5  class="font-weight-bold mb-4">Commande n° {{ $stream->id }}</h5>
+          </div>
+          <hr>
+          <div class="">
+            <div class="alert alert-danger">
+              <b>Envoyer nous la preuve du paiement (Capture d'écran / le message de transaction)</b>
+            </div>
+          </div>
 
-        <!-- <div class="custom-file">
-          <input type="file" class="custom-file-input" id="customFile">
-          <label class="custom-file-label" for="customFile">Selectionner la capture d'écran</label>
-        </div> -->
+          <div class="control">
+            <div class="box d-flex justify-content-center">
+  					<input type="file" name="proof" id="file-5" class="inputfile inputfile-4 @error('proof') is-invalid @enderror" data-multiple-caption="{count} files selected" multiple hidden >
+  					<label for="file-5">
+              <figure>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                  <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/>
+                </svg>
+              </figure>
+              <span>Choisir un fichier&hellip;</span>
+            </label>
+  				</div>
 
-        <div class="control">
-          <!-- <label  class="label">La preuve</label> -->
-          <!-- <input type="file" name="proof"   class="input-file @error('proof') is-invalid @enderror"> -->
+            @error('proof')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+          </div>
 
-          <!-- <label for="file" class="label-file btn btn-primary"> <i  class="fas fa-image"></i> Choisir une image</label>
-          <input id="file" class="input-file  @error('proof') is-invalid @enderror" name="proof" type="file" hidden > -->
+          <hr>
+          <div class="">
 
-          <div class="box">
-					<input type="file" name="proof" id="file-5" class="inputfile inputfile-4 @error('proof') is-invalid @enderror" data-multiple-caption="{count} files selected" multiple hidden >
-					<label for="file-5">
-            <figure>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
-                <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/>
-              </svg>
-            </figure>
-            <span>Choisir un fichier&hellip;</span>
-          </label>
-				</div>
 
-          @error('proof')
-              <span class="invalid-feedback" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-          @enderror
-        </div>
-        <!-- <hr>
-        ou alors
-        <hr>
-        <textarea name="name" rows="2"  class="form-control" placeholder="Copier et coller le message du transfert" cols="80"></textarea> -->
+            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalLong">
+              Envoyer <i  class="fas fa-arrow-right"></i>
+            </button>
 
+
+            <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Attention</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Êtes-vous sur d'avoir la bonne preuve ?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> <i  class="fas fa-times"></i> Annuler</button>
+                    <button type="submit" name="button"  class="btn btn-success"> <i  class="fas fa-check"></i> Oui, je confirme</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </form>
       </div>
-      <div class="card-footer">
-
-
-
-
-        <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong  class="text-danger">Attention!</strong> en cas d'erreur vous devriez recommencer la procédure <b>SANS PAYER A NOUVEAU</b> !
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div> -->
-
-        <button type="submit" name="button"  class="btn btn-primary"> Envoyer <i  class="fas fa-arrow-right"></i> </button>
-      </div>
-
     </div>
   </div>
+</div>
 
 
-</form>
+
+
+
+
+
+
+
 
 
 <script>

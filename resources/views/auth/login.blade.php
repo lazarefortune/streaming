@@ -59,15 +59,16 @@
   border: none;
 }
 
+
 </style>
 @endsection
 
 @section('contenu')
 
 
-<div class="container mt-4">
+
   <div class="row">
-    <div class="col-12 col-sm-12 col-md-6 pl-4 pr-4">
+    <div class="col-12 col-sm-12 col-md-6 pl-4 pr-4 test">
 
       <div class="my-4 d-flex justify-content-center">
         <!-- <img src="{{ asset('assets/img/Web-Creation2.png') }}"   height="100" width="250" alt=""> -->
@@ -155,7 +156,7 @@
 
 
   <!-- <input type="text"  class="form-control" name="" value=""> -->
-</div>
+
 
 <script >
 

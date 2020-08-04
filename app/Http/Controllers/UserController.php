@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -58,7 +59,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-
+        
         $user = auth()->user();
 
         if( ($user->hasAnyRole(['auteur','admin'])) ){
@@ -66,6 +67,7 @@ class UserController extends Controller
         }
 
         return view('user.account.edit')->with('user', $user);
+
     }
 
     public function edit_password(User $user)
