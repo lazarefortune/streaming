@@ -6,6 +6,11 @@
     border-radius: 4px;
     color: red;
   }
+  .en-cours{
+    border: 1px solid #17a2b8;
+    border-radius: 4px;
+    color: #17a2b8;
+  }
   .btn-flat{
     border: 1px solid black !important;
   }
@@ -49,6 +54,11 @@
         <div>
 
           <!-- Title -->
+
+          <!-- <i data-feather="check-circle" id="my-circle" class="foo bar" stroke-width="1" width="48" height="48" color="red"></i> -->
+
+
+
           <h4 class="card-title font-weight-bold mb-2 @if($stream->forfait_end) text-success @endif">
             @if( $stream->forfait_statut == 'Non payé' )
               <h4 class="card-title font-weight-bold mb-2"> Commande n° {{ $stream->id }} </h4>
@@ -64,12 +74,18 @@
           <p class="card-text"> <b>Début</b> : {{ $stream->forfait_start }} </p>
           <p class="card-text"> <b>Fin</b> : {{ $stream->forfait_end }} ( {{ Carbon\Carbon::parse($stream->forfait_end)->diffForHumans() }} )</p>
           <!-- <p class="card-text"><span  class="badge badge-danger"> termine {{ Carbon\Carbon::parse($stream->forfait_end)->diffForHumans() }} </span></p> -->
-          <a href="{{ route('streaming.facture', $stream) }}"  class="btn btn-info btn-sm mb-1" download="facture"> <i  class="fas fa-file-download"></i> Télécharger votre reçu</a>
-          <a href="{{ route('streaming.facture', $stream) }}"  class="btn btn-success  btn-sm" download="facture"> <i  class="fas fa-download"></i> Télécharger vos identifiants Netflix</a>
+          <a href="{{ route('streaming.facture', $stream) }}"  class="btn btn-success btn-sm mb-1" download="facture">
+            <i data-feather="download" stroke-width="2.5" width="16" height="16"></i>
+            Télécharger votre reçu
+          </a>
+          <a href="{{ route('streaming.facture', $stream) }}"  class="btn btn-success  btn-sm" download="facture">
+            <i data-feather="download" stroke-width="2.5" width="16" height="16"></i>
+            Télécharger vos identifiants Netflix
+          </a>
 
           @else
           <p class="card-text"><i class="far fa-clock pr-2"></i> {{ $stream->created_at->format('d/m/Y') }} (<span>{{ Carbon\Carbon::parse($stream->created_at)->diffForHumans() }}</span>) </p>
-          <p class="card-text"><i class="fas fa-money-check-alt pr-2"></i> {{ $stream->forfait_price }} Fcfa</p>
+          <p class="card-text"><i data-feather="credit-card"></i> {{ $stream->forfait_price }} Fcfa</p>
           @endif
 
         </div>
@@ -100,7 +116,7 @@
             <span>Type : <b>{{ $stream->forfait_type }}</b> </span>
           </p>
           <!-- Button -->
-          <a class="btn btn-flat red-text p-1 my-1 mr-0 mml-1 collapsed" data-toggle="collapse" href="#collapseContent-{{ $stream->id }}" aria-expanded="false" aria-controls="collapseContent-{{ $stream->id }}"> <i  class="fas fa-info-circle"></i> Détails</a>
+          <a class="btn btn-flat red-text p-1 my-1 mr-0 mml-1 collapsed" data-toggle="collapse" href="#collapseContent-{{ $stream->id }}" aria-expanded="false" aria-controls="collapseContent-{{ $stream->id }}"> <i data-feather="info" stroke-width="2.5" width="20" height="20"></i> Détails</a>
 
           <!-- @if(!$stream->forfait_end)
           <i class="fas fa-trash-alt text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Share this post"></i>
@@ -111,14 +127,16 @@
 
           <!-- Button delete -->
           <a type="button" class=" float-right p-1 my-1" data-toggle="modal" data-target="#exampleModal-{{ $stream->id }}">
-            <i class="fas fa-trash-alt text-muted" style="color: red !important;" data-toggle="tooltip" data-placement="top" title="delete this order"></i>
+            <!-- <i class="fas fa-trash-alt text-muted" style="color: red !important;" data-toggle="tooltip" data-placement="top" title="delete this order"></i> -->
+            <i data-feather="trash-2" style="color: red !important;" data-toggle="tooltip" data-placement="top" title="delete this order"></i>
           </a>
           <a href="{{ route('streaming.payment', $stream) }}"  class="btn btn-primary btn-sm p-2 float-right p-1 my-1 mr-3"> <i class="fas fa-cash-register pr-2"></i> Passer à la caisse</a>
           @elseif( $stream->forfait_statut == 'Payé')
             <!-- <span class="badge badge-danger text-wrap float-right p-1 my-1 mr-3">{{ $stream->forfait_statut }} avec succès</span> -->
-            <span class="cachet  btn-sm text-wrap float-right p-1 my-1 mr-3"> <i  class="fas fa-stamp"></i> {{ $stream->forfait_statut }}</span>
+            <span class="cachet  btn-sm text-wrap float-right p-1 my-1 mr-3"> <i data-feather="check-circle" stroke-width="2.5" width="20" height="20"></i> {{ $stream->forfait_statut }}</span>
           @else
-            <span class="badge badge-info text-wrap float-right p-1 my-1 mr-3">{{ $stream->forfait_statut }}</span>
+            <!-- <span class="badge badge-info text-wrap float-right p-1 my-1 mr-3">{{ $stream->forfait_statut }}</span> -->
+            <span class="en-cours btn-sm text-wrap float-right p-1 my-1 mr-3"> <i data-feather="loader" stroke-width="2.5" width="20" height="20"></i> {{ $stream->forfait_statut }}</span>
           @endif
         </div>
 
@@ -137,11 +155,15 @@
                 <p>Commande n° {{ $stream->id }}</p>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <form class="" action="{{ route('streaming.deleteForfait', $stream->id) }}"  method="POST">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i data-feather="x" stroke-width="2.5" width="20" height="20"></i> Annuler</button>
+                <!-- <a href="" data-dismiss="modal" class=" font-weight-bold" style="color: #1a73e8;">Annuler</a> -->
+                <form class="" action="{{ route('streaming.deleteStream', $stream->id) }}"  method="POST">
                   @csrf
                   @method('DELETE')
-                  <button type="submit"  class="btn btn-danger" name="button">Supprimer</button>
+                  <button type="submit"  class="btn btn-danger" name="button">
+                    <i data-feather="trash-2" stroke-width="2.5" width="20" height="20"></i>
+                    Supprimer
+                  </button>
                 </form>
               </div>
             </div>

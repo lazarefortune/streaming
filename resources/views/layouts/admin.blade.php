@@ -60,7 +60,7 @@
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <span class="dropdown-item text-center" > <b>{{ auth()->user()->name }}</b> </span><hr>
-                        <a class="dropdown-item" href="{{ route('account') }}"> <i  class="fas fa-cog"></i> Paramètres</a>
+                        <a class="dropdown-item" href="{{ route('account.profile') }}"> <i  class="fas fa-cog"></i> Paramètres</a>
                         <!-- <a class="dropdown-item" href="#">Activity Log</a> -->
                         <div class="dropdown-divider"></div>
                         <a href="{{ route('logout') }}" class="dropdown-item text-danger"
@@ -215,7 +215,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        
+
 
 
                         @yield('content')

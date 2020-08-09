@@ -51,11 +51,11 @@ class LoginController extends Controller
     {
       // toastr()->success('Connexion avec succès');
       flash("<div class='text-center'> Bienvenue <b>".(auth()->user()->name)."</b></div>")->success();
-      
+
       if (Auth::user()->roles()->pluck('name')->contains('admin')) {
-        return '/admin';
+        return '/admin/home';
       }elseif(Auth::user()->roles()->pluck('name')->contains('auteur')) {
-        return '/admin';
+        return '/admin/home';
       }else {
         return '/my-orders';
       }

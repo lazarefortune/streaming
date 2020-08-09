@@ -146,6 +146,10 @@
       <div class="card text-center border-0">
         <p>Accédez au réseaux de <strong class="text-info">Web Creation</strong> gratuitement.</p>
       </div>
+      <div class="">
+        <img src="{{ url('/assets/img/Web Creation/3_min.png') }}" alt="" width="140" height="70">
+        <img src="{{ url('/assets/img/4_min.png') }}" alt="" width="130" height="70">
+      </div>
     </div>
 
   </div>

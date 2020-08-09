@@ -59,19 +59,22 @@ Auth::routes();
 // ]);
 
 // End
+
+// ADMIN Routes
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users','auth')->group(function() {
 
+    // Gestion des utilisateurs
     Route::resource('users', 'UsersController');
-    Route::get('/', 'AdminController@home')->name('home');
+
+    Route::get('/home', 'AdminController@home')->name('home');
+    // Forfait
     Route::get('streaming/forfaits', 'ForfaitController@index')->name('streaming.forfaits');
     Route::get('streaming/add-forfait', 'ForfaitController@create')->name('streaming.create-forfait');
     Route::post('streaming/add-forfait', 'ForfaitController@store')->name('streaming.store-forfait');
-
     Route::get('streaming/edit-forfait/{forfait}', 'ForfaitController@edit')->name('streaming.edit-forfait');
     Route::post('streaming/update-forfait/{forfait}', 'ForfaitController@update')->name('streaming.update-forfait');
-
     Route::delete('streaming/delete-forfait/{forfait}', 'ForfaitController@destroy')->name('streaming.delete-forfait');
-
+    // Orders
     Route::get('streaming/command-list', 'ForfaitController@command_list')->name('streaming.command_list');
     Route::get('streaming/confirm-payment-proof/{stream}', 'ForfaitController@confirm_payment_proof')->name('streaming.confirm_payment_proof');
     Route::get('streaming/reject-payment-proof/{stream}', 'ForfaitController@reject_payment_proof')->name('streaming.reject_payment_proof');
@@ -81,47 +84,47 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
 
   });
 
-  Route::group([
-    'middleware' => 'auth'
-  ], function(){
+// Account Settings
+  Route::prefix('settings')->name('account.')->middleware('auth')->group(function(){
 
-    Route::post('/settings/profile', '\App\Http\Controllers\UserController@update')->name('account.update');
-    Route::post('/settings/security/password_update', '\App\Http\Controllers\UserController@update_password')->name('account.password.update');
+    Route::get('/', 'UserController@index')->name('home');
+    Route::get('/profile', 'UserController@edit')->name('profile');
+    Route::post('/profile', 'UserController@update')->name('update');
+    Route::get('/security', 'UserController@edit_password')->name('password');
+    Route::post('/security/password_update', 'UserController@update_password')->name('password.update');
 
-    Route::get('/settings/profile', '\App\Http\Controllers\UserController@edit')->name('account');
-    Route::get('/settings/security', '\App\Http\Controllers\UserController@edit_password')->name('account_password');
   });
 
-  // Route::get('/settings/profile', '\App\Http\Controllers\UserController@edit')->name('account')->middleware(['auth', 'password.confirm']);
-
-
+// Streaming Routes
   Route::name('streaming.')->group(function() {
+    // Not protected routes
 
     Route::get('/', 'StreamingController@index')->name('index');
-    Route::get('/my-orders', 'StreamingController@account')->name('account')->middleware('auth');
-    Route::delete('/delete/{id_forfait}', 'StreamingController@deleteForfait')->name('deleteForfait');
-//    paiement
-    Route::get('/payment/{stream}', 'StreamingController@payment')->name('payment')->middleware('auth');
-    Route::get('/payment/{stream}/proof-of-payment', 'StreamingController@payment_proof')->name('payment-proof')->middleware('auth');
-    Route::post('/payment/{stream}/proof-of-payment', 'StreamingController@payment_proof_store')->name('payment-proof-store')->middleware('auth');
-    Route::get('/payment/{stream}/payment_success', function(){
-      return view('streaming.payment_success');
-    })->middleware('auth');
-
-    Route::get('/help' , function(){
-      return view('streaming.help');
-    })->name('help')->middleware('auth');
-
     Route::get('/contact', function(){
       return view('streaming.contact');
     })->name('contact');
 
-    // Route::post('/forfait/{id_forfait}', 'StreamingController@store_netflix')->name('store')->middleware('auth');
-    Route::get('/forfait/{id_forfait}', 'StreamingController@store_netflix')->name('store')->middleware('auth');
+    // Protected Streaming routes
+    Route::middleware('auth')->group(function() {
 
-    Route::get('/facture/{stream}', 'StreamingController@getFacturePdf')->name('facture');
+      Route::get('/add-stream/{id_stream}', 'StreamingController@store_stream')->name('store');
+      Route::delete('/delete-stream/{id_stream}', 'StreamingController@deleteStream')->name('deleteStream');
+
+      Route::get('/my-orders', 'StreamingController@my_orders')->name('orders');
+      //    payment
+      Route::get('/my-orders/payment/{stream}', 'StreamingController@payment')->name('payment');
+      Route::get('/my-orders/payment/{stream}/proof-of-payment', 'StreamingController@payment_proof')->name('payment-proof');
+      Route::post('/my-orders/payment/{stream}/proof-of-payment', 'StreamingController@payment_proof_store')->name('payment-proof-store');
+      Route::get('/payment/{stream}/payment_success', function(){
+        return view('streaming.payment_success');
+      });
+      Route::get('/facture/{stream}', 'StreamingController@getFacturePdf')->name('facture');
+
+      // Others
+      Route::get('/help' , function(){
+        return view('streaming.help');
+      })->name('help');
+
+    });
+
   });
-
-  // Route::get('/login', function(){
-  //   return view('streaming.login');
-  // })->name('login');

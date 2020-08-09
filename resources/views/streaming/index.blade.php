@@ -4,7 +4,7 @@
 <style>
 .card{
   border-radius: 6px;
-  border: 2px solid #0b2a64;
+  /* border: 2px solid #0b2a64; */
 }
 .card-header{
   border-radius: 6px 6px 0px 0px !important;
@@ -25,7 +25,7 @@
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
   <h1 class="display-4 font-weight-bold"> <strong>Netflix</strong> </h1>
   <p class="lead">Passez votre commande, procédez au paiement, et profitez !!.</p>
-  <a href=""  class="card-link" name="button">En savoir plus <i class="fas fa-long-arrow-alt-right"></i></a>
+  <a href=""  class="card-link" name="button">En savoir plus <i data-feather="arrow-right" stroke-width="2.5" width="20" height="20"></i></a>
   <!-- <a href=""  class="card-link" name="button">En savoir plus <i class="fas fa-arrow-circle-right"></i></a> -->
 </div>
 
@@ -33,7 +33,7 @@
   <div class="card-deck mb-3 text-center">
 
     @foreach($forfaits as $forfait)
-    <div class="card mb-4 shadow-sm">
+    <div class="card mb-4 shadow">
       <div class="card-header">
         <h4 class="my-0 font-weight-normal"> <strong>{{ $forfait->type }}</strong> </h4>
       </div>
@@ -49,7 +49,10 @@
           @csrf
           <button type="submit" class="btn btn-lg btn-block btn-primary"> <b>Commander</b> </button>
         </form> -->
-        <a href="{{ route('streaming.store', $forfait->id) }}" class="btn btn-lg btn-block btn-primary"> <i class="fas fa-shopping-cart"></i> <b>Commander</b> </a>
+        <a href="{{ route('streaming.store', $forfait->id) }}" class="btn btn-lg btn-block btn-primary">
+          <i data-feather="shopping-cart" stroke-width="2.5" width="20" height="20"></i>
+          <b class="text-icon">Commander</b> 
+        </a>
       </div>
     </div>
     @endforeach

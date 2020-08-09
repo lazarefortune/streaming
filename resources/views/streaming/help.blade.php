@@ -9,32 +9,47 @@
 }
 #help-banner
 {
-  /* background-image: url('{{ asset("image/support.jpg") }}') ; */
+  /* background-image: url('{{ asset("assets/img/google/help-banner.svg") }}') ; */
+  /* background-image: url("/assets/img/google/settings.png"); */
+  /* background-image: url( {{ url('assets/img/google/help-banner.svg') }} ); */
+}
+.help-banner
+{
+  background-image: url('{{ asset("public/assets/img/google/help-banner.svg") }}') ;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center;
+  /* height: 200px; */
 }
 </style>
 @endsection
 @section('contenu')
 
-<nav aria-label="breadcrumb">
+<!-- <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('streaming.index') }}">Accueil</a></li>
     <li class="breadcrumb-item active" aria-current="page">Centre-d'aide</li>
   </ol>
-</nav>
+</nav> -->
 @include('flash::message')
-<div class="jumbotron"  id="help-banner">
+
+
+<div class="jumbotron help-banner">
   <div class="container text-center">
-    <h1 class="display-5 ">Centre d'aide</h1>
+    <img src="{{ asset('assets/img/google/help.png') }}"   class="rounded-circle shadow p-2" width="50" height="50" alt="">
+    <p style="color: #1967da; font-weight: 500; font-size: 32px; line-height: 2.5rem;" class="my-4">
+      Comment pouvons-nous vous aider ?
+    </p>
     <!-- <p>Bienvenue dans le centre d'aide, que pouvons nous faire pour vous ?.</p> -->
     <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Lire plus &raquo;</a></p> -->
 
     <form class="" action="" method="post"  class="form-inline">
       <div class="form-group mb-2">
-        <label for="question" class="sr-only"> <strong>Posez nous votre question</strong> </label>
-        <!-- <input type="text" name="question" placeholder="Qu'est ce qui vous pose problème ?"  class="form-control" value=""> -->
-        <textarea name="question" placeholder="Qu'est ce qui vous pose problème ?" class="form-control" rows="2" cols="80"></textarea>
+        <!-- <label for="question" class=""> <strong>Posez nous votre question</strong> </label> -->
+        <input type="text" name="question" placeholder="Décrivez votre problème ?"  class="form-control form-control-lg col-md-6 shadow-lg mx-auto p-4" style="font-size: 15px;" value="">
+        <!-- <textarea name="question" placeholder="Qu'est ce qui vous pose problème ?" class="form-control" rows="2" cols="80"></textarea> -->
       </div>
-      <button type="submit" name="button"  class="btn btn-primary">Envoyer votre question</button>
+      <!-- <button type="submit" name="button"  class="btn btn-primary">Envoyer votre question</button> -->
     </form>
   </div>
 </div>

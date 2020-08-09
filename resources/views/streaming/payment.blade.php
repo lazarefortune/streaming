@@ -39,6 +39,13 @@
 
 @section('contenu')
 
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('streaming.index') }}">Accueil</a></li>
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ route('streaming.orders') }}">Mes-commandes</a> </li>
+    <li class="breadcrumb-item active" aria-current="page">Caisse</li>
+  </ol>
+</nav>
 @include('flash::message')
 <!-- <form class="row d-flex justify-content-center" method="post">
 
@@ -60,7 +67,7 @@
 
       </div>
       <div class="card-footer d-flex justify-content-between">
-        <a href="{{ route('streaming.account') }}"  class="btn btn-warning"> <i  class="fas fa-arrow-left"></i> Abandonner</a>
+        <a href="{{ route("streaming.orders") }}"  class="btn btn-warning"> <i  class="fas fa-arrow-left"></i> Abandonner</a>
 
 
 
@@ -158,7 +165,7 @@
           <small class="text-danger">NB: Veuillez effectuer le transfert avant de cliquer sur "Poursuivre".</small>
           <hr>
           <div class="">
-            <a href="{{ route('streaming.account') }}"  class="btn btn-warning float-left"> <i  class="fas fa-arrow-left"></i> Abandonner</a>
+            <a href="{{ route('streaming.orders') }}"  class="btn btn-warning float-left"> <i  class="fas fa-arrow-left"></i> Abandonner</a>
 
 
 

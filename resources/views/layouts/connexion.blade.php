@@ -207,7 +207,10 @@
         </ol>
       </nav> -->
       <div class="text-center mb-4">
-        <a href="{{ route('streaming.index') }}"><img class="mb-4" src="{{ asset('assets/img/3r.png') }}" alt="" width="65%" height="100"></a>
+        <!-- <a href="{{ route('streaming.index') }}"><img class="mb-4" src="{{ asset('assets/img/logo-Web-Creation-streaming.png') }}" alt="" width="70%" height="100"></a> -->
+        <a href="{{ route('streaming.index') }}">
+          <img src="{{ asset('assets/img/new/Streaming2.png') }}" width="70%" height="100%" alt="logo-Web-Creation-streaming" title="logo de Web Creation Streaming">
+        </a>
         <!-- <h1 class="h3 mb-3 font-weight-normal"> <b>Se connecter</b> </h1> -->
       </div>
       @include('flash::message')

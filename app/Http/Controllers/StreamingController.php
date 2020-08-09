@@ -1,33 +1,39 @@
 <?php
 
 namespace App\Http\Controllers;
+use PDF;
 use App\User;
 use App\Streaming;
+use App\Notifications\RegisteredNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
-use PDF;
-use App\Notifications\RegisteredNotification;
 
 class StreamingController extends Controller
 {
     //
+    public function index()
+    {
+      $forfaits = DB::table('forfait')->where('name', 'Netflix')->get();
+       // toastr()->success('Bienvenue');
 
-    public function store_netflix($id_forfait){
+       // alert()->success('Connectez vous.','Bienvenue '.auth()->user()->name)->autoclose(3500);
+       // alert()->basic('Sweet Alert with basic.','Basic');
+       // alert()->warning('Sweet Alert with warning.');
+      return view('streaming.index', compact('forfaits'));
+    }
+
+    public function store_stream($id_forfait)
+    {
 
       $forfait = DB::table('forfait')->where('id', $id_forfait)->first();
-
       // Prevent user from having more than 3 orders
-
       $user = auth()->user();
       if (($user->streamings()->count()) >= 3) {
-        flash("<div class='text-center'> <i class='fas fa-exclamation-triangle'></i> Désolé! vous avez atteint le nombre maximal (3) de commandes </div>")->error();
-        return redirect()->route('streaming.account');
+        flash("<div class='text-center'> <i data-feather='alert-triangle' stroke-width='2.5' width='20' height='20'></i> Désolé! vous avez atteint le nombre maximal (3) de commandes </div>")->error();
+        return redirect()->route('streaming.orders');
       }
-
       // end Prevent
-
-
 
       $stream = Streaming::create([
           'forfait_name' => $forfait->name,
@@ -38,24 +44,21 @@ class StreamingController extends Controller
       ]);
 
       flash("<div class='text-center'> Votre commande a bien été ajouté. Procédez maintenant au paiement </div>")->success();
-
-      return redirect()->route('streaming.account');
-
+      return redirect()->route('streaming.orders');
     }
 
-    public function account()
+    public function my_orders()
     {
       // $streams = Streaming::latest()->paginate(10);
       $streams = (auth()->user())->streamings()->orderBy('created_at')->paginate(10);
-
-      return view('streaming.account', compact('streams'));
+      return view('streaming.orders', compact('streams'));
     }
 
-    public function deleteForfait($id_forfait)
+    public function deleteStream($id_forfait)
     {
       Streaming::destroy($id_forfait);
       flash("<div class='text-center'> Votre commande a bien été supprimé. </div>")->error();
-      return redirect()->route('streaming.account');
+      return redirect()->route('streaming.orders');
     }
 
     public function payment(Streaming $stream)
@@ -66,9 +69,6 @@ class StreamingController extends Controller
       return view('streaming.payment', compact('stream'));
     }
 
-    /* Preuve du paiement
-        Avec blocage de l'accès à la vue dans le cas ou le statut du forfait est différent de "Non payé"
-    */
     public function payment_proof(Streaming $stream)
     {
       if ($stream->forfait_statut != "Non payé") {
@@ -80,61 +80,21 @@ class StreamingController extends Controller
     // Enregistrement de la preuve du paiement
     public function payment_proof_store(Streaming $stream, Request $request)
     {
-      // dd($request->file('proof'));
+      if ($stream->forfait_statut != "Non payé") {
+        return abort(401);
+      }
+      $request->validate([
+        'proof' => 'required|image',
+      ]);
 
-          // dump($request->file('proof')->getClientOriginalName());
-          // dump($request->file('proof'));
-          // $request->proof->move($destinationPath, $fileName);
+      $file = $request->file('proof');
+      $path = $file->store('proofs', 'public');
 
-          // dd($file);
-          //Display File Name
-          // echo 'File Name: '.$file->getClientOriginalName();
-          // echo '<br>';
+      $stream->forfait_statut = "En cours de validation";
+      $stream->path_proof = $path;
+      $stream->save();
 
-          //Display File Extension
-          // echo 'File Extension: '.$file->getClientOriginalExtension();
-          // echo '<br>';
-
-          //Display File Real Path
-          // echo 'File Real Path: '.$file->getRealPath();
-          // echo '<br>';
-
-          //Display File Size
-          // echo 'File Size: '.$file->getSize();
-          // echo '<br>';
-
-
-
-// DEBUT
-          if ($stream->forfait_statut != "Non payé") {
-            return abort(401);
-          }
-          $request->validate([
-            'proof' => 'required|image',
-          ]);
-
-          $file = $request->file('proof');
-          $path = $file->store('proofs', 'public');
-
-          $stream->forfait_statut = "En cours de validation";
-          $stream->path_proof = $path;
-          $stream->save();
-
-          return view('streaming.payment_success', compact('stream'));
-
-
-    }
-
-    public function index()
-    {
-      $forfaits = DB::table('forfait')->where('name', 'Netflix')->get();
-       // toastr()->success('Bienvenue');
-
-       // alert()->success('Connectez vous.','Bienvenue '.auth()->user()->name)->autoclose(3500);
-       // alert()->basic('Sweet Alert with basic.','Basic');
-       // alert()->warning('Sweet Alert with warning.');
-
-      return view('streaming.index', compact('forfaits'));
+      return view('streaming.payment_success', compact('stream'));
     }
 
     public function getFacturePdf(Streaming $stream)
@@ -147,8 +107,5 @@ class StreamingController extends Controller
         return $pdf->download(\Str::slug('Facture '.$stream->id.' '.$stream->user->name.' '.$stream->created_at, '-').".pdf");
         // return $pdf->stream();
     }
-
-
-
 
 }

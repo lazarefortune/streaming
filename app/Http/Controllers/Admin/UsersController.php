@@ -23,20 +23,16 @@ class UsersController extends Controller
 
     public function index()
     {
-        //
-        $user = auth()->user();
-        if(($user->hasAnyRole(['auteur','admin'])) && ((auth()->user()->isAdmin()) == false ))
-        {
-          // DB::table('users')->whereIn('utilisateur', $roles)->first();
-          $users = User::all();
-          // $users = $users->roles()->where('name', 'utilisateur')->get();
-
-          // dd($users);
-
-        }
+      $user = auth()->user();
+      if(($user->hasAnyRole(['auteur','admin'])) && ((auth()->user()->isAdmin()) == false ))
+      {
+        // DB::table('users')->whereIn('utilisateur', $roles)->first();
+        // $users = $users->roles()->where('name', 'utilisateur')->get();
         $users = User::all();
+      }
 
-        return view('admin.users.index')->with('users', $users);
+      $users = User::all();
+      return view('admin.users.index')->with('users', $users);
     }
 
     /**
@@ -79,19 +75,15 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        //
-        if (Gate::denies('edit-users')) {
-          return redirect()->route('admin.users.index');
-        }
+      if (Gate::denies('edit-users')) {
+        return redirect()->route('admin.users.index');
+      }
 
-
-
-        $roles = Role::all();
-
-        return view('admin.users.edit', [
-          'user' => $user,
-          'roles' => $roles
-        ]);
+      $roles = Role::all();
+      return view('admin.users.edit', [
+        'user' => $user,
+        'roles' => $roles
+      ]);
     }
 
     /**
@@ -104,48 +96,36 @@ class UsersController extends Controller
     public function update(Request $request, User $user)
     {
         //
-        if (Gate::denies('change-role')) {
-          $validator = Validator::make($request->all(), [
-            'contact' => ['required', 'string', 'unique:users,contact,'.$user->contact.',contact'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->email.',email'],
-            'name' => ['required', 'string', 'max:255'],
-          ]);
+      if (Gate::denies('change-role'))
+      {
+        $validator = Validator::make($request->all(), [
+          'contact' => ['required', 'string', 'unique:users,contact,'.$user->contact.',contact'],
+          'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->email.',email'],
+          'name' => ['required', 'string', 'max:255'],
+        ]);
 
-          if ($validator->fails()) {
-              return back()
-                          ->withErrors($validator)
-                          ->withInput();
-          }
-
-          $user->name = $request->name;
-          $user->email = $request->email;
-          $user->contact = $request->contact;
-          $user->save();
-        }else {
-
-          $user->roles()->sync($request->roles);
-
-          // $validator = Validator::make($request->all(), [
-          //   'contact' => ['required', 'string', 'unique:users,contact,'.$user->contact.',contact'],
-          //   'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->email.',email'],
-          //   'name' => ['required', 'string', 'max:255'],
-          // ]);
-          //
-          // if ($validator->fails()) {
-          //     return redirect('/admin/users/'.$user->id.'/edit')
-          //                 ->withErrors($validator)
-          //                 ->withInput();
-          // }
-          $user->name = $request->name;
-          $user->email = $request->email;
-          $user->contact = $request->contact;
-          $user->save();
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
         }
 
-        // flash("Informations mis à jour avec succès")->success();
-        toastr()->success('Informations mis à jour avec succès');
-        return redirect()->back();
-        // return redirect()->route('admin.users.index');
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->contact = $request->contact;
+        $user->save();
+
+      }else {
+        $user->roles()->sync($request->roles);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->contact = $request->contact;
+        $user->save();
+      }
+
+      // flash("Informations mis à jour avec succès")->success();
+      toastr()->success('Informations mis à jour avec succès');
+      return redirect()->back();
     }
 
     /**
@@ -156,18 +136,16 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        //
-        if (Gate::denies('delete-users')) {
-          return redirect()->route('admin.users.index');
-        }
-
-        $user->roles()->detach();
-        DB::table('streamings')->where('user_id', $user->id)->delete();
-        $user->delete();
-
-        // flash("Utilisateur supprimé avec succès")->success();
-        toastr()->error('Utilisateur supprimé avec succès');
-
+      if (Gate::denies('delete-users')) {
         return redirect()->route('admin.users.index');
+      }
+
+      $user->roles()->detach();
+      DB::table('streamings')->where('user_id', $user->id)->delete();
+      $user->delete();
+
+      // flash("Utilisateur supprimé avec succès")->success();
+      toastr()->error('Utilisateur supprimé avec succès');
+      return redirect()->route('admin.users.index');
     }
 }

@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Validator;
+
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -13,9 +14,17 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         //
+        $user = auth()->user();
+
+        if( ($user->hasAnyRole(['auteur','admin'])) ){
+          return view('admin.account.home')->with('user', $user);
+        }
+
+        return view('user.account.home')->with('user', $user);
     }
 
     /**
@@ -59,15 +68,13 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        
-        $user = auth()->user();
+      $user = auth()->user();
 
-        if( ($user->hasAnyRole(['auteur','admin'])) ){
-          return view('admin.account.edit')->with('user', $user);
-        }
+      if( ($user->hasAnyRole(['auteur','admin'])) ){
+        return view('admin.account.edit')->with('user', $user);
+      }
 
-        return view('user.account.edit')->with('user', $user);
-
+      return view('user.account.edit')->with('user', $user);
     }
 
     public function edit_password(User $user)
@@ -93,12 +100,6 @@ class UserController extends Controller
     {
         $user = auth()->user();
 
-        // $this->validate($request, [
-        //     'contact' => ['required', 'string', 'unique:users,contact,'.$user->contact.',contact'],
-        //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->email.',email'],
-        //     'name' => ['required', 'string', 'max:255'],
-        // ]);
-
         $validator = Validator::make($request->all(), [
           'contact' => ['required', 'string', 'unique:users,contact,'.$user->contact.',contact'],
           'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->email.',email'],
@@ -113,11 +114,6 @@ class UserController extends Controller
         }
 
         $user->update($request->all());
-        // $user->name = $request->name;
-        // $user->contact = $request->contact;
-        // $user->email = $request->email;
-        //
-        // $user->save();
         // flash("Informations mis à jour avec succès")->success();
         toastr()->success('Informations mis à jour avec succès');
 
@@ -127,14 +123,11 @@ class UserController extends Controller
 
     public function update_password()
     {
-      //$this->authorize('admin');
-
       request()->validate([
         'password_old' => ['required', 'min:3'],
         'passwordnew'=> ['required','min:3'],
       ]);
       $resultat = password_verify(request('password_old'), (auth()->user()->password));
-
       if ($resultat) {
         request()->validate([
           'passwordnew'=> ['required','confirmed', 'min:3'],
@@ -144,10 +137,9 @@ class UserController extends Controller
         auth()->user()->update([
           'password' => bcrypt(request('passwordnew'))
         ]);
-
         // flash("Mot de passe changé avec succès")->success();
         toastr()->success('Mot de passe changé avec succès');
-        return redirect()->route('account_password');
+        return redirect()->route('account.password');
       }
       else {
         return back()->withInput()-> withErrors([

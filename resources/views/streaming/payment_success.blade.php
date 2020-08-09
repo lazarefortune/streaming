@@ -111,7 +111,7 @@
               Cliquez ici <i  class="fas fa-arrow-right"></i>
             </button> -->
 
-            <a href="{{ route('streaming.account') }}"  class="btn btn-primary float-right"> Cliquez ici <i  class="fas fa-arrow-right"></i> </a>
+            <a href="{{ route('streaming.orders') }}"  class="btn btn-primary float-right"> Cliquez ici <i  class="fas fa-arrow-right"></i> </a>
 
 
           </div>

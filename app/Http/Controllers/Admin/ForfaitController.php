@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use Illuminate\Support\Facades\DB;
+use App\Streaming;
 use App\Http\Controllers\Controller;
+use App\Notifications\InvoicePaid;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-use App\Streaming;
-use Illuminate\Support\Carbon;
-use App\Notifications\InvoicePaid;
 
 class ForfaitController extends Controller
 {
@@ -19,10 +19,8 @@ class ForfaitController extends Controller
      */
     public function index()
     {
-        //
-        $forfaits = DB::table('forfait')->get();
-
-        return view('admin.streaming.forfait', ['forfaits' => $forfaits]);
+      $forfaits = DB::table('forfait')->get();
+      return view('admin.streaming.forfait', ['forfaits' => $forfaits]);
     }
 
     /**
@@ -32,8 +30,7 @@ class ForfaitController extends Controller
      */
     public function create()
     {
-
-        return view('admin.streaming.create_forfait');
+      return view('admin.streaming.create_forfait');
     }
 
     /**
@@ -44,34 +41,31 @@ class ForfaitController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-          'name' => ['required', 'string', 'min:3'],
-          'type' => ['required', 'string', 'min:3'],
-          'description' => ['nullable','string', 'min:8'],
-          'price' => ['required', 'numeric'],
-        ]);
+      $validator = Validator::make($request->all(), [
+        'name' => ['required', 'string', 'min:3'],
+        'type' => ['required', 'string', 'min:3'],
+        'description' => ['nullable','string', 'min:8'],
+        'price' => ['required', 'numeric'],
+      ]);
 
-        if ($validator->fails()) {
-            return back()
-                        ->withErrors($validator)
-                        ->withInput();
-        }
+      if ($validator->fails()) {
+          return back()
+                      ->withErrors($validator)
+                      ->withInput();
+      }
 
+      $forfait = DB::table('forfait')->insert(
+        [
+          'name' => $request->name,
+          'type' => $request->type,
+          'description' => $request->description,
+          'price' => $request->price
+        ]
+      );
+      // flash("Forfait ajouté avec succès")->success();
+      toastr()->success('Forfait ajouté avec succès');
 
-
-        $forfait = DB::table('forfait')->insert(
-            [
-              'name' => $request->name,
-              'type' => $request->type,
-              'description' => $request->description,
-              'price' => $request->price
-            ]
-        );
-
-        // flash("Forfait ajouté avec succès")->success();
-        toastr()->success('Forfait ajouté avec succès');
-
-        return redirect()->route('admin.streaming.forfaits');
+      return redirect()->route('admin.streaming.forfaits');
     }
 
     /**
@@ -94,7 +88,6 @@ class ForfaitController extends Controller
     public function edit($id)
     {
       $forfait = DB::table('forfait')->where('id', $id)->first();
-
       return view('admin.streaming.edit-forfait', ['forfait' => $forfait]);
     }
 
@@ -129,10 +122,10 @@ class ForfaitController extends Controller
                 'price' => $request->price
             ]);
 
-        // flash("Forfait mis à jour avec succès")->success();
-        toastr()->success('Forfait mis à jour avec succès');
+      // flash("Forfait mis à jour avec succès")->success();
+      toastr()->success('Forfait mis à jour avec succès');
 
-        return redirect()->route('admin.streaming.forfaits');
+      return redirect()->route('admin.streaming.forfaits');
 
     }
 
@@ -144,23 +137,16 @@ class ForfaitController extends Controller
      */
     public function destroy($id)
     {
-        //
-
-        $delete = DB::table('forfait')->where('id', $id)->delete();
-
-        // flash("Forfait supprimé avec succès")->error();
-        toastr()->error('Forfait supprimé avec succès');
-
-        return redirect()->route('admin.streaming.forfaits');
-
+      $delete = DB::table('forfait')->where('id', $id)->delete();
+      // flash("Forfait supprimé avec succès")->error();
+      toastr()->error('Forfait supprimé avec succès');
+      return redirect()->route('admin.streaming.forfaits');
     }
-
 
     // Liste des commandes
     public function command_list()
     {
       // $commands = DB::table('streamings')->where('forfait_statut', 'En cours de validation')->get();
-
       $commands = Streaming::all()->where('forfait_statut', 'En cours de validation');
       $actifs = Streaming::all()->where('forfait_statut', 'Payé');
 
@@ -172,7 +158,6 @@ class ForfaitController extends Controller
     {
       // $user = $stream->user;
       // $user->notify(new InvoicePaid($user, $stream));
-      // die();
 
       $stream->forfait_statut = "Payé";
       $stream->forfait_start = Carbon::now();
@@ -182,11 +167,8 @@ class ForfaitController extends Controller
       $user = $stream->user;
       $user->notify(new InvoicePaid($user, $stream));
 
-
       toastr()->success('Paiement confirmé avec succès');
-
       return redirect()->back();
-
     }
 
     // Rejet du paiement
@@ -201,14 +183,12 @@ class ForfaitController extends Controller
       Storage::delete($lien);
 
       toastr()->error('Paiement refusé avec succès');
-
       return redirect()->back();
-
     }
-
+    // Send Netflix login idtf
     public function send_info_idtf(Streaming $stream)
     {
-      // dd($stream);
       return view('admin.streaming.send_info_idtf')->with('stream', $stream);
     }
+    
 }

@@ -208,7 +208,7 @@ input:focus{
       <a class="btn btn-outline-primary" href="{{ route('login') }}">Se connecter</a>
       <a class="btn btn-primary" href="{{ route('register') }}">S'inscrire</a>
     @else
-    <!-- <a href="{{ route('streaming.account') }}" class="p-2 text-dark btn btn-success btn-sm" type="button">Vos abonnements</a> -->
+    <!-- <a href="{{ route('streaming class="account"') }}" class="p-2 text-dark btn btn-success btn-sm" type="button">Vos abonnements</a> -->
 
     <div class="btn-group">
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -218,8 +218,8 @@ input:focus{
         @can('manage-users')
         <a href="{{ route('admin.home') }}" class="dropdown-item" type="button"> <span><i class="fas fa-user-shield"></i></span> Espace admin</a>
         @endcan
-        <a href="{{ route('account') }}" class="dropdown-item" type="button"><span><i class="fas fa-cog"></i></span>  Paramètres</a>
-        <a href="{{ route('streaming.account') }}" class="dropdown-item text-success" type="button"> <span><i class="fas fa-shopping-cart"></i></span> Mes abonnements</a>
+        <a href="{{ route('account.home') }}" class="dropdown-item" type="button"><span><i class="fas fa-cog"></i></span>  Paramètres</a>
+        <a href="{{ route('streaming.index') }}" class="dropdown-item text-success" type="button"> <span><i class="fas fa-shopping-cart"></i></span> Mes abonnements</a>
         <div class="dropdown-divider"></div>
         <a href="{{ route('logout') }}"
                    onclick="event.preventDefault();
