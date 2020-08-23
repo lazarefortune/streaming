@@ -30,6 +30,9 @@
           border-left: 2px solid #6c757d !important;
           color: #6c757d !important;
         }
+        .text-icon {
+          vertical-align: middle !important;
+        }
         </style>
         <!-- Toats notification files -->
         @toastr_css
@@ -192,6 +195,11 @@
         <script src="{{ asset('admin/assets/demo/chart-area-demo.js') }}"></script>
         <script src="{{ asset('admin/assets/demo/chart-bar-demo.js') }}"></script>
         <script src="{{ asset('admin/assets/demo/datatables-demo.js') }}"></script>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.19.0/feather.min.js" ></script>
+        <script type="text/javascript">
+        	feather.replace();
+        </script>
 
     <!-- Toast notification files -->
         @jquery

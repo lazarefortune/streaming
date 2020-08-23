@@ -53,11 +53,11 @@ class LoginController extends Controller
       flash("<div class='text-center'> Bienvenue <b>".(auth()->user()->name)."</b></div>")->success();
 
       if (Auth::user()->roles()->pluck('name')->contains('admin')) {
-        return '/admin/home';
+        return route('admin.home');;
       }elseif(Auth::user()->roles()->pluck('name')->contains('auteur')) {
-        return '/admin/home';
+        return route('admin.home');;
       }else {
-        return '/my-orders';
+        return route('streaming.orders');
       }
     }
 

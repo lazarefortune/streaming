@@ -108,9 +108,17 @@
           <!-- <p>Expire <b></b> </p> -->
           <img src="{{ asset('storage') }}/{{ $actif->path_proof }}" alt="..." width="100" height="100" class="img-thumbnail">
         </div>
-        <div class="card-footer d-flex justify-content-between">
-          <a href="{{ route('admin.streaming.send_info_idtf', $actif) }}"  class="btn btn-primary">Envoyer les informations</a>
-          <a href=""  class="btn btn-danger">Annuler abonnement</a>
+        <div class="card-footer">
+          <div class="d-flex justify-content-between">
+            <a href="{{ route('admin.streaming.send_info_idtf', $actif) }}"  class="btn btn-primary">Envoyer les informations</a>
+            <a href=""  class="btn btn-danger">Annuler abonnement</a>
+          </div>
+          <hr>
+          <div class="">
+            <a href="https://wa.me/{{ $actif->user->contact }}" target="_blank" class="btn btn-success">Contacter par whatsapp</a>
+            <a href="tel:{{ $actif->user->contact }}" class="btn btn-primary">Envoyer un SMS normal</a>
+            <a href="mailto:{{ $actif->user->email }}" class="btn btn-warning">send mail</a>
+          </div>
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@
 
     .text-color
     {
-      color: #0b2a64;
+      color: #0944b3;
     }
     .form-group input{
       /* border-bottom: 1px solid black !important; */
@@ -49,7 +49,7 @@
     }
     .btn-primary
     {
-      background-color: #0b2a64 !important;
+      background-color: #0944b3 !important;
       border: none;
     }
     .btn-primary:hover
@@ -62,9 +62,9 @@
 
 @section('contenu')
 
-  <div class="row">
+  <div class="row mt-4">
     <div class="col-12 col-sm-6 col-md-6 pl-4 pr-4">
-      
+
       <h4  class="text-center"> <b>Inscription</b> </h4>
 
       @include('flash::message')
@@ -129,10 +129,7 @@
       <div class="card text-center border-0">
         <p>Accédez au réseaux de <strong class="text-info">Web Creation</strong> gratuitement.</p>
       </div>
-      <div class="">
-        <img src="{{ url('/assets/img/Web Creation/3_min.png') }}" alt="" width="140" height="70">
-        <img src="{{ url('/assets/img/4_min.png') }}" alt="" width="130" height="70">
-      </div>
+      
     </div>
     <!-- end column -->
 

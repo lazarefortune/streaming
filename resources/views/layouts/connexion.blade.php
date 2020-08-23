@@ -8,82 +8,128 @@
     <title>Web Creation · Connexion</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/floating-labels/">
+    <!-- Favicons -->
+    <script src="https://kit.fontawesome.com/503d9b4d92.js" crossorigin="anonymous"></script>
     <!-- css -->
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset(assets/css/connexion_style.css) }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/connexion_style.css') }}">
     <!-- fontawesome -->
     <script src="https://kit.fontawesome.com/503d9b4d92.js" crossorigin="anonymous"></script>
+    <!-- google sign in -->
+    <!-- <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="807391013261-odgs295bc3lk83k2ke07u0c1656d76pt.apps.googleusercontent.com.apps.googleusercontent.com"> -->
+    @toastr_css
   </head>
   <body>
 
-    <form class="form-signin" method="POST" action="{{ route('login') }}">
-      @csrf
-      <div class="text-center mb-4">
-        <a href="{{ route('streaming.index') }}">
-          <img src="{{ asset('assets/img/new/Streaming2.png') }}" width="70%" height="100%" alt="logo-Web-Creation-streaming" title="logo de Web Creation Streaming">
-        </a>
-        <!-- <h1 class="h3 mb-3 font-weight-normal"> <b>Se connecter</b> </h1> -->
-      </div>
-      @include('flash::message')
-      <div class="form-label-group">
-        <input id="login" type="text" id="inputEmail"
-               class="form-control {{ $errors->has('contact') || $errors->has('email') ? ' is-invalid' : '' }}"
-               name="login" value="{{ old('contact') ?: old('email') }}" placeholder="Téléphone ou e-mail">
-        <label for="inputEmail">Téléphone ou e-mail</label>
+<!-- <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{your-app-id}',
+      cookie     : true,
+      xfbml      : true,
+      version    : '{api-version}'
+    });
 
-        @if ($errors->has('contact') || $errors->has('email'))
-            <span class="invalid-feedback">
-                <strong>{{ $errors->first('contact') ?: $errors->first('email') }}</strong>
-            </span>
-        @endif
-      </div>
+    FB.AppEvents.logPageView();
 
-      <div class="form-label-group">
-        <input id="password" placeholder="Mot de passe" type="password" id="inputPassword" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="current-password">
-        <label for="inputPassword">Mot de passe</label>
+  };
 
-        @error('password')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
-      </div>
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script> -->
 
-      <div class="checkbox mb-3">
-        <div class="custom-control custom-checkbox">
-            <input class="custom-control-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-            <label class="custom-control-label" for="remember">
-                {{ __('Rester connecté') }}
-            </label>
-        </div>
-      </div>
-      <button class="btn  btn-primary btn-block" type="submit">
-        <strong>Connexion</strong>
-      </button>
+        <form class="form-signin" method="POST" action="{{ route('login') }}">
+          @csrf
+          <div class="text-center mb-4">
+            <a href="{{ route('streaming.index') }}">
+              <img src="{{ asset('assets/img/new/Web_Creation.png') }}" width="50%" height="auto" alt="logo-Web-Creation" title="logo de Web Creation">
+            </a>
+            <!-- <h1 class="h3 mb-3 font-weight-normal"> <b>Se connecter</b> </h1> -->
+          </div>
+          @include('flash::message')
 
-      <div class="mt-1 mb-4 d-flex justify-content-center">
-        @if (Route::has('password.request'))
-        <a href="{{ route('password.request') }}">
-            <strong class="text-color">{{ __('Mot de passe oublié ?') }}</strong>
-        </a>
-        @endif
-      </div>
-      <div class="row px-3 mb-4">
-        <div class="line"></div>
-        <small  class="or text-center">Ou</small>
-        <div class="line"></div>
-      </div>
-      <div class="p-4">
-        <a href="{{ route('register') }}"  class="btn btn-success btn-block btn-sm" type="button" name="button">
-          <strong>Créer un compte</strong>
-        </a>
-      </div>
-      <!-- <p class="mt-5 mb-3 text-muted text-center">&copy; 2020</p> -->
-    </form>
+          <!-- <a href="{{ url('auth/facebook') }}" class="btn btn-lg btn-primary btn-block">
+                <strong>Login With Facebook</strong>
+            </a> -->
+          <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          <hr>
+          <a href="{{ url('auth/google') }}" style="margin-top: 20px;" class="btn btn-lg btn-success btn-block">
+            <strong>Login With Google</strong>
+          </a> -->
 
+          <div class="form-label-group">
+            <input id="login" type="text" id="inputEmail"
+                   class="form-control {{ $errors->has('contact') || $errors->has('email') ? ' is-invalid' : '' }}"
+                   name="login" value="{{ old('contact') ?: old('email') }}" placeholder="Téléphone ou e-mail">
+            <label for="inputEmail">Téléphone ou e-mail</label>
+
+            @if ($errors->has('contact') || $errors->has('email'))
+                <span class="invalid-feedback">
+                    <strong>{{ $errors->first('contact') ?: $errors->first('email') }}</strong>
+                </span>
+            @endif
+          </div>
+
+          <div class="form-label-group">
+            <input id="password" placeholder="Mot de passe" type="password" id="inputPassword" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="current-password">
+            <label for="inputPassword">Mot de passe</label>
+
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+          </div>
+
+          <div class="checkbox mb-3">
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                <label class="custom-control-label" for="remember">
+                    {{ __('Rester connecté') }}
+                </label>
+            </div>
+          </div>
+          <button class="btn  btn-primary btn-block" type="submit">
+            <strong>Connexion</strong>
+          </button>
+
+          <div class="mt-2 mb-4 d-flex justify-content-center">
+            @if (Route::has('password.request'))
+            <a href="{{ route('password.request') }}">
+                <strong class="text-color">{{ __('Mot de passe oublié ?') }}</strong>
+            </a>
+            @endif
+          </div>
+          <div class="row px-3 mb-4">
+            <div class="line"></div>
+            <small  class="or text-center">Ou</small>
+            <div class="line"></div>
+          </div>
+          <div class="p-4">
+            <a href="{{ route('register') }}"  class="btn btn-success btn-block btn-sm" type="button" name="button">
+              <strong>Créer un compte</strong>
+            </a>
+          </div>
+          <!-- <p class="mt-5 mb-3 text-muted text-center">&copy; 2020</p> -->
+        </form>
+
+    @jquery
+    @toastr_js
+    @toastr_render
     <!-- jquery local -->
     <script src="{{ asset('bootstrap/jquery-3.5.1.slim.min.js') }}"></script>
     <script src="{{ asset('bootstrap/popper.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+    <!-- favicons -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.19.0/feather.min.js" ></script>
+    <script type="text/javascript">
+    	feather.replace();
+    </script>
   </body>
 </html>

@@ -26,7 +26,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ route('streaming.index') }}">Accueil</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Mes-commandes</li>
+      <li class="breadcrumb-item active" aria-current="page">Vos-commandes</li>
     </ol>
   </nav>
 
@@ -34,7 +34,16 @@
 
   @if($streams->isEmpty())
     <div class="alert alert-info text-center">
-      Vous n'avez aucune commande, <a href="{{ route('streaming.index') }}">faite une commande</a>
+      Vous n'avez aucune commande
+
+    </div>
+
+    <div class="row d-flex justify-content-center">
+      <a href="{{ route('streaming.index') }}"  class="btn btn-primary">
+        <i data-feather="mouse-pointer" stroke-width="2.5" width="16" height="16"></i>
+        <span class="text-icon">Faire une commande</span>
+        <!-- <i data-feather="arrow-right-c ircle" stroke-width="2.5" width="16" height="16"></i> -->
+      </a>
     </div>
   @endif
 
@@ -70,10 +79,14 @@
                 <i data-feather="download" stroke-width="2.5" width="16" height="16"></i>
                 Télécharger votre reçu
               </a>
-              <a href="{{ route('streaming.facture', $stream) }}"  class="btn btn-success  btn-sm" download="facture">
-                <i data-feather="download" stroke-width="2.5" width="16" height="16"></i>
-                Télécharger vos identifiants Netflix
-              </a>
+              @if($stream->connexion_idtf != null)
+                <a href="{{ route('streaming.facture', $stream) }}"  class="btn btn-success  btn-sm" download="facture">
+                  <i data-feather="download" stroke-width="2.5" width="16" height="16"></i>
+                  Télécharger vos identifiants
+                </a>
+              @else
+                <p class="text-danger">Patientez vos identifiants</p>
+              @endif
             @else
               <p class="card-text">
                 <i class="far fa-clock pr-2"></i>
@@ -105,7 +118,10 @@
               <span>Type : <b>{{ $stream->forfait_type }}</b> </span>
             </p>
             <!-- Button -->
-            <a class="btn btn-flat red-text p-1 my-1 mr-0 mml-1 collapsed" data-toggle="collapse" href="#collapseContent-{{ $stream->id }}" aria-expanded="false" aria-controls="collapseContent-{{ $stream->id }}"> <i data-feather="info" stroke-width="2.5" width="20" height="20"></i> Détails</a>
+            <a class="btn btn-flat red-text p-1 my-1 mr-0 mml-1 collapsed" data-toggle="collapse" href="#collapseContent-{{ $stream->id }}" aria-expanded="false" aria-controls="collapseContent-{{ $stream->id }}">
+              <i data-feather="info" stroke-width="2.5" width="20" height="20"></i>
+              <span class="text-icon">Détails</span>
+            </a>
 
             <!-- @if(!$stream->forfait_end)
             <i class="fas fa-trash-alt text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Share this post"></i>
@@ -137,14 +153,13 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Suppresion de la commande</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Commande n° {{ $stream->id }}</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
                   Souhaitez vous vraiment supprimer cette commande ?
-                  <p>Commande n° {{ $stream->id }}</p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i data-feather="x" stroke-width="2.5" width="20" height="20"></i> Annuler</button>

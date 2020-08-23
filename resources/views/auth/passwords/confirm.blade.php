@@ -67,7 +67,7 @@
   <div class="row">
     <div class="col-12 col-sm-6 col-md-6 pl-4 pr-4">
       <div class="my-4 d-flex justify-content-center">
-        <img src="{{ asset('assets/img/Web-Creation2.png') }}"   height="100" width="250" alt="">
+        <img src="{{ asset('assets/img/Web_Creation_transparent.png') }}"   height="auto" width="150" alt="">
       </div>
 
       <div class="text-center my-3">

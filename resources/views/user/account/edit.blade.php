@@ -16,7 +16,7 @@
 
 @section('contenu')
 
-  <nav aria-label="breadcrumb">
+  <nav aria-label="breadcrumb"  class="d-md-block d-sm-none d-none">
     <ol class="breadcrumb">
       <li class="breadcrumb-item font-weight-bolder"><a href="{{ route('streaming.index') }}">Accueil</a></li>
       <li class="breadcrumb-item active font-weight-bolder" aria-current="page"> <a href="{{ route('account.home') }}">Paramètres</a> </li>
@@ -27,9 +27,9 @@
   @include('flash::message')
 
   <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-4 col-md-4 d-md-block d-sm-none d-none">
       <div class="card card-fluid mb-3 shadow">
-        <h6  class="card-header"> <b>Paramètres</b> </h6>
+        <!-- <h6  class="card-header"> <b>Paramètres</b> </h6> -->
         <nav  class="nav nav-tabs flex-column nav-account">
           <a href="{{ route('account.home') }}"  class="nav-link">
             <i data-feather="home" stroke-width="2.5" width="20" height="20"></i>
@@ -50,6 +50,30 @@
       <!-- end card -->
     </div>
     <!-- end column -->
+
+    <div class="col-sm-12 col-12 d-block d-sm-block d-md-none menu_mobile">
+      <ul class="list-inline d-flex justify-content-around">
+        <li class="list-inline-item">
+          <a href="{{ route('account.home') }}" class="">
+            <i data-feather="settings" stroke-width="2.5" width="16" height="16"></i>
+            <span class="text-icon">Paramètres</span>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a href="{{ route('account.profile') }}"  class="active_menu">
+            <i data-feather="user" stroke-width="2.5" width="16" height="16"></i>
+            <span class="text-icon">Compte</span>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a href="{{ route('account.password') }}">
+            <i data-feather="lock" stroke-width="2.5" width="16" height="16"></i>
+            <span class="text-icon">Sécurité</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
     <div class="col-lg-8">
       <div class="card card-fluid">
         <div class="card-body">
@@ -127,27 +151,30 @@
             </div>
           </div>
           <div class="mt-4">
-            <a href="" class="row text-dark">
+            <div class="row text-dark">
               <span class="col-lg-8 col-md-8 col-sm-12 col-12  "> <b>Date de création du compte</b> </span>
               <span class="col-lg-4 col-md-4 col-sm-12 col-12">
                 <span class="text-icon">{{ $user->created_at->format('d/m/Y à H:m:s') }}</span>
                 <!-- <i data-feather="chevron-right" width="20" height="20"></i> -->
               </span>
-            </a>
+            </div>
           </div>
           <hr>
           <div class="">
-            <a href="" class="row text-dark">
+            <div class="row text-dark">
               <span class="col-lg-8 col-md-8 col-sm-12 col-12  "> <b>Dernière mise à jour du compte</b> </span>
               <span class="col-lg-4 col-md-4 col-sm-12 col-12">
                 <span class="text-icon">{{ $user->updated_at->format('d/m/Y à H:m:s') }}</span>
                 <!-- <i data-feather="chevron-right" width="20" height="20"></i> -->
               </span>
-            </a>
+            </div>
           </div>
           <hr>
           <div class="">
-            <a href="" class="text-danger font-weight-bold">Demander la suppression du compte</a>
+            <a href="" class="font-weight-bold text-icon text-danger">
+              <i data-feather="trash-2" stroke-width="2.5" width="16" height="16"></i>
+              <span class="text-icon">Demander la suppression du compte</span>
+            </a>
           </div>
 
         </div>

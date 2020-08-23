@@ -9,8 +9,20 @@
 </nav>
 
 <div class="container">
-  id: 
-  {{ $stream->id }}
+  <form action="{{ route('admin.streaming.store_info_idtf',$stream) }}" method="post">
+    @csrf
+    <h1>envoyer à : {{ $stream->user->name }}</h1>
+    <h4>
+      Montant: {{ $stream->forfait_price }} Fcfa
+    </h4>
+    <div class="form-group">
+      <textarea name="text" rows="5" cols="80" placeholder="Saisir les identifiants de connexion Netflix" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+  </form>
+
+
 </div>
 
 

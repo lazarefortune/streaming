@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use PDF;
 use App\User;
 use App\Streaming;
+use App\Notifications\NewPayment;
 use App\Notifications\RegisteredNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,13 +15,20 @@ class StreamingController extends Controller
     //
     public function index()
     {
-      $forfaits = DB::table('forfait')->where('name', 'Netflix')->get();
        // toastr()->success('Bienvenue');
 
        // alert()->success('Connectez vous.','Bienvenue '.auth()->user()->name)->autoclose(3500);
        // alert()->basic('Sweet Alert with basic.','Basic');
        // alert()->warning('Sweet Alert with warning.');
-      return view('streaming.index', compact('forfaits'));
+
+      // return view('streaming.index', compact('$forfaits'));
+      $forfaits_netflix = DB::table('forfait')->where('name', 'Netflix')->get();
+      $forfaits_amazon = DB::table('forfait')->where('name', 'Amazon')->get();
+
+      return view('streaming.index')->with([
+        'forfaits_netflix' => $forfaits_netflix,
+        'forfaits_amazon' => $forfaits_amazon,
+      ]);
     }
 
     public function store_stream($id_forfait)
@@ -30,7 +38,7 @@ class StreamingController extends Controller
       // Prevent user from having more than 3 orders
       $user = auth()->user();
       if (($user->streamings()->count()) >= 3) {
-        flash("<div class='text-center'> <i data-feather='alert-triangle' stroke-width='2.5' width='20' height='20'></i> Désolé! vous avez atteint le nombre maximal (3) de commandes </div>")->error();
+        flash("<div class='text-center'> <i data-feather='alert-triangle' stroke-width='2.5' width='20' height='20'></i> Désolé! vous ne pouvez pas passer plus de 3 commandes </div>")->error();
         return redirect()->route('streaming.orders');
       }
       // end Prevent
@@ -43,7 +51,8 @@ class StreamingController extends Controller
           'forfait_statut' => 'Non payé',
       ]);
 
-      flash("<div class='text-center'> Votre commande a bien été ajouté. Procédez maintenant au paiement </div>")->success();
+
+      flash("<div class='text-center'> Votre commande a été enregistré n° $stream->id . Passez maintenant à la caisse </div>")->success();
       return redirect()->route('streaming.orders');
     }
 
@@ -57,7 +66,7 @@ class StreamingController extends Controller
     public function deleteStream($id_forfait)
     {
       Streaming::destroy($id_forfait);
-      flash("<div class='text-center'> Votre commande a bien été supprimé. </div>")->error();
+      flash("<div class='text-center'> Votre commande a bien été retiré. </div>")->error();
       return redirect()->route('streaming.orders');
     }
 
@@ -93,6 +102,9 @@ class StreamingController extends Controller
       $stream->forfait_statut = "En cours de validation";
       $stream->path_proof = $path;
       $stream->save();
+
+      \Notification::route('mail', 'lazarefortune@gmail.com')
+            ->notify(new NewPayment());
 
       return view('streaming.payment_success', compact('stream'));
     }

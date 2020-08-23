@@ -190,5 +190,16 @@ class ForfaitController extends Controller
     {
       return view('admin.streaming.send_info_idtf')->with('stream', $stream);
     }
-    
+
+    // Send Netflix login idtf
+    public function store_info_idtf(Streaming $stream, Request $request)
+    {
+      // dd($request->text);
+      $stream->connexion_idtf = $request->text;
+      $stream->save();
+
+      toastr()->success('Identifiants envoyé avec succès');
+      redirect()->route('admin.home');
+    }
+
 }

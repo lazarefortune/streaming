@@ -1,141 +1,89 @@
-@extends('layouts.template')
-@section('extra-css-streaming')
-<style>
 
-.ou{
-  text-align: center;
-  overflow: hidden;
-}
-.ou:before, .ou:after {
-  content: '';
-  width: 3em;
-  border-bottom: 1px black solid;
-  display: inline-block;
-  vertical-align: middle;
-}
-.or{
-  width: 10%;
-  font-weight: bold;
-}
-.line{
-  height: 1px;
-  width: 45%;
-  background-color: #E0E0E0;
-  margin-top: 10px;
-}
 
-.text-color
-{
-  color: #0b2a64;
-}
-.form-group input{
-  /* border-bottom: 1px solid black !important; */
-  border-top:none;
-  border-left:none;
-  border-right:none;
-  box-shadow: none;
-  border-radius: 0;
-    /* outline: blue auto 0px ; */
-}
-.form-group input:focus{
-  border: 2px solid blue;
-  border-radius: 4px;
-  box-shadow: none;
-    /* outline: blue auto 0px ; */
-}
-.form-group .is-invalid input:focus{
-  border: 2px solid red !important;
-  border-radius: 4px;
-  box-shadow: none !important;
-}
-.btn-primary
-{
-  background-color: #0b2a64 !important;
-  border: none;
-}
-.btn-primary:hover
-{
-  background-color: #303d72 !important;
-  border: none;
-}
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Lazare Fortune, Mohamed Mama">
+    <title>Web Creation · reinitialisation</title>
 
-</style>
-@endsection
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/floating-labels/">
+    <!-- css -->
+    <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/css/connexion_style.css') }}">
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/503d9b4d92.js" crossorigin="anonymous"></script>
+    <!-- google sign in -->
+    <!-- <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="807391013261-odgs295bc3lk83k2ke07u0c1656d76pt.apps.googleusercontent.com.apps.googleusercontent.com"> -->
 
-@section('contenu')
-
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-12 col-sm-6 col-md-6 pl-4 pr-4">
-
-      <div class="my-4 d-flex justify-content-center">
-        <img src="{{ asset('assets/img/Web-Creation2.png') }}"   height="100" width="250" alt="">
-        <!-- <h3  class="text-color"> <b>Web Creation</b> </h3> -->
-      </div>
-
-      @if (session('status'))
-          <div class="alert alert-success" role="alert">
-              {{ session('status') }}
-          </div>
-      @endif
-
-      <div class="text-center my-3">
-        Vous avez oublié votre mot de passe? pas de panique.
-        <!-- {{ __('Réinitialisation du mot de passe') }} -->
-      </div>
-
-      <form method="post" action="{{ route('password.email') }}"  class="mb-4">
+  </head>
+  <body>
+        <form class="form-signin" method="POST" action="{{ route('password.email') }}">
           @csrf
+          <div class="text-center mb-4">
+            <a href="{{ route('streaming.index') }}">
+              <img src="{{ asset('assets/img/new/Web_Creation.png') }}" width="50%" height="auto" alt="logo-Web-Creation" title="logo de Web Creation">
+            </a>
+            <!-- <h1 class="h3 mb-3 font-weight-normal"> <b>Se connecter</b> </h1> -->
+          </div>
+          @include('flash::message')
 
-          <div class="form-group">
-
-
-
-              <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Entrez votre adresse mail">
-
-              @error('email')
-                  <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                  </span>
-              @enderror
-
+          <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          <hr>
+          <a href="{{ url('auth/google') }}" style="margin-top: 20px;" class="btn btn-lg btn-success btn-block">
+            <strong>Login With Google</strong>
+          </a> -->
+          <div class="text-center my-3">
+            {{ __('Vous avez oublié votre mot de passe? pas de panique.') }}
+            <!-- {{ __('Réinitialisation du mot de passe') }} -->
           </div>
 
+          @if (session('status'))
+              <div class="alert alert-success" role="alert">
+                  {{ session('status') }}
+              </div>
+          @endif
 
-          <button type="submit" class="btn btn-primary btn-block">
-              {{ __('Envoyer le lien de réinitialisation') }}
+          <div class="form-label-group">
+            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Entrez votre adresse mail">
+            <label for="inputPassword">Entrez votre adresse e-mail</label>
+
+            @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+          </div>
+
+          <button class="btn  btn-primary btn-block" type="submit">
+            <strong>{{ __('Envoyer le lien de réinitialisation') }}</strong>
           </button>
 
+          <div class="row px-3 mt-4 mb-4">
+            <div class="line"></div>
+            <small  class="or text-center">Ou</small>
+            <div class="line"></div>
+          </div>
 
-      </form>
+          <div class="p-4">
+            <a href="{{ route('login') }}"  class="btn btn-primary btn-block btn-sm" type="button" name="button">
+              <strong>Se connecter</strong>
+            </a>
 
-
-
-      <div class="row px-3 mb-4">
-        <div class="line"></div>
-        <small  class="or text-center">Ou</small>
-        <div class="line"></div>
-      </div>
-
-      <!-- <p class="ou"> ou </p> -->
-      <!-- <div class="blockquote-footer">Ou </div> -->
-
-      <div class="p-4">
-        <a href="{{ route('register') }}"  class="btn btn-success btn-block btn-sm" type="button" name="button"> <strong>Créer un compte</strong> </a>
-      </div>
-
-    </div>
-
-    <div class="col-md-6 col-sm-6 d-none d-sm-block d-md-block d-lg-block">
-      <!-- <img src="{{ asset('image/img1.png') }}" height="50px" width="50px" alt=""> -->
-      <img src="{{ asset('assets/img/img3.png') }}"  class="img-fluid" alt="">
-    </div>
-
-  </div>
+            <a href="{{ route('register') }}"  class="btn btn-success btn-block btn-sm" type="button" name="button">
+              <strong>Créer un compte</strong>
+            </a>
+          </div>
+          <!-- <p class="mt-5 mb-3 text-muted text-center">&copy; 2020</p> -->
+        </form>
 
 
-  <!-- <input type="text"  class="form-control" name="" value=""> -->
-</div>
-
-
-@endsection
+    <!-- jquery local -->
+    <script src="{{ asset('bootstrap/jquery-3.5.1.slim.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/popper.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+  </body>
+</html>

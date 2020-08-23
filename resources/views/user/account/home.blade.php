@@ -16,11 +16,12 @@
   .card-footer{
     border-radius: 7px;
   }
+
 </style>
 @endsection
 @section('contenu')
 
-  <nav aria-label="breadcrumb">
+  <nav aria-label="breadcrumb" class="d-md-block d-sm-none d-none">
     <ol class="breadcrumb">
       <li class="breadcrumb-item font-weight-bolder"><a href="{{ route('streaming.index') }}">Accueil</a></li>
       <li class="breadcrumb-item active font-weight-bolder" aria-current="page">Paramètres</li>
@@ -30,9 +31,9 @@
   @include('flash::message')
 
   <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-4 col-md-4 d-md-block d-sm-none d-none">
       <div class="card card-fluid mb-3 shadow">
-        <h6  class="card-header"> <b>Paramètres</b> </h6>
+        <!-- <h6  class="card-header"> <b>Paramètres</b> </h6> -->
         <nav  class="nav nav-tabs flex-column nav-account">
           <a href=""  class="nav-link active">
             <i data-feather="home" stroke-width="2.5" width="20" height="20"></i>
@@ -57,13 +58,37 @@
       <!-- end card -->
     </div>
     <!-- end column 4 -->
-    <div class="col-lg-8">
+
+
+    <div class="col-sm-12 col-12 d-block d-sm-block d-md-none menu_mobile">
+      <ul class="list-inline d-flex justify-content-around">
+        <li class="list-inline-item">
+          <a href="" class="active_menu">
+            <i data-feather="settings" stroke-width="2.5" width="16" height="16"></i>
+            <span class="text-icon">Paramètres</span>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a href="{{ route('account.profile') }}" >
+            <i data-feather="user" stroke-width="2.5" width="16" height="16"></i>
+            <span class="text-icon">Compte</span>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a href="{{ route('account.password') }}">
+            <i data-feather="lock" stroke-width="2.5" width="16" height="16"></i>
+            <span class="text-icon">Sécurité</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
 
       <div class="card card-fluid border-0">
         <div class="card-body">
           <h4  class="mb-4 text-center">
-            <i data-feather="user" stroke-width="2.5" width="20" height="20"></i>
-            <span class="text-icon">Bienvenue {{ $user->name }}</span>
+            Bienvenue <span style="color: #677987;">{{ $user->name }}</span>
           </h4>
           <p class="text-center text-muted">
             Gérez vos informations, ainsi que la confidentialité et la sécurité de vos données pour profiter au mieux des services Web Creation
@@ -106,7 +131,7 @@
               </h5>
               <ul style="list-style-type:none;">
                 <li>
-                  - Web Creation Coding
+                  - Web Creation Developers
                   <i data-feather="x" stroke-width="2.5" width="20" height="20" color="red"></i>
                 </li>
                 <li>

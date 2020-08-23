@@ -46,10 +46,11 @@ class InvoicePaid extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line($this->user->name.' Votre paiement a été accepté.')
-                    ->line('Nous avons reçu '.$this->stream->forfait_price.' Fcfa pour :.')
-                    ->action('Récuperer vos identifiants', url('/'))
-                    ->line('Merci d\'utiliser notre application!');
+                    ->greeting('Bonjour '. $this->user->name.' !')
+                    ->line('Votre paiement a été accepté.')
+                    ->line('Nous avons reçu '.$this->stream->forfait_price.' Fcfa pour la commande de votre compte Netflix.')
+                    ->action('Télécharger vos identifiants Netflix', url('https://streaming.lazarefortune.com/mes-commandes'))
+                    ->line('Merci d\'avoir choisi Web Creation Streaming!');
     }
 
     /**
@@ -61,9 +62,9 @@ class InvoicePaid extends Notification
     public function toArray($notifiable)
     {
         return [
-            'name' => $this->user->name,
+            'user_name' => $this->user->name,
+            'name' => $this->stream->name,
             'type' => $this->stream->forfait_type,
-            'price' => $this->stream->forfait_price,
             'price' => $this->stream->forfait_price,
         ];
     }

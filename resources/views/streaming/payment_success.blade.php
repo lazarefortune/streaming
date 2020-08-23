@@ -61,18 +61,21 @@
       </div>
 
       <div class="card shadow p-3">
-        <h4  class="text-center">Vérification du paiement</h4>
-        <hr>
         <div class="card-body">
           <div class="mb-2">
             <h5  class="font-weight-bold mb-4">Commande n° {{ $stream->id }}</h5>
           </div>
 
           <div class="alert alert-success text-dark" role="alert">
-            <h4 class="alert-heading">Envoyé avec succès!</h4>
-            <p>Notre équipe vérifie votre paiement, vous recevrez vos <b>informations de connexion Netflix</b>. Merci de patientez.</p>
-            <hr>
-            <p class="mb-0">Consultez régulièrement votre boîte mail, votre messagerie et vos notifications sur notre app.</p>
+            <h5 class="alert-heading">
+              <i data-feather="check-circle" stroke-width="2.5" width="20" height="20"></i>
+              <span class="text-icon">Envoyé avec succès!</span>
+            </h5>
+            <p>Notre équipe vérifie votre paiement.</p>
+            <p>Vous recevrez vos <b>identifiants de connexion </b> par SMS, e-mail et dans vos notifications sur notre site.</p>
+            <p>Merci de patienter.</p>
+
+
           </div>
 
           <div class="mt-3">

@@ -32,4 +32,14 @@ return [
     'nexmo' => [
         'sms_from' => '24177617709',
     ],
+    'google' => [
+      'client_id' => env('807391013261-odgs295bc3lk83k2ke07u0c1656d76pt.apps.googleusercontent.com'),
+      'client_secret' => env('pSd4toEyiFVtdyThFow98Hww'),
+      'redirect' => env('http://localhost/auth/google/callback'),
+    ],
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => env('FACEBOOK_CALLBACK_URL'),
+    ],
 ];

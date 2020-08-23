@@ -52,7 +52,7 @@
         <a href="{{ route('streaming.index') }}">Accueil</a>
       </li>
       <li class="breadcrumb-item" aria-current="page">
-        <a href="{{ route('streaming.orders') }}">Mes-commandes</a>
+        <a href="{{ route('streaming.orders') }}">Vos-commandes</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
         Caisse
@@ -86,7 +86,7 @@
         </div>
       </div>
 
-      <div class="card shadow p-3">
+      <div class="card shadow p-3 mb-2">
         <h4  class="text-center">Facture</h4>
 
         <div class="card-body">
@@ -104,33 +104,70 @@
             </p>
           </div>
 
-          <div class="" style="background-color: #e3e4e6;">
+          <div class="p-2" style="background-color: #e3e4e6;">
             Total à payer :<span  class="h5 float-right font-weight-bold"> {{ $stream->forfait_price }} Fcfa</span>
           </div>
+        </div>
+      </div>
 
-          <hr>
 
-          <div class="">
-            <h5  class="text-danger">Comment payer ?</h5>
-            Effectuez le transfert via :
+      <div class="card shadow p-3">
+        <div class="card-body">
+
+          <div class="mb-4">
+            <h5  class="text-danger text-center mb-3">Comment payer ?</h5>
+            <p>Effectuez le transfert par :</p>
             <p>
-              <img src="{{ asset('assets/img/Airtel-Money.png') }}" height="50" width="50" alt="airtel-money-logo">
-              Airtel Money (077-11-22-33)  ou
+              <img src="{{ asset('assets/img/Airtel-Money.png') }}" height="auto" width="50" alt="airtel-money-logo">
+              Airtel Money ( <b>074-87-83-17</b> )
             </p>
-            <p>
+
+              <h5 class="text-danger">
+                <i data-feather="alert-triangle" stroke-width="2.5" width="20" height="20"></i>
+                <span class="text-icon">Important !!</span>
+                <a class="btn btn-danger" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Cliquez ici</a>
+              </h5>
+
+              <div class="row">
+                <div class="col">
+                  <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <div class="card card-body border border-danger">
+                      <ul class="" style="list-style: none;">
+                        <li>
+                          <i data-feather="chevron-right" stroke-width="3" width="16" height="16" ></i>
+                          <span class="text-icon">Envoyer les {{ $stream->forfait_price }} Fcfa <span class="text-danger">avant</span> de cliquer sur "Poursuivre".</span>
+                        </li>
+                        <li>
+                          <i data-feather="chevron-right" stroke-width="3" width="16" height="16" ></i>
+                          <span class="text-icon">Faite une capture d'écran du <span class="text-danger">message de confirmation</span> Airtel Money.</span>
+                        </li>
+                        <li>
+                          <i data-feather="info" stroke-width="3" width="16" height="16" ></i>
+                          <span class="text-icon">Si vous l'avez fait chez un boutiquier, recopier le numéro <span class="text-danger"> <b>Trans id</b></span> dans le message reçu par le boutiquier.</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <!-- <p>
               <img src="{{ asset('assets/img/mobicash.png') }}" height="50" width="50" alt="Mobicash-logo">
               MOBICASH (066-11-22-33)
-            </p>
+            </p> -->
           </div>
-          <small class="text-danger">NB: Veuillez effectuer le transfert avant de cliquer sur "Poursuivre".</small>
 
           <div class="mt-3">
-            <a href="{{ route('streaming.orders') }}"  class="btn btn-warning float-left">
-              <i  class="fas fa-arrow-left"></i> Abandonner
+            <a href="{{ route('streaming.orders') }}"  class="float-left font-weight-bold">
+              <i data-feather="arrow-left" stroke-width="3" width="16" height="16"></i>
+              <span class="text-icon">Abandonner</span>
             </a>
 
             <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalLong">
-              Poursuivre <i  class="fas fa-arrow-right"></i>
+              <span class="text-icon">Poursuivre</span>
+              <i data-feather="arrow-right" stroke-width="2.5" width="20" height="20"></i>
             </button>
             <!-- modal -->
             <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -143,11 +180,16 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    En poursuivant, <span  class="text-danger">vous confirmez avoir effectué le transfert mobile money</span>, toute tentative de fraude sera sanctionné.
-                  </div>
+                    Avez vous effectuer le transfert Airtel Money ?
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"> <i  class="fas fa-times"></i> Annuler</button>
-                    <a href="{{ route('streaming.payment-proof', $stream) }}"  class="btn btn-success"> <i  class="fas fa-check"></i> Oui, je confirme</a>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                      <i data-feather="x" stroke-width="2.5" width="20" height="20"></i>
+                      <span class="text-icon">Non</span>
+                    </button>
+                    <a href="{{ route('streaming.payment-proof', $stream) }}"  class="btn btn-success">
+                      <i data-feather="check" stroke-width="2.5" width="20" height="20"></i>
+                      <span class="text-icon">Oui, je confirme</span>
+                    </a>
                   </div>
                 </div>
               </div>

@@ -16,19 +16,13 @@
   .card-footer{
     border-radius: 7px;
   }
-  .active_menu{
-  	color: red;
-    border-bottom: 2px solid red;
-  }
-  ul{
-  	border-bottom: 1px solid black;
-  }
+
 </style>
 @endsection
 @section('contenu')
 
 
-  <nav aria-label="breadcrumb">
+  <nav aria-label="breadcrumb" class="d-md-block d-sm-none d-none">
     <ol class="breadcrumb">
       <li class="breadcrumb-item font-weight-bolder"><a href="{{ route('streaming.index') }}">Accueil</a></li>
       <li class="breadcrumb-item active font-weight-bolder" aria-current="page"><a href="{{ route('account.home') }}">Paramètres</a></li>
@@ -37,9 +31,9 @@
   </nav>
 
   <div class="row">
-    <div class="col-lg-4 col-md-4 ">
+    <div class="col-lg-4 col-md-4 d-md-block d-sm-none d-none">
       <div class="card card-fluid mb-3 shadow">
-        <h6  class="card-header"> <b>Paramètres</b> </h6>
+        <!-- <h6  class="card-header"> <b>Paramètres</b> </h6> -->
         <nav  class="nav nav-tabs flex-column nav-account">
           <a href="{{ route('account.home') }}"  class="nav-link">
             <i data-feather="home" stroke-width="2.5" width="20" height="20"></i>
@@ -61,14 +55,28 @@
     </div>
     <!-- end column -->
 
-    <!-- <div class="col-sm-12 col-12 d-block d-sm-block d-md-block">
-      <ul class="list-inline">
-        <li class="list-inline-item"><a href="#">Home</a></li>
-        <li class="list-inline-item"><a href="#">Menu</a></li>
-        <li class="list-inline-item"><a href="#" class="active_menu">Sécurité</a></li>
-        <li class="list-inline-item"><a href="#" >Paramètres</a></li>
+    <div class="col-sm-12 col-12 d-block d-sm-block d-md-none menu_mobile">
+      <ul class="list-inline d-flex justify-content-around">
+        <li class="list-inline-item">
+          <a href="{{ route('account.home') }}" class="">
+            <i data-feather="settings" stroke-width="2.5" width="16" height="16"></i>
+            <span class="text-icon">Paramètres</span>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a href="{{ route('account.profile') }}" >
+            <i data-feather="user" stroke-width="2.5" width="16" height="16"></i>
+            <span class="text-icon">Compte</span>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a href="{{ route('account.password') }}" class="active_menu">
+            <i data-feather="lock" stroke-width="2.5" width="16" height="16"></i>
+            <span class="text-icon">Sécurité</span>
+          </a>
+        </li>
       </ul>
-    </div> -->
+    </div>
 
     <div class="col-lg-8 col-md-8 col-sm-12 col-12">
 
@@ -85,7 +93,7 @@
         <div class="card-body">
 
           <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-12 mb-3">
               <h5>
                 <span class="text-icon">Modification du mot de passe</span>
               </h5>
