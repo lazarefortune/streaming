@@ -4,22 +4,79 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Gestion-des-commandes</li>
+    <li class="breadcrumb-item active" aria-current="page">Commandes</li>
   </ol>
 </nav>
 
-<div class="container">
-  <h2>Liste des commandes en cours</h2>
+<div class="m-1">
+  <h4 class="mb-4 text-center">Liste des commandes</h4>
 
-  <div class="row">
-    @foreach($commands as $command)
-    <div class="col-md-6">
+  @if(empty($commands[0]))
+  <div class="alert alert-primary text-center font-weight-bold border border-dark">
+    Vous n'avez aucune nouvelle commande payé
+  </div>
+  @endif
+
+  @if(!empty($notActiveCommands))
+    @foreach($notActiveCommands as $command)
+    <!-- Card -->
+    <a class="card card-frame shadow py-3 px-4 mb-3" href="{{ route('admin.streaming.command_details', $command->id) }}">
+
+      <div class="row align-items-sm-center">
+        <span class="col-sm-4 text-dark h5">
+          <b>Commande n° {{ $command->id }}</b>
+        </span>
+        <span class="col-6 col-sm-5 text-body">
+          {{ $command->created_at }}
+          ({{ Carbon\Carbon::parse($command->created_at)->diffForHumans() }})
+        </span>
+        <span class="col-6 col-sm-3 text-right">
+          <span class="badge badge-warning p-2">Payé (non actif)</span>
+          <!-- Consulter <i class="fas fa-angle-right fa-sm ml-1"></i> -->
+
+        </span>
+      </div>
+    </a>
+    <!-- End Card -->
+    @endforeach
+  @endif
+
+  @foreach($commands as $command)
+
+  <!-- Card -->
+  <a class="card card-frame shadow py-3 px-4 mb-3" href="{{ route('admin.streaming.command_details', $command) }}">
+
+    <div class="row align-items-sm-center">
+      <span class="col-sm-4 text-dark h5">
+        <b>Commande n° {{ $command->id }}</b>
+      </span>
+      <span class="col-6 col-sm-5 text-body">
+        {{ $command->created_at->format('d/m/Y') }}
+        ({{ Carbon\Carbon::parse($command->created_at)->diffForHumans() }})
+      </span>
+      <span class="col-6 col-sm-3 text-right">
+
+        <span class="badge badge-danger p-2">En attente</span>
+        <!-- Consulter <i class="fas fa-angle-right fa-sm ml-1"></i> -->
+
+      </span>
+    </div>
+  </a>
+  <!-- End Card -->
+  @endforeach
+
+  <!-- <div class="row"> -->
+    <!-- @foreach($commands as $command) -->
+
+
+
+    <!-- <div class="col-md-6">
       <div class="card">
         <div class="card-header">
-          Ticket n° {{ $command->id }}
+          Commande n° {{ $command->id }}
         </div>
         <div class="card-body">
-          <p>Commande de :  <b>{{ $command->user->name }}</b> </p>
+          <p>Nom du client :  <b>{{ $command->user->name }}</b> </p>
           <p>Montant :  <b>{{ $command->forfait_price }} Fcfa</b> </p>
           <p>Crée le : <b>{{ $command->created_at->format('d/m/Y') }}</b>
           (<span><b>{{ Carbon\Carbon::parse($command->created_at)->diffForHumans() }}</b></span>)</p>
@@ -28,12 +85,12 @@
         <div class="card-footer d-flex justify-content-between">
 
 
-          <!-- Accept payment -->
+
           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirm_payment{{ $command->id }}">
             Confirmer le paiement
           </button>
 
-          <!-- Modal -->
+
           <div class="modal fade" id="confirm_payment{{ $command->id }}" tabindex="-1" role="dialog" aria-labelledby="confirm_paymentLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -56,12 +113,12 @@
 
 
 
-          <!-- Reject PAYMENT -->
+
           <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#reject_payment-{{ $command->id }}">
             Rejeter le paiement
           </button>
 
-          <!-- Modal -->
+
           <div class="modal fade" id="reject_payment-{{ $command->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -84,46 +141,12 @@
 
         </div>
       </div>
-    </div>
-    @endforeach
-  </div>
+    </div> -->
+    <!-- @endforeach -->
+  <!-- </div> -->
 
-  <hr>
 
-  <h2>Liste des forfaits actifs</h2>
 
-  <div class="row">
-    @foreach($actifs as $actif)
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          Ticket n° {{ $actif->id }}
-        </div>
-        <div class="card-body">
-          <p>Commande de :  <b>{{ $actif->user->name }}</b> </p>
-          <p>Montant :  <b>{{ $actif->forfait_price }} Fcfa</b> </p>
-          <p>Début : <b>{{ $actif->forfait_start }} ({{ Carbon\Carbon::parse($actif->forfait_start)->diffForHumans() }}) </b> </p>
-          <p>Expire le : <b>{{ $actif->forfait_end }} ({{ Carbon\Carbon::parse($actif->forfait_end)->diffForHumans() }})</b> </p>
-          <!-- <p>Activé <b></b> </p> -->
-          <!-- <p>Expire <b></b> </p> -->
-          <img src="{{ asset('storage') }}/{{ $actif->path_proof }}" alt="..." width="100" height="100" class="img-thumbnail">
-        </div>
-        <div class="card-footer">
-          <div class="d-flex justify-content-between">
-            <a href="{{ route('admin.streaming.send_info_idtf', $actif) }}"  class="btn btn-primary">Envoyer les informations</a>
-            <a href=""  class="btn btn-danger">Annuler abonnement</a>
-          </div>
-          <hr>
-          <div class="">
-            <a href="https://wa.me/{{ $actif->user->contact }}" target="_blank" class="btn btn-success">Contacter par whatsapp</a>
-            <a href="tel:{{ $actif->user->contact }}" class="btn btn-primary">Envoyer un SMS normal</a>
-            <a href="mailto:{{ $actif->user->email }}" class="btn btn-warning">send mail</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    @endforeach
-  </div>
 </div>
 
 

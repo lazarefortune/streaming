@@ -40,15 +40,15 @@
       <div class="steps-form">
         <div class="steps-row setup-panel">
           <div class="steps-step">
-            <a href="#step-9" type="button" class="btn btn-success btn-circle">1</a>
+            <a href="" type="button" class="btn btn-success btn-circle">1</a>
             <p>Paiement</p>
           </div>
           <div class="steps-step">
-            <a href="#step-10" type="button" class="btn btn-success btn-circle" disabled="disabled">2</a>
+            <a href="" type="button" class="btn btn-success btn-circle" disabled="disabled">2</a>
             <p>Preuve du paiement</p>
           </div>
           <div class="steps-step">
-            <a href="#step-11" type="button" class="btn btn-secondary btn-circle" disabled="disabled">3</a>
+            <a href="" type="button" class="btn btn-secondary btn-circle" disabled="disabled">3</a>
             <p>Validation</p>
           </div>
         </div>
@@ -64,18 +64,23 @@
 
           <div class="">
             <div class="alert alert-danger">
-              Envoyer nous la preuve du paiement ( <b>Capture d'écran</b> / <b>le numéro trans id</b> )
+              @if($choice == "byPhone")
+              Entrez le numéro avec lequel vous avez effectuer le transfert
+              @elseif($choice == "byAgent")
+              Envoyez nous le code agent
+              @endif
             </div>
           </div>
 
+          @if($choice == "byPhone")
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-          <form  class="" enctype="multipart/form-data" action="{{ route('streaming.payment-proof-store', $stream) }}" method="post">
+          <!-- <form  class="" enctype="multipart/form-data" action="{{ route('streaming.payment-proof-store', ['choice' => $choice, 'stream' => $stream]) }}" method="post"> -->
+          <form  class="" action="{{ route('streaming.payment-proof-store', ['choice' => $choice, 'stream' => $stream]) }}" method="post">
             @csrf
             <!-- <input type='file' id="imgInp" /> -->
 
-
-            <div class="row d-flex justify-content-center">
+            <!-- <div class="row d-flex justify-content-center">
               <div class="col-md-6">
                 <img id="blah" src="#" alt="" width="100%" height="auto" />
               </div>
@@ -94,8 +99,19 @@
                   <span>Cliquez ici&hellip;</span>
                 </label>
       				</div>
+            </div> -->
 
+            <div class="form-group">
+              <label for="proof" class="font-weight-bold">Numéro de téléphone </label>
+              <input type="text" class="form-control @error('proof') is-invalid @enderror" name="proof" value="" placeholder="Veuillez saisir le numéro">
+              @error('proof')
+              <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
             </div>
+
+
             @error('proof')
             <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong>
@@ -105,7 +121,7 @@
             <div class="">
               <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalLong">
                 <span class="text-icon">Envoyer</span>
-                <i data-feather="arrow-right" stroke-width="2.5" width="20" height="20"></i>
+                <i data-feather="send" stroke-width="2.5" width="20" height="20"></i>
               </button>
               <!-- modal -->
               <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -118,14 +134,14 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      Avez-vous télécharger la capture d'écran ?
+                      Avez-vous entrer le bon numéro ?
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">
-                        <i data-feather="x" stroke-width="2.5" width="20" height="20"></i>
+                      <button type="button" class="btn btn-flat" data-dismiss="modal">
+                        <!-- <i data-feather="x" stroke-width="2.5" width="20" height="20"></i> -->
                         <span class="text-icon">Non</span>
                       </button>
-                      <button type="submit" name="button"  class="btn btn-success">
+                      <button type="submit" name="button"  class="btn btn-primary">
                         <i data-feather="check" stroke-width="2.5" width="20" height="20"></i>
                         <span class="text-icon">Oui</span>
                       </button>
@@ -137,6 +153,58 @@
             </div>
             <!-- end send div -->
           </form>
+          @elseif($choice == "byAgent")
+
+
+          <form class="" action="{{ route('streaming.payment-proof-store', ['choice' => $choice, 'stream' => $stream]) }}" method="post">
+            @csrf
+            <div class="form-group">
+              <label for="proof" class="font-weight-bold">Code agent du </label>
+              <input type="text" class="form-control @error('proof') is-invalid @enderror" name="proof" value="" placeholder="Veuillez saisir le code de l'agent">
+              @error('proof')
+              <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+
+            <div class="row">
+              <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#exampleModalLong">
+                <span class="text-icon">Envoyer</span>
+                <i data-feather="send" stroke-width="2.5" width="20" height="20"></i>
+              </button>
+              <!-- modal -->
+              <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Vérification</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      Avez-vous le bon code ?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-flat" data-dismiss="modal">
+                        <!-- <i data-feather="x" stroke-width="2.5" width="20" height="20"></i> -->
+                        <span class="text-icon">Non</span>
+                      </button>
+                      <button type="submit" name="button"  class="btn btn-primary">
+                        <i data-feather="check" stroke-width="2.5" width="20" height="20"></i>
+                        <span class="text-icon">Oui</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end modal -->
+            </div>
+            <!-- end send div -->
+          </form>
+
+          @endif
         </div>
         <!-- end card body -->
       </div>

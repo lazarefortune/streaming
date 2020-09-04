@@ -89,7 +89,7 @@
         </div>
       </div>
 
-      <div class="card card-fluid my-3">
+      <div class="card card-fluid my-3 shadow">
         <div class="card-body">
 
           <div class="row">
@@ -145,7 +145,7 @@
       </div>
       <!-- end card -->
 
-      <div class="card card-fluid ">
+      <div class="card card-fluid shadow">
         <div class="card-body">
 
           <div class="row">
@@ -172,17 +172,25 @@
               </span>
             </a>
           </div>
-          <hr>
+          <!-- <hr> -->
+          <br>
           <div class="">
             <a href="" class="row text-dark">
               <span class="col-lg-8 col-md-8 col-sm-12 col-12 "> <b>Adresse e-mail de récupération</b> </span>
               <span class="col-lg-4 col-md-4 col-sm-12 col-12">
-                <span class="text-icon">{{ $user->email }}</span>
+                <span class="text-icon">
+                  @if(!empty($user->email))
+                    {{ $user->email }}
+                  @else
+                    Non défini
+                  @endif
+                </span>
                 <!-- <i data-feather="chevron-right" width="20" height="20"></i> -->
               </span>
             </a>
           </div>
-          <hr>
+          <!-- <hr> -->
+          <br>
           <div class="">
             <a href="" class="row text-dark">
               <span class="col-lg-8 col-md-8 col-sm-12 col-12  "> <b>Validation en deux étapes</b> </span>
@@ -195,7 +203,8 @@
               </span>
             </a>
           </div>
-          <hr>
+          <!-- <hr> -->
+          <br>
           <div class="">
             <a href="" class="row text-dark">
               <span class="col-lg-8 col-md-8 col-sm-12 col-12  "> <b>Connexion direct à tous les services</b> </span>
@@ -223,7 +232,7 @@
       </div>
       <!-- end card body -->
 
-      <div class="card card-fluid my-3">
+      <!-- <div class="card card-fluid my-3">
         <div class="card-body">
           <h4  class="mb-3">Sécurité supplémentaire</h4>
 
@@ -243,7 +252,7 @@
           </div>
 
         </div>
-      </div>
+      </div> -->
       <!-- end card -->
     </div>
     <!-- end column 8 -->

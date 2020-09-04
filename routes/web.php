@@ -17,6 +17,7 @@ Route::get('test', function(){
   return view('test2');
 });
 
+
 Auth::routes();
 Auth::routes(['verify' => true]);
 
@@ -79,7 +80,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
     // Gestion des utilisateurs
     Route::resource('users', 'UsersController');
 
-    Route::get('/home', 'AdminController@home')->name('home');
+    Route::get('/accueil', 'AdminController@home')->name('home');
     // Forfait
     Route::get('streaming/forfaits', 'ForfaitController@index')->name('streaming.forfaits');
     Route::get('streaming/add-forfait', 'ForfaitController@create')->name('streaming.create-forfait');
@@ -88,9 +89,22 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
     Route::post('streaming/update-forfait/{forfait}', 'ForfaitController@update')->name('streaming.update-forfait');
     Route::delete('streaming/delete-forfait/{forfait}', 'ForfaitController@destroy')->name('streaming.delete-forfait');
     // Orders
+    Route::get('streaming/command-list/{command}', 'ForfaitController@command_details')->name('streaming.command_details');
     Route::get('streaming/command-list', 'ForfaitController@command_list')->name('streaming.command_list');
+
+    Route::get('streaming/active_account/{stream}', 'ForfaitController@active_account')->name('streaming.active_account');
+
+    Route::get('streaming/actif-list/{actif}', 'ForfaitController@actif_details')->name('streaming.actif_details');
+    Route::get('streaming/actif-list', 'ForfaitController@actif_list')->name('streaming.actif_list');
     Route::get('streaming/confirm-payment-proof/{stream}', 'ForfaitController@confirm_payment_proof')->name('streaming.confirm_payment_proof');
     Route::get('streaming/reject-payment-proof/{stream}', 'ForfaitController@reject_payment_proof')->name('streaming.reject_payment_proof');
+
+    Route::get('streaming/caisse', 'AdminController@caisse')->name('streaming.caisse');
+
+    Route::get('streaming/send-mail', 'AdminContactController@index_simple')->name('streaming.send_mail_simple');
+    Route::get('streaming/send-mail/{user}', 'AdminContactController@index')->name('streaming.send_mail');
+    Route::post('streaming/send-mail-form', 'AdminContactController@send')->name('streaming.send_mail_action');
+    Route::post('streaming/store-mail/{user}', 'AdminController@store_mail')->name('streaming.store_mail');
 
     Route::get('streaming/send-info-idtf/{stream}', 'ForfaitController@send_info_idtf')->name('streaming.send_info_idtf');
     Route::post('streaming/store-info-idtf/{stream}', 'ForfaitController@store_info_idtf')->name('streaming.store_info_idtf');
@@ -133,13 +147,22 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
 
       Route::get('/mes-commandes', 'StreamingController@my_orders')->name('orders');
       //    payment
-      Route::get('/mes-commandes/payment/{stream}', 'StreamingController@payment')->name('payment');
-      Route::get('/mes-commandes/payment/{stream}/proof-of-payment', 'StreamingController@payment_proof')->name('payment-proof');
-      Route::post('/mes-commandes/payment/{stream}/proof-of-payment', 'StreamingController@payment_proof_store')->name('payment-proof-store');
-      Route::get('/payment/{stream}/payment_success', function(){
+      Route::get('/mes-commandes/moyen-de-paiement/{stream}', 'StreamingController@moyen_payment')->name('moyen_payment');
+      Route::post('/mes-commandes/moyen-de-paiement/{stream}', 'StreamingController@moyen_payment_store')->name('moyen_payment_store');
+
+      Route::get('/mes-commandes/paiement/{choice}/{stream}', 'StreamingController@payment')->name('payment');
+      Route::post('/mes-commandes/paiement/{choice}/{stream}', 'StreamingController@payment_proof_store')->name('payment-proof-store');
+
+      // Route::post('/mes-commandes/paiement/{stream}', 'StreamingController@payment_proof_store')->name('payment_store');
+      // Route::get('/mes-commandes/paiement/{choice}/{stream}/proof-of-payment', 'StreamingController@payment_proof')->name('payment-proof');
+      Route::get('mes-commandes/paiement/{stream}/payment_success', function(){
         return view('streaming.payment_success');
       });
       Route::get('/facture/{stream}', 'StreamingController@getFacturePdf')->name('facture');
+
+      // Jeux concours
+
+      Route::get('/jeux-concours', 'JeuxController@index')->name('jeux.index');
 
       // Others
       Route::get('/centre-d-aide' , function(){

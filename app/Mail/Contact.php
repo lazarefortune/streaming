@@ -36,6 +36,6 @@ class Contact extends Mailable
     public function build()
     {
       return $this->from('webcreation@lazarefortune.com')
-  ->view('emails.contact');
+                  ->view('emails.contact');
     }
 }

@@ -10152,6 +10152,8 @@ body {
 }
 .sb-topnav.navbar-dark #sidebarToggle {
   color: rgba(255, 255, 255, 0.5);
+  background-color: #181c32;
+  box-shadow: none;
 }
 .sb-topnav.navbar-light #sidebarToggle {
   color: #212529;
@@ -10204,11 +10206,13 @@ body {
 }
 
 .sb-sidenav-dark {
-  background-color: #212529;
+  /* background-color: #212529; */
+  background-color: #242939;
   color: rgba(255, 255, 255, 0.5);
 }
 .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
   color: rgba(255, 255, 255, 0.25);
+
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link {
   color: rgba(255, 255, 255, 0.5);
@@ -10229,7 +10233,8 @@ body {
   color: #fff;
 }
 .sb-sidenav-dark .sb-sidenav-footer {
-  background-color: #343a40;
+  /* background-color: #343a40; */
+  background-color: #181c32;
 }
 
 .sb-sidenav-light {

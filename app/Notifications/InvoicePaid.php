@@ -46,11 +46,13 @@ class InvoicePaid extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->subject('Confirmation du paiement')
                     ->greeting('Bonjour '. $this->user->name.' !')
-                    ->line('Votre paiement a été accepté.')
-                    ->line('Nous avons reçu '.$this->stream->forfait_price.' Fcfa pour la commande de votre compte Netflix.')
-                    ->action('Télécharger vos identifiants Netflix', url('https://streaming.lazarefortune.com/mes-commandes'))
-                    ->line('Merci d\'avoir choisi Web Creation Streaming!');
+                    ->line('Votre paiement a été confirmé.')
+                    ->line('Nous avons bien reçu '.$this->stream->forfait_price.' Fcfa pour la commande de votre compte '.$this->stream->forfait_name.'')
+                    ->action('Télécharger votre reçu', url('https://streaming.lazarefortune.com/mes-commandes'))
+                    ->line('Vous allez recevoir un autre mail contenant vos identifiants de connexion à votre compte '.$this->stream->forfait_name)
+                    ->line('Merci d\'avoir choisi notre service.');
     }
 
     /**

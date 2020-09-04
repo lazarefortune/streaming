@@ -21,6 +21,18 @@
     /* font-size: 20px; */
     /* line-height: 2.5rem; */
   }
+  input:focus{
+    /* box-shadow: 0px 8px 40px #000000 !important; */
+    /* box-shadow: none !important; */
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12) !important;
+    /* box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(255, 100, 255, 0.5) !important; */
+  }
 </style>
 @endsection
 
@@ -40,7 +52,7 @@
       <form class="" action="{{ route('streaming.question_send') }}" method="post"  class="form-inline">
         @csrf
         <div class="form-group mb-2">
-          <input type="text" name="message" placeholder="Décrivez votre problème ..."  class="form-control form-control-lg col-md-6 shadow-lg mx-auto p-4" style="font-size: 15px;" value="" required>
+          <input type="text" name="message" placeholder="Décrivez votre problème ..."  class="form-control form-control-lg col-md-6  mx-auto p-4" style="font-size: 15px;" value="" required>
         </div>
         <div class="mt-4">
           <button type="submit" class="btn btn-primary" name="button">

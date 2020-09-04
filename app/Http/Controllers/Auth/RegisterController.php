@@ -58,8 +58,8 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'contact' => ['required', 'string', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'contact' => ['required', 'starts_with:241', 'size:11','string', 'unique:users'],
+            'email' => ['nullable','string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:3'],
 
         ]);
@@ -84,12 +84,13 @@ class RegisterController extends Controller
 
         $user->roles()->attach($role);
 
-        $user->notify(new RegisteredNotification($user));
-
+        if(!empty($user->email)){
+          $user->notify(new RegisteredNotification($user));
+        }
 
         return $user;
     }
 
-    
+
 
 }

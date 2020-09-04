@@ -9,6 +9,7 @@ use App\Notifications\RegisteredNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class StreamingController extends Controller
 {
@@ -33,12 +34,15 @@ class StreamingController extends Controller
 
     public function store_stream($id_forfait)
     {
+      if ($id_forfait == 1) {
+        return redirect()->route('streaming.jeux.index');
+      }
 
       $forfait = DB::table('forfait')->where('id', $id_forfait)->first();
       // Prevent user from having more than 3 orders
       $user = auth()->user();
-      if (($user->streamings()->count()) >= 3) {
-        flash("<div class='text-center'> <i data-feather='alert-triangle' stroke-width='2.5' width='20' height='20'></i> Désolé! vous ne pouvez pas passer plus de 3 commandes </div>")->error();
+      if (($user->streamings()->count()) >= 1) {
+        flash("<div class='text-center'> <i data-feather='alert-triangle' stroke-width='2.5' width='20' height='20'></i> Désolé! Vous possedez déjà une commande </div>")->error();
         return redirect()->route('streaming.orders');
       }
       // end Prevent
@@ -52,8 +56,8 @@ class StreamingController extends Controller
       ]);
 
 
-      flash("<div class='text-center'> Votre commande a été enregistré n° $stream->id . Passez maintenant à la caisse </div>")->success();
-      return redirect()->route('streaming.orders');
+      flash("<div class='text-center'> Votre commande a été enregistré n° $stream->id .</div>")->success();
+      return redirect()->route('streaming.moyen_payment', $stream);
     }
 
     public function my_orders()
@@ -70,43 +74,159 @@ class StreamingController extends Controller
       return redirect()->route('streaming.orders');
     }
 
-    public function payment(Streaming $stream)
+    public function moyen_payment(Streaming $stream)
     {
-      if ($stream->forfait_statut != "Non payé") {
-        return abort(401);
-      }
-      return view('streaming.payment', compact('stream'));
+      return view('streaming.moyen_payment', compact('stream'));
     }
 
-    public function payment_proof(Streaming $stream)
+    public function moyen_payment_store(Streaming $stream, Request $request)
     {
+      $choice = $request->choice;
+      if ( (($choice) == "byPhone") or ($choice == "byAgent") ) {
+        if ($stream->forfait_statut != "Non payé") {
+          return abort(401);
+        }
+        // dd($choice);
+        return redirect()->route('streaming.payment', ['choice' => $choice, 'stream' => $stream]);
+        // return view('test2', compact('choice','stream'));
+      }else {
+        return redirect()->back();
+      }
+
+    }
+
+    public function payment_view(String $choice,Streaming $stream)
+    {
+
+      if ( (($choice) == "byPhone") or ($choice == "byAgent") ) {
+        if ($stream->forfait_statut != "Non payé") {
+          return abort(401);
+        }
+        return view('test2', compact('choice','stream'));
+      }else {
+        return abort(401);
+      }
+
+
+    }
+
+    public function payment(String $choice, Streaming $stream)
+    {
+      // $request->validate([
+      //   'choice' => 'required',
+      // ]);
+      // $choice = $request->choice;
+      // dd($choice);
+      // if ( (($choice) == "byPhone") or ($choice == "byAgent") ) {
+      //   if ($stream->forfait_statut != "Non payé") {
+      //     return abort(401);
+      //   }
+      //   return view('test2', compact('choice','stream'));
+      // }else {
+      //   return abort(401);
+      // }
+
       if ($stream->forfait_statut != "Non payé") {
         return abort(401);
       }
-      return view('streaming.payment_proof', compact('stream'));
+      return view('test2', compact('choice','stream'));
+    }
+
+    public function payment_proof(String $choice, Streaming $stream)
+    {
+      if ( (($choice) == "byPhone") or ($choice == "byAgent") ) {
+        if ($stream->forfait_statut != "Non payé") {
+          return abort(401);
+        }
+        return view('streaming.payment_proof', compact('choice','stream'));
+      }else {
+        return abort(401);
+      }
+
+      // if ($stream->forfait_statut != "Non payé") {
+      //   return abort(401);
+      // }
+      // return view('streaming.payment_proof', compact('stream'));
     }
 
     // Enregistrement de la preuve du paiement
-    public function payment_proof_store(Streaming $stream, Request $request)
+    public function payment_proof_store(String $choice , Streaming $stream, Request $request)
     {
-      if ($stream->forfait_statut != "Non payé") {
+      // $choice = $request->choice;
+      if ( (($choice) == "byPhone") or ($choice == "byAgent") ) {
+        if ($stream->forfait_statut != "Non payé") {
+          return abort(401);
+        }
+
+        if (($choice) == "byPhone") {
+          // $request->validate([
+          //   'proof' => 'required|image',
+          // ]);
+          //
+          // $file = $request->file('proof');
+          // $path = $file->store('proofs', 'public');
+          // $request->validate([
+          //   'proof' => 'required|min:3',
+          // ]);
+          $validator = Validator::make($request->all(), [
+              'proof' => 'required|min:3',
+          ]);
+
+          // dd($validator->fails());
+
+          if ($validator->fails()) {
+              // $request->choice = $choice;
+              return redirect()->back()
+                          ->withErrors($validator)
+                          ->withInput();
+              // return redirect()->route('streaming.payment', ['choice' => $choice, 'stream' => $stream])
+              //             ->withErrors($validator)
+              //             ->withInput();
+          }
+
+          $stream->forfait_statut = "En cours de validation";
+          $stream->proof = $request->proof;
+          $stream->payment_date = Carbon::now();
+          $stream->save();
+        }else {
+          $request->validate([
+            'proof' => 'required|min:3',
+          ]);
+          $stream->forfait_statut = "En cours de validation";
+          $stream->proof = 'code : '.$request->proof;
+          $stream->payment_date = Carbon::now();
+          $stream->save();
+        }
+
+
+
+
+        \Notification::route('mail', 'lazarefortune@gmail.com')
+              ->notify(new NewPayment($stream));
+
+        return view('streaming.payment_success', compact('stream'));
+      }else {
         return abort(401);
       }
-      $request->validate([
-        'proof' => 'required|image',
-      ]);
 
-      $file = $request->file('proof');
-      $path = $file->store('proofs', 'public');
-
-      $stream->forfait_statut = "En cours de validation";
-      $stream->path_proof = $path;
-      $stream->save();
-
-      \Notification::route('mail', 'lazarefortune@gmail.com')
-            ->notify(new NewPayment());
-
-      return view('streaming.payment_success', compact('stream'));
+      // if ($stream->forfait_statut != "Non payé") {
+      //   return abort(401);
+      // }
+      // $request->validate([
+      //   'proof' => 'required|image',
+      // ]);
+      //
+      // $file = $request->file('proof');
+      // $path = $file->store('proofs', 'public');
+      //
+      // $stream->forfait_statut = "En cours de validation";
+      // $stream->path_proof = $path;
+      // $stream->save();
+      //
+      // \Notification::route('mail', 'lazarefortune@gmail.com')
+      //       ->notify(new NewPayment($stream));
+      //
+      // return view('streaming.payment_success', compact('stream'));
     }
 
     public function getFacturePdf(Streaming $stream)

@@ -60,8 +60,8 @@
     <!-- end column 4 -->
 
 
-    <div class="col-sm-12 col-12 d-block d-sm-block d-md-none menu_mobile">
-      <ul class="list-inline d-flex justify-content-around">
+    <div class="col-sm-12 col-12 d-block d-sm-block d-md-none ">
+      <ul class="list-inline d-flex justify-content-around menu_mobile">
         <li class="list-inline-item">
           <a href="" class="active_menu">
             <i data-feather="settings" stroke-width="2.5" width="16" height="16"></i>
@@ -85,7 +85,7 @@
 
     <div class="col-lg-8 col-md-8 col-sm-12 col-12">
 
-      <div class="card card-fluid border-0">
+      <div class="card card-fluid border-0 shadow">
         <div class="card-body">
           <h4  class="mb-4 text-center">
             Bienvenue <span style="color: #677987;">{{ $user->name }}</span>
@@ -97,9 +97,9 @@
       </div>
       <!-- end card -->
 
-      <div class="card my-3">
+      <div class="card my-3 shadow">
         <div class="card-body">
-          <h5>
+          <h5 class="mb-3">
             <i data-feather="info" stroke-width="2.5" width="20" height="20"></i>
             <span class="text-icon">Informations</span>
           </h5>
@@ -122,10 +122,10 @@
       </div>
       <!-- end card -->
 
-      <div class="card my-3">
+      <div class="card my-3 shadow">
         <div class="card-body">
             <div class="float-left ">
-              <h5>
+              <h5 class="mb-3">
                 <i data-feather="list" stroke-width="2.5" width="20" height="20"></i>
                 <span class="text-icon">Vos services actifs</span>
               </h5>
@@ -154,7 +154,7 @@
         <div class="card-footer" style="background-color: white !important;">
           <a href=""  class="card-link">
             <b class="text-icon">
-              Accéder aux services
+              Consulter les services
             </b>
             <i data-feather="arrow-right" stroke-width="2.5" width="16" height="16"></i>
           </a>
@@ -163,11 +163,11 @@
       </div>
       <!-- end card -->
 
-      <div class="card my-3">
+      <div class="card my-3 shadow">
         <div class="card-body">
             <div class="row">
               <div class="col-lg-8 col-md-8 col-sm-8 col-8">
-                <h5>
+                <h5 class="mb-3">
                   <i data-feather="lock" stroke-width="2.5" width="20" height="20"></i>
                   <span class="text-icon">Votre sécurité</span>
                 </h5>
@@ -191,10 +191,10 @@
       </div>
       <!-- end card -->
 
-      <div class="card my-3">
+      <div class="card my-3 shadow">
         <div class="card-body">
             <div class="float-left ">
-              <h5>
+              <h5 class="mb-3">
                 <i data-feather="credit-card" stroke-width="2.5" width="20" height="20"></i>
                 <span class="text-icon">Nos moyens de paiement</span>
               </h5>
@@ -211,7 +211,7 @@
         <div class="card-footer" style="background-color: white !important;">
           <a href=""  class="card-link">
             <b class="text-icon">
-              Consulter les options
+              En savoir plus
             </b>
             <i data-feather="arrow-right" stroke-width="2.5" width="16" height="16"></i>
           </a>

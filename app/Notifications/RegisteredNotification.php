@@ -34,7 +34,7 @@ class RegisteredNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail','nexmo'];
+        return ['mail'];
     }
 
     /**
@@ -53,9 +53,13 @@ class RegisteredNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                        ->line('Inscription sur Web Creation Streaming!')
-                        ->action('Consulter le site', url('https://streaming.lazarefortune.com'))
-                        ->line('Vous avez bien été enregistré sur notre site ! Merci d\'avoir choisi Web Creation');
+                        ->subject('Inscription réussie')
+                        ->greeting('Bonjour '.$this->user->name)
+                        ->line('Vous venez de vous inscrire au service Streaming de Web Creation.')
+                        ->action('Consulter nos offres', url('https://streaming.lazarefortune.com'))
+                        ->line('Merci d\'avoir choisi notre service.')
+                        ->line('')
+                        ->line('Si vous n\'êtes pas à l\'origine de cette inscription veuillez contacter le support technique en cliquant sur le lien suivant: https://streaming.lazarefortune.com/contact');
     }
     /**
      * Get the array representation of the notification.

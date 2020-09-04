@@ -146,11 +146,48 @@ class ForfaitController extends Controller
     // Liste des commandes
     public function command_list()
     {
-      // $commands = DB::table('streamings')->where('forfait_statut', 'En cours de validation')->get();
-      $commands = Streaming::all()->where('forfait_statut', 'En cours de validation');
+      // $commands = DB::table('streamings')->where('forfait_statut', 'En cours de validation')
+      //                                   ->orWhere('forfait_start', null)
+      //                                   ->get();
+      // foreach ($commands as $key) {
+      //   dd($key);
+      // }
+      // dd($commands[0]);
+      $notActiveCommands = DB::table('streamings')->where('forfait_statut', 'Payé')
+                                          ->whereNull('forfait_start')
+                                          ->get();
+      $commands = Streaming::all()->where('forfait_statut', 'En cours de validation')
+                                  ->Where('forfait_start', null);
+
+
+      return view('admin.streaming.command_list', compact('commands','notActiveCommands'));
+    }
+
+    public function actif_list()
+    {
+      // $commands = Streaming::all()->where('forfait_statut', 'En cours de validation');
       $actifs = Streaming::all()->where('forfait_statut', 'Payé');
 
-      return view('admin.streaming.command_list', compact('commands', 'actifs'));
+      return view('admin.streaming.actif_list', compact( 'actifs'));
+    }
+
+    public function command_details(Streaming $command)
+    {
+      return view('admin.streaming.command_details', compact('command'));
+    }
+
+    public function actif_details(Streaming $actif)
+    {
+      return view('admin.streaming.actif_details', compact('actif'));
+    }
+
+    public function active_account(Streaming $stream)
+    {
+      $stream->forfait_start = Carbon::now();
+      $stream->forfait_end = Carbon::now()->addMonth();
+      $stream->save();
+
+      return redirect()->route('admin.streaming.actif_details', $stream);
     }
 
     // Confirmation d'un paiement
@@ -160,14 +197,17 @@ class ForfaitController extends Controller
       // $user->notify(new InvoicePaid($user, $stream));
 
       $stream->forfait_statut = "Payé";
-      $stream->forfait_start = Carbon::now();
-      $stream->forfait_end = Carbon::now()->addMonth();
+      // $stream->forfait_start = Carbon::now();
+      // $stream->forfait_end = Carbon::now()->addMonth();
       $stream->save();
 
       $user = $stream->user;
-      $user->notify(new InvoicePaid($user, $stream));
+      if(!empty($user->email)){
+        $user->notify(new InvoicePaid($user, $stream));
+      }
 
       toastr()->success('Paiement confirmé avec succès');
+      // return redirect()->route('admin.streaming.actif_list');
       return redirect()->back();
     }
 
@@ -175,15 +215,15 @@ class ForfaitController extends Controller
     public function reject_payment_proof(Streaming $stream)
     {
       $stream->forfait_statut = "Non payé";
-      $stream->path_proof = "";
+      $stream->proof = "";
       $stream->save();
 
-      $lien = $stream->path_proof;
-      Storage::disk('public')->delete($lien);
-      Storage::delete($lien);
+      // $lien = $stream->proof;
+      // Storage::disk('public')->delete($lien);
+      // Storage::delete($lien);
 
       toastr()->error('Paiement refusé avec succès');
-      return redirect()->back();
+      return redirect()->route('admin.streaming.command_list');
     }
     // Send Netflix login idtf
     public function send_info_idtf(Streaming $stream)
@@ -194,12 +234,11 @@ class ForfaitController extends Controller
     // Send Netflix login idtf
     public function store_info_idtf(Streaming $stream, Request $request)
     {
-      // dd($request->text);
       $stream->connexion_idtf = $request->text;
       $stream->save();
 
       toastr()->success('Identifiants envoyé avec succès');
-      redirect()->route('admin.home');
+      return redirect()->route('admin.streaming.actif_list');
     }
 
 }

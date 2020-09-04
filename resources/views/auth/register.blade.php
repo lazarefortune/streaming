@@ -82,7 +82,8 @@
         </div>
 
         <div class="form-group">
-          <input id="contact" placeholder="Votre numéro de téléphone" type="tel" value="{{ old('contact') }}" class="form-control @error('contact') is-invalid @enderror" name="contact" autocomplete="contact" >
+          <input id="contact" placeholder="Votre numéro de téléphone" type="tel" value="{{ old('contact') }}" min="11" maxlength="11" class="form-control @error('contact') is-invalid @enderror" name="contact" autocomplete="contact" >
+          <small class="ml-3">Exemple: 24166112233 (sans indicatif)</small>
           @error('contact')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -91,7 +92,7 @@
         </div>
 
         <div class="form-group">
-          <input id="email" placeholder="Votre email" type="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" name="email" autocomplete="email" >
+          <input id="email" placeholder="Votre e-mail (Facultatif)" type="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" name="email" autocomplete="email" >
           @error('email')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -129,7 +130,7 @@
       <div class="card text-center border-0">
         <p>Accédez au réseaux de <strong class="text-info">Web Creation</strong> gratuitement.</p>
       </div>
-      
+
     </div>
     <!-- end column -->
 

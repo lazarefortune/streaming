@@ -2,6 +2,7 @@
 
 @section('extra-css-streaming')
 <style >
+
   .steps-form {
       display: table;
       width: 100%;
@@ -41,18 +42,23 @@
       border-radius: 15px;
       margin-top: 0;
   }
+  .card-footer{
+    background: white !important;
+    border: none !important;
+  }
+
 </style>
 @endsection
 
 @section('contenu')
 
-  <nav aria-label="breadcrumb">
+  <nav aria-label="breadcrumb" class="d-none d-sm-none d-md-block">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
         <a href="{{ route('streaming.index') }}">Accueil</a>
       </li>
       <li class="breadcrumb-item" aria-current="page">
-        <a href="{{ route('streaming.orders') }}">Vos-commandes</a>
+        <a href="{{ route('streaming.orders') }}">Mes-commandes</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
         Caisse
@@ -64,10 +70,10 @@
 
   <div class="row d-flex justify-content-center">
     <div class="col-md-8">
-      <h2  class="mb-3 text-center">
+      <!-- <h2  class="mb-3 text-center">
         <i  class="fas fa-cash-register"></i>
         Caisse
-      </h2>
+      </h2> -->
 
       <div class="steps-form">
         <div class="steps-row setup-panel">
@@ -86,7 +92,7 @@
         </div>
       </div>
 
-      <div class="card shadow p-3 mb-2">
+      <!-- <div class="card shadow p-3 mb-2">
         <h4  class="text-center">Facture</h4>
 
         <div class="card-body">
@@ -108,7 +114,7 @@
             Total à payer :<span  class="h5 float-right font-weight-bold"> {{ $stream->forfait_price }} Fcfa</span>
           </div>
         </div>
-      </div>
+      </div> -->
 
 
       <div class="card shadow p-3">
@@ -116,16 +122,48 @@
 
           <div class="mb-4">
             <h5  class="text-danger text-center mb-3">Comment payer ?</h5>
-            <p>Effectuez le transfert par :</p>
-            <p>
-              <img src="{{ asset('assets/img/Airtel-Money.png') }}" height="auto" width="50" alt="airtel-money-logo">
-              Airtel Money ( <b>074-87-83-17</b> )
+            <p class="my-4">
+            @if($choice == "byPhone")
+              Envoyer la somme au numéro suivant :
+
+            @elseif($choice == "byAgent")
+              Faite un dépôt au numéro suivant :
+            @endif
+              <div>
+                <img src="{{ asset('assets/img/Airtel-Money.png') }}" height="auto" width="50" alt="airtel-money-logo">
+                 <b class="h4">074-87-83-17</b>
+              </div>
             </p>
 
-              <h5 class="text-danger">
+            <div class="">
+              <p>
+                <i data-feather="chevron-right" stroke-width="3" width="16" height="16" ></i>
+                <span class="text-icon">Envoyer les {{ $stream->forfait_price }} Fcfa avant de cliquer sur "Poursuivre".</span>
+              </p>
+
+               @if($choice == "byPhone")
+               <!-- <p class="">
+                 <i data-feather="chevron-right" stroke-width="3" width="16" height="16" ></i>
+                 <span class="text-icon">Notez le <span class="text-color font-weight-bold">numéro de téléphone</span> avec lequel vous effectuer le transfert.</span>
+               </p> -->
+               @elseif($choice == "byAgent")
+               <p class="">
+                 <i data-feather="chevron-right" stroke-width="3" width="16" height="16" ></i>
+                 <span class="text-icon">Notez le <span class="text-color font-weight-bold"> code airtel money de l'agent</span>.</span>
+               </p>
+               @endif
+            </div>
+
+            <div class="my-4 d-flex justify-content-center">
+
+
+
+              <!-- <h5 class="text-danger">
                 <i data-feather="alert-triangle" stroke-width="2.5" width="20" height="20"></i>
                 <span class="text-icon">Important !!</span>
-                <a class="btn btn-danger" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Cliquez ici</a>
+                <a class="btn btn-danger ml-3" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+                  Cliquez ici
+                </a>
               </h5>
 
               <div class="row">
@@ -149,7 +187,9 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
+
+            </div>
 
 
 
@@ -160,13 +200,20 @@
           </div>
 
           <div class="mt-3">
-            <a href="{{ route('streaming.orders') }}"  class="float-left font-weight-bold">
+
+          </div>
+          <!-- end div -->
+        </div>
+        <!-- end card body -->
+        <div class="card-footer">
+          <div class="row">
+            <a href="{{ route('streaming.moyen_payment', $stream) }}"  class="btn btn-flat mr-auto font-weight-bold">
               <i data-feather="arrow-left" stroke-width="3" width="16" height="16"></i>
-              <span class="text-icon">Abandonner</span>
+              <span class="text-icon">Retour</span>
             </a>
 
-            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalLong">
-              <span class="text-icon">Poursuivre</span>
+            <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#exampleModalLong">
+              <span class="text-icon">Continuer</span>
               <i data-feather="arrow-right" stroke-width="2.5" width="20" height="20"></i>
             </button>
             <!-- modal -->
@@ -174,19 +221,21 @@
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Attention</h5>
+                    <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">Vérification</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div class="modal-body">
+                  <div class="modal-body text-center">
                     Avez vous effectuer le transfert Airtel Money ?
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">
-                      <i data-feather="x" stroke-width="2.5" width="20" height="20"></i>
+
+                  </div>
+                  <div class="modal-footer border-0 mt-3">
+                    <button type="button" class="btn btn-flat font-weight-bold" data-dismiss="modal">
+                      <!-- <i data-feather="x" stroke-width="2.5" width="20" height="20"></i> -->
                       <span class="text-icon">Non</span>
                     </button>
-                    <a href="{{ route('streaming.payment-proof', $stream) }}"  class="btn btn-success">
+                    <a href="{{ route('streaming.payment-proof', ['choice' => $choice, 'stream' => $stream]) }}"  class="btn btn-primary ml-4">
                       <i data-feather="check" stroke-width="2.5" width="20" height="20"></i>
                       <span class="text-icon">Oui, je confirme</span>
                     </a>
@@ -196,14 +245,15 @@
             </div>
             <!-- end modal -->
           </div>
-          <!-- end div -->
+          <!-- end div row -->
         </div>
-        <!-- end card body -->
       </div>
       <!-- end card -->
     </div>
     <!-- end col-md-8 -->
   </div>
   <!-- end row -->
+
+
 
 @endsection

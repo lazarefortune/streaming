@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Web Creation</title>
+        <title>Streaming | Web Creation | Admin</title>
 
         <link href="{{ asset('admin/css/styles.css') }}" rel="stylesheet" />
 
@@ -18,11 +18,16 @@
         <link rel="stylesheet" href="{{ asset('admin/css/style-perso.css') }}">
 
         <style>
-        @import url('https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&display=swap');
+        /* @import url('https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&display=swap'); */
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,500&display=swap');
+        /* @import url('https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap'); */
 
         body{
           /* font-family: 'Nunito', sans-serif; */
-          font-family: 'Baloo Da 2', cursive;
+          /* font-family: 'Baloo Da 2', cursive; */
+          font-family: 'DM Sans', sans-serif !important;
+          /* font-family: 'Spartan', sans-serif !important; */
+          font-weight: 400 !important;
 
         }
 
@@ -44,24 +49,29 @@
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script> -->
 
+        <!-- Favicons -->
+        <script src="https://kit.fontawesome.com/503d9b4d92.js" crossorigin="anonymous"></script>
     </head>
 
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ route('admin.home') }}">WEB CREATION</a>
+            <a class="navbar-brand" href="{{ route('admin.home') }}">
+              Web Creation
+              <!-- <img src="{{ asset('assets/img/new/Streaming2.png') }}" width="190" height="40" class="d-inline-block align-top p-0 m-0" alt="logo-Web-Creation-streaming" title="logo de Web Creation Streaming"> -->
+            </a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#">
               <i class="fas fa-bars"></i>
             </button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                <div class="input-group">
+                <!-- <div class="input-group">
                     <input class="form-control" type="text" placeholder="Rechercher..." aria-label="Search" aria-describedby="basic-addon2" />
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="button">
                           <i class="fas fa-search"></i>
                         </button>
                     </div>
-                </div>
+                </div> -->
             </form>
             <!-- Navbar-->
             <ul class="navbar-nav ml-auto ml-md-0">
@@ -70,26 +80,59 @@
                       <i class="fas fa-user-circle fa-fw"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <span class="dropdown-item text-center" >
-                          <b>{{ auth()->user()->name }}</b>
-                        </span>
-                        <hr>
-                        <a class="dropdown-item" href="{{ route('account.profile') }}">
-                          <i  class="fas fa-cog"></i>
-                          Paramètres
-                        </a>
-                        <!-- <a class="dropdown-item" href="#">Activity Log</a> -->
-                        <div class="dropdown-divider"></div>
-                        <a href="{{ route('logout') }}" class="dropdown-item text-danger"
-                                   onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                                 <i  class="fas fa-sign-out-alt"></i>
-                                    {{ __('Se déconnecter') }}
-                        </a>
-                        <form  id="logout-form" action="{{ route('logout') }}" method="POST" >
-                            @csrf
-                        </form>
-                        <!-- <a class="dropdown-item" href="login.html">Logout</a> -->
+                      <div class="card-body">
+                        <h6 class="text-center">
+                          <strong>
+                            @if(auth()->user()->isAdmin())
+                              <i data-feather="user-check" stroke-width="2" width="16" height="16"></i>
+                            @endif
+                            <span class="text-icon">{{ auth()->user()->name }}</span>
+                          </strong>
+                        </h6>
+                        <p class="text-center text-muted">
+                          {{ auth()->user()->email }}
+                          @if(empty(auth()->user()->email))
+                          {{ auth()->user()->contact }}
+                          @endif
+                        </p>
+
+                        <div class="text-center mb-3">
+                          <a href="{{ route('streaming.orders') }}" class="d-block d-sm-block d-md-none" name="button">
+                              <i data-feather="shopping-cart" stroke-width="2" width="20" height="20"></i>
+                              <span  class="text-icon">
+                                <b>vos commandes</b>
+                              </span>
+                          </a>
+                        </div>
+                        <!-- btn btn-sm btn-outline-light btn-menu text-dark -->
+                        <!-- <hr class="d-block d-sm-block d-md-none"> -->
+
+                        <div class="text-center mb-3">
+                          <a href="{{ route('account.home') }}"  class="" name="button">
+                            <i data-feather="settings" stroke-width="2" width="20" height="20"></i>
+                            <span  class="text-icon">
+                              <b>Gérer votre compte</b>
+                            </span>
+                            <!-- <b>Gérer votre compte</b> -->
+                          </a>
+                        </div>
+                        <!-- btn btn-sm btn-outline-light btn-menu text-dark -->
+                        <!-- <br class="d-block d-sm-block d-md-none"> -->
+
+                        <div class="text-center">
+                          <a href="{{ route('logout') }}"
+                                     onclick="event.preventDefault();
+                                                   document.getElementById('logout-form').submit();"  class="btn btn-primary btn-block btn-logout" name="button">
+                            <b>Déconnexion</b>
+                          </a>
+                          <form  id="logout-form" action="{{ route('logout') }}" method="POST" >
+                              @csrf
+                          </form>
+                        </div>
+                      </div>
+                      <!-- end card body -->
+
+
                     </div>
                 </li>
             </ul>
@@ -100,9 +143,8 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Liens</div>
-                            <a class="nav-link" href="{{ route('admin.home') }}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            <a class="nav-link mt-3" href="{{ route('admin.home') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                                 Accueil
                             </a>
                             <div class="sb-sidenav-menu-heading">Options</div>
@@ -114,13 +156,31 @@
                                 <div class="sb-nav-link-icon">
                                   <i class="fas fa-users"></i>
                                 </div>
-                                Liste des clients
+                                Liste des utilisateurs
+                            </a>
+                            <a class="nav-link" href="{{ route('admin.streaming.send_mail_simple') }}">
+                                <div class="sb-nav-link-icon">
+                                  <i class="fas fa-envelope"></i>
+                                </div>
+                                Envoyer un e-mail
                             </a>
                             <a class="nav-link" href="{{ route('admin.streaming.command_list') }}">
                                 <div class="sb-nav-link-icon">
-                                  <i class="fas fa-store"></i>
+                                  <i class="fas fa-shopping-cart"></i>
                                 </div>
-                                Liste des commandes
+                                Commandes
+                            </a>
+                            <a class="nav-link" href="{{ route('admin.streaming.actif_list') }}">
+                                <div class="sb-nav-link-icon">
+                                  <i class="fas fa-check"></i>
+                                </div>
+                                Comptes actifs
+                            </a>
+                            <a class="nav-link" href="{{ route('admin.streaming.caisse') }}">
+                                <div class="sb-nav-link-icon">
+                                  <i class="fas fa-cash-register"></i>
+                                </div>
+                                Caisse
                             </a>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon">
@@ -153,7 +213,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Conçu par:</div>
-                        Web Creation 241
+                        Web Creation
                     </div>
                 </nav>
             </div>
@@ -167,7 +227,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Web Creation 241</div>
+                            <div class="text-muted">Copyright &copy; Web Creation</div>
                             <div>
                                 <a href="">Politique de confidentialité</a>
                                 &middot;
@@ -207,6 +267,9 @@
         @toastr_js
 
         @toastr_render
-
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.19.0/feather.min.js" ></script>
+        <script type="text/javascript">
+        	feather.replace();
+        </script>
     </body>
 </html>

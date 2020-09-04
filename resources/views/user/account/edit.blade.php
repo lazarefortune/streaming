@@ -75,7 +75,7 @@
     </div>
 
     <div class="col-lg-8">
-      <div class="card card-fluid">
+      <div class="card card-fluid shadow">
         <div class="card-body">
           <h5  class="mb-4">
             <i data-feather="user" stroke-width="2.5" width="20" height="20"></i>
@@ -117,8 +117,8 @@
                 <!-- <i data-feather="at-sign" stroke-width="2.5" width="20" height="20"></i> -->
                 <b  class="text-icon"> Adresse mail </b>
               </label>
-              <input type="email" class="form-control " readonly id="email" aria-describedby="emailHelp" placeholder="Entrez votre adresse mail" value="{{ old('email') ?? $user->email }}" name="email">
-              <small id="emailHelp" class="form-text text-danger"> Modification indisponible temporairement. </small>
+              <input type="email" class="form-control " id="email" aria-describedby="emailHelp" placeholder="Entrez votre adresse mail" value="{{ old('email') ?? $user->email }}" name="email">
+              <!-- <small id="emailHelp" class="form-text text-danger"> Modification indisponible temporairement. </small> -->
               @if($errors->has('email'))
                 <div class="alert alert-danger" role="alert">
                   {{ $errors->first('email') }}
@@ -137,11 +137,11 @@
       </div>
       <!-- end card -->
 
-      <div class="card card-fluid my-4">
+      <div class="card card-fluid my-4 shadow">
         <div class="card-body">
           <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-              <h5>
+              <h5 class="mb-4">
                 <span class="text-icon">Connexion à Web Creation</span>
               </h5>
               <p style="font-size: 14px;">Informations conçernant votre inscription à nos services.</p>
@@ -159,7 +159,8 @@
               </span>
             </div>
           </div>
-          <hr>
+          <!-- <hr> -->
+          <br>
           <div class="">
             <div class="row text-dark">
               <span class="col-lg-8 col-md-8 col-sm-12 col-12  "> <b>Dernière mise à jour du compte</b> </span>
@@ -169,7 +170,8 @@
               </span>
             </div>
           </div>
-          <hr>
+          <!-- <hr> -->
+          <br>
           <div class="">
             <a href="" class="font-weight-bold text-icon text-danger">
               <i data-feather="trash-2" stroke-width="2.5" width="16" height="16"></i>
@@ -182,9 +184,9 @@
       </div>
       <!-- end card -->
 
-      <div class="card card-fluid my-4">
+      <div class="card card-fluid my-4 shadow">
         <div class="card-body">
-          <h5>
+          <h5 class="mb-4">
             <i data-feather="mail" stroke-width="2.5" width="20" height="20"></i>
             <span class="text-icon">Newsletter</span>
           </h5>

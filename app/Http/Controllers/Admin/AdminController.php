@@ -18,10 +18,31 @@ class AdminController extends Controller
       //                     ->get();
       $users = User::all();
       $streams = Streaming::all();
+      $notActiveCommands = DB::table('streamings')->where('forfait_statut', 'Payé')
+                                          ->whereNull('forfait_start')
+                                          ->get();
 
       return view('admin.home')->with([
         'users' => $users,
         'streams' => $streams,
+        'notActiveCommands' => $notActiveCommands,
       ]);
+    }
+
+    public function store_mail()
+    {
+
+    }
+
+    public function caisse()
+    {
+      $streams = Streaming::all();
+      $streams = $streams->where('forfait_statut','Payé');
+      $total = 0;
+
+      foreach ($streams as $stream) {
+        $total += $stream->forfait_price;
+      }
+      return view('admin.streaming.caisse')->with('total', $total);
     }
 }

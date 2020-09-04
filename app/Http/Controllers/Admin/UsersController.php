@@ -8,6 +8,7 @@ use App\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Database\Eloquent\Builder;
 
 class UsersController extends Controller
 {
@@ -26,12 +27,16 @@ class UsersController extends Controller
       $user = auth()->user();
       if(($user->hasAnyRole(['auteur','admin'])) && ((auth()->user()->isAdmin()) == false ))
       {
-        // DB::table('users')->whereIn('utilisateur', $roles)->first();
-        // $users = $users->roles()->where('name', 'utilisateur')->get();
-        $users = User::all();
+        // Si l'user connecté est un "auteur" il ne peut consulter que les utilisateurs
+        $users = User::whereHas('roles', function (Builder $query) {
+            $query->where('name', 'like', 'utilisateur');
+        })->paginate(5);
+
+      }else{
+        // Sinon c'est un "admin", il peut tout consulter
+        $users = User::paginate(5);
       }
 
-      $users = User::all();
       return view('admin.users.index')->with('users', $users);
     }
 
@@ -98,28 +103,28 @@ class UsersController extends Controller
         //
       if (Gate::denies('change-role'))
       {
-        $validator = Validator::make($request->all(), [
-          'contact' => ['required', 'string', 'unique:users,contact,'.$user->contact.',contact'],
-          'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->email.',email'],
-          'name' => ['required', 'string', 'max:255'],
-        ]);
-
-        if ($validator->fails()) {
-            return back()
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->contact = $request->contact;
-        $user->save();
+        // $validator = Validator::make($request->all(), [
+        //   'contact' => ['required', 'string', 'unique:users,contact,'.$user->contact.',contact'],
+        //   'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->email.',email'],
+        //   'name' => ['required', 'string', 'max:255'],
+        // ]);
+        //
+        // if ($validator->fails()) {
+        //     return back()
+        //                 ->withErrors($validator)
+        //                 ->withInput();
+        // }
+        //
+        // $user->name = $request->name;
+        // $user->email = $request->email;
+        // $user->contact = $request->contact;
+        // $user->save();
 
       }else {
         $user->roles()->sync($request->roles);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->contact = $request->contact;
+        // $user->name = $request->name;
+        // $user->email = $request->email;
+        // $user->contact = $request->contact;
         $user->save();
       }
 

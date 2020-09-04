@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Notifications;
-
+use App\Streaming;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -16,10 +16,13 @@ class NewPayment extends Notification
      *
      * @return void
      */
-    public function __construct()
-    {
-        //
-    }
+
+     protected $stream;
+
+     public function __construct(Streaming $stream)
+     {
+         $this->stream = $stream;
+     }
 
     /**
      * Get the notification's delivery channels.
@@ -41,9 +44,14 @@ class NewPayment extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Nouveau paiement.')
-                    ->line('Un utilisateur vient d\'effectuer un paiement.')
-                    ->action('Consulter', url('http://streaming.lazarefortune.com/admin/streaming/command-list'))
+                    ->subject('Nouveau Paiement')
+                    ->line('Nouveau paiement sur le site.')
+                    ->line('L\'utilisateur "'.$this->stream->user->name.'" vient d\'achever la procédure de paiement.')
+                    ->line('Détails: ')
+                    ->line('Commande numéro '.$this->stream->id)
+                    ->line('Compte : '.$this->stream->forfait_name)
+                    ->line('Montant : '.$this->stream->forfait_price.' Fcfa')
+                    ->action('Consulter', url('http://streaming.lazarefortune.com/admin/streaming/command-list/'.$this->stream->id))
                     ->line('Gérer ça rapidement!');
     }
 

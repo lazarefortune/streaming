@@ -44,14 +44,25 @@
    }(document, 'script', 'facebook-jssdk'));
 </script> -->
 
+        <header class="d-sm-block d-md-none d-lg-none ">
+          <nav class="navbar shadow mt-1 navbar-expand-md navbar-white fixed-top bg-white d-flex justify-content-between">
+            <a href="{{ route('streaming.index') }}" class="btn btn-flat">
+              <i data-feather="arrow-left" stroke-width="2.5" width="16" height="16"></i>
+            </a>
+            <a href="{{ route('streaming.index') }}" ><img src="{{ asset('assets/img/new/Streaming2.png') }}" width="190" height="40" class="d-inline-block align-top p-0 m-0" alt="logo-Web-Creation-streaming" title="logo de Web Creation Streaming"></a>
+            <!-- <button type="button" name="button" class="btn btn-primary">heo</button> -->
+          </nav>
+        </header>
+
         <form class="form-signin" method="POST" action="{{ route('login') }}">
           @csrf
-          <div class="text-center mb-4">
+          <div class="text-center mb-4 d-none d-sm-none d-md-block">
             <a href="{{ route('streaming.index') }}">
-              <img src="{{ asset('assets/img/new/Web_Creation.png') }}" width="50%" height="auto" alt="logo-Web-Creation" title="logo de Web Creation">
+              <img src="{{ asset('assets/img/new/Web_Creation.png') }}" class="d-none d-sm-none d-md-inline" width="50%" height="auto" alt="logo-Web-Creation" title="logo de Web Creation">
             </a>
             <!-- <h1 class="h3 mb-3 font-weight-normal"> <b>Se connecter</b> </h1> -->
           </div>
+          <h3 class="text-center font-weight-bolder mt-5 mt-sm-5 mt-lg-0 mb-4" style="color: #677987 !important;">Se connecter</h3>
           @include('flash::message')
 
           <!-- <a href="{{ url('auth/facebook') }}" class="btn btn-lg btn-primary btn-block">
@@ -64,9 +75,9 @@
           </a> -->
 
           <div class="form-label-group">
-            <input id="login" type="text" id="inputEmail"
+            <input type="text" id="inputEmail"
                    class="form-control {{ $errors->has('contact') || $errors->has('email') ? ' is-invalid' : '' }}"
-                   name="login" value="{{ old('contact') ?: old('email') }}" placeholder="Téléphone ou e-mail">
+                   name="login" value="{{ old('contact') ?: old('email') }}" placeholder="Téléphone ou e-mail" required>
             <label for="inputEmail">Téléphone ou e-mail</label>
 
             @if ($errors->has('contact') || $errors->has('email'))
@@ -77,9 +88,9 @@
           </div>
 
           <div class="form-label-group">
-            <input id="password" placeholder="Mot de passe" type="password" id="inputPassword" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="current-password">
+            <input id="inputPassword" placeholder="Mot de passe" type="password" id="inputPassword" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="current-password">
             <label for="inputPassword">Mot de passe</label>
-
+            <!-- <input type="checkbox" onclick="myFunction()"> -->
             @error('password')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -87,15 +98,16 @@
             @enderror
           </div>
 
+
           <div class="checkbox mb-3">
             <div class="custom-control custom-checkbox">
-                <input class="custom-control-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                <input class="custom-control-input" type="checkbox" name="remember" id="remember"  {{ old('remember') ? 'checked' : '' }} >
                 <label class="custom-control-label" for="remember">
                     {{ __('Rester connecté') }}
                 </label>
             </div>
           </div>
-          <button class="btn  btn-primary btn-block" type="submit">
+          <button class="btn  btn-primary btn-block btn-lg" type="submit">
             <strong>Connexion</strong>
           </button>
 
@@ -106,23 +118,35 @@
             </a>
             @endif
           </div>
-          <div class="row px-3 mb-4">
+          <div class="row px-3 mt-4 mb-1">
             <div class="line"></div>
             <small  class="or text-center">Ou</small>
             <div class="line"></div>
           </div>
           <div class="p-4">
-            <a href="{{ route('register') }}"  class="btn btn-success btn-block btn-sm" type="button" name="button">
+            <a href="{{ route('register') }}"  class="btn btn-success btn-block" type="button" name="button">
               <strong>Créer un compte</strong>
             </a>
           </div>
           <!-- <p class="mt-5 mb-3 text-muted text-center">&copy; 2020</p> -->
         </form>
 
+
+
     @jquery
     @toastr_js
     @toastr_render
     <!-- jquery local -->
+    <!-- <script>
+    function myFunction() {
+      var x = document.getElementById("inputPassword");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+      }
+    </script> -->
     <script src="{{ asset('bootstrap/jquery-3.5.1.slim.min.js') }}"></script>
     <script src="{{ asset('bootstrap/popper.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
