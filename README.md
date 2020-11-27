@@ -14,7 +14,7 @@
 
 Web Creation est une start-up évoluant dans l'univers du web via la réalisation de plusieurs projets numériques.
 
-- [web-creation.com](https://web-creation.lazarefortune.com)
+- [web-creation.com](https://web-creation.space)
 
 ## A propos de Streaming
 
@@ -23,7 +23,7 @@ Elle propose différents services de streaming existant à des coups réduits et
 
 Comment bénéficier ? Rendez vous sur :
 
-- [streaming.web-creation.com](https://streaming.lararefortune.com)
+- [streaming.web-creation.com](https://streaming.web-creation.space)
 
 Créez votre compte, commandez votre forfait, payez et profitez.
 
